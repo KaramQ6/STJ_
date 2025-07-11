@@ -249,7 +249,8 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .chatbot-header {
+      _B_R_E_A_K_
+  .chatbot-header {
             text-align: center;
             margin-bottom: 2rem;
         }
@@ -509,8 +510,7 @@
         .timeline-title {
             font-size: 1.2rem;
             font-weight: 600;
-  _B_R_E_A_K_
-          color: #ffffff;
+            color: #ffffff;
             margin-bottom: 0.5rem;
         }
 
@@ -558,7 +558,8 @@
 
         .testimonial-info h4 {
             color: #ffffff;
-            font-weight: 600;
+          _B_R_E_A_K_
+  font-weight: 600;
             margin-bottom: 0.2rem;
         }
 
@@ -580,7 +581,8 @@
         .testimonial-text {
             color: #d1d5db;
             line-height: 1.6;
-            font-style: italic;
+      _B_R_E_A_K_
+      font-style: italic;
         }
 
         /* Back to Top Button */
@@ -642,7 +644,6 @@
             }
 
             .hero-buttons {
-  _B_R_E_A_K_
                 flex-direction: column;
                 align-items: center;
             }
@@ -889,7 +890,7 @@
 <div class="testimonials-grid">
 <div class="testimonial-card">
 <div class="testimonial-header">
-<img alt="Sarah Johnson" class="testimonial-avatar" src="https://images.unsplash.com/photo-1494790108755-2616b612b494?w=150&amp;h=150&amp;fit=crop&amp;crop=face"/>
+<img alt="Sarah Johnson" class="testimonial-avatar" src="https://images.unsplash.com/photo-1494790108755-2616b612b494?w=150&h=150&fit=crop&crop=face"/>
 <div class="testimonial-info">
 <h4>Sarah Johnson</h4>
 <p>Travel Blogger, USA</p>
@@ -902,7 +903,7 @@
 </div>
 <div class="testimonial-card">
 <div class="testimonial-header">
-<img alt="Marco Rodriguez" class="testimonial-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&amp;h=150&amp;fit=crop&amp;crop=face"/>
+<img alt="Marco Rodriguez" class="testimonial-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"/>
 <div class="testimonial-info">
 <h4>Marco Rodriguez</h4>
 <p>Photographer, Spain</p>
@@ -915,7 +916,7 @@
 </div>
 <div class="testimonial-card">
 <div class="testimonial-header">
-<img alt="Emma Chen" class="testimonial-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&amp;h=150&amp;fit=crop&amp;crop=face"/>
+<img alt="Emma Chen" class="testimonial-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"/>
 <div class="testimonial-info">
 <h4>Emma Chen</h4>
 <p>Adventure Traveler, Australia</p>
@@ -1022,8 +1023,7 @@
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === `#${current}`) {
-    _B_R_E_A_K_
-                  link.classList.add('active');
+                    link.classList.add('active');
                 }
             });
         });
@@ -1064,8 +1064,7 @@
             L.marker([30.3285, 35.4444]).addTo(map)
                 .bindPopup("Petra - The Rose City");
             
-      _B_R_E_A_K_
-        L.marker([32.2811, 35.8467]).addTo(map)
+            L.marker([32.2811, 35.8467]).addTo(map)
                 .bindPopup("Jerash - Ancient Roman City");
             
             L.marker([29.5792, 35.0097]).addTo(map)
@@ -1131,46 +1130,52 @@
             });
         });
 
-    // ========= START: CODE MODIFICATION =========
-    // This is the new, secure function to call your Cloudflare Worker.
+    // ========= START: CORRECT AND SECURE CHAT FUNCTION =========
     async function sendToGPT() {
-      const input = document.getElementById("chatInput").value;
-      const outputDiv = document.getElementById("chatResponse");
+        const input = document.getElementById("chatInput").value;
+        const outputDiv = document.getElementById("chatResponse");
 
-      if (!input) {
-        outputDiv.innerText = "الرجاء إدخال سؤال.";
-        return;
-      }
+        if (!input) {
+            outputDiv.innerText = "الرجاء إدخال سؤال.";
+            return;
+        }
 
-      outputDiv.innerText = "⏳ ...جاري التفكير";
+        outputDiv.innerText = "⏳ ...جاري التفكير";
 
-      // IMPORTANT: Replace this URL with your actual Cloudflare Worker URL.
-      // هام: استبدل هذا الرابط بالرابط الحقيقي للـ Worker الخاص بك
-      const workerUrl = "https://ضع-رابط-الوركر-الخاص-بك-هنا.workers.dev"; 
+        // This URL is now correctly set to your Cloudflare Worker
+        const workerUrl = "https://white-frost-8014.karam200566.workers.dev/"; 
 
-      try {
-        const response = await fetch(workerUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // Send only the message to your secure worker
-          body: JSON.stringify({
-            message: input 
-          })
-        });
+        try {
+            const response = await fetch(workerUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    message: input 
+                })
+            });
+            
+            // Check if the server responded with an error
+            if (!response.ok) {
+                throw new Error(`!خطأ في الشبكة: ${response.status} ${response.statusText}`);
+            }
 
-        const data = await response.json();
-        
-        // Display the response that came back from your worker
-        outputDiv.innerText = data.choices?.[0]?.message?.content || "❌ حدث خطأ أثناء استقبال الرد";
-      } catch (error) {
-        console.error("Error:", error);
-        outputDiv.innerText = "❌ فشل الاتصال بالخادم. تحقق من صحة الرابط.";
-      }
+            const data = await response.json();
+            
+            // Display the response or any error message from the API
+            if (data.error) {
+                 outputDiv.innerText = `❌ حدث خطأ من الـ API: ${data.error.message}`;
+            } else {
+                 outputDiv.innerText = data.choices?.[0]?.message?.content || "❌ حدث خطأ أثناء استقبال الرد.";
+            }
+
+        } catch (error) {
+            console.error("Error details:", error);
+            outputDiv.innerText = `❌ فشل الاتصال بالخادم. ${error.message}`;
+        }
     }
-    // ========= END: CODE MODIFICATION =========
-
+    // ========= END: CORRECT AND SECURE CHAT FUNCTION =========
 </script>
 
 </body>
