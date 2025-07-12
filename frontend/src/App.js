@@ -217,44 +217,51 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Fixed Navigation */}
-      <nav className="fixed top-0 w-full bg-black/90 backdrop-blur-lg z-50 border-b border-gray-800/50 transition-all duration-300">
+      {/* Enhanced Fixed Navigation */}
+      <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-xl z-50 border-b border-gray-800/50 transition-all duration-300 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-white hover:text-purple-400 transition-colors cursor-pointer" onClick={() => scrollToSection('home')}>
-                Smart Jordan
+              <h1 className="text-xl font-bold text-white hover:text-purple-400 transition-colors cursor-pointer font-poppins tracking-tight" onClick={() => scrollToSection('home')}>
+                <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Smart</span>
+                <span className="text-white ml-1">Jordan</span>
               </h1>
             </div>
             <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-6">
+              <div className="ml-10 flex items-baseline space-x-1">
                 {[
-                  { id: 'home', label: 'Home' },
-                  { id: 'features', label: 'Features' },
-                  { id: 'explore', label: 'Explore' },
-                  { id: 'map', label: 'Map' },
-                  { id: 'itinerary', label: 'Itinerary' },
-                  { id: 'testimonials', label: 'Reviews' },
-                  { id: 'insights', label: 'Insights' }
+                  { id: 'home', label: 'Home', icon: '🏠' },
+                  { id: 'features', label: 'Features', icon: '⚡' },
+                  { id: 'explore', label: 'Explore', icon: '🗺️' },
+                  { id: 'map', label: 'Map', icon: '📍' },
+                  { id: 'itinerary', label: 'Itinerary', icon: '📋' },
+                  { id: 'testimonials', label: 'Reviews', icon: '⭐' },
+                  { id: 'insights', label: 'Insights', icon: '📊' }
                 ].map((item) => (
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                    className={`group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden font-inter ${
                       activeSection === item.id
-                        ? 'text-white bg-purple-600 shadow-lg shadow-purple-600/25'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-800'
+                        ? 'text-white bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-600/25'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
                     }`}
                   >
-                    {item.label}
+                    <span className="relative z-10 flex items-center">
+                      <span className="mr-1 text-xs">{item.icon}</span>
+                      {item.label}
+                    </span>
+                    {activeSection !== item.id && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                    )}
                   </button>
                 ))}
               </div>
             </div>
             
-            {/* Mobile Menu Button */}
+            {/* Enhanced Mobile Menu Button */}
             <div className="md:hidden">
-              <button className="text-gray-300 hover:text-white p-2">
+              <button className="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-all duration-300">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
