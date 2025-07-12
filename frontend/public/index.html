@@ -7,7 +7,6 @@
     <title>Smart Jordan - Explore Jordan Smarter</title>
     <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet" />
     <style>
-        /* كل أكواد الـ CSS الأساسية بقيت كما هي */
         * {
             margin: 0;
             padding: 0;
@@ -26,6 +25,7 @@
             scroll-behavior: smooth;
         }
 
+        /* Fixed Navigation */
         .navbar {
             position: fixed;
             top: 0;
@@ -103,6 +103,7 @@
             transition: 0.3s;
         }
 
+        /* Hero Section */
         .hero {
             height: 100vh;
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3)), url('https://images.unsplash.com/photo-1712323028707-6e59c3d2271a') center/cover;
@@ -197,6 +198,7 @@
             transform: translateY(-3px);
         }
 
+        /* Sections */
         .section {
             padding: 5rem 0;
             position: relative;
@@ -237,6 +239,7 @@
             margin-right: auto;
         }
 
+        /* Chatbot Section */
         .chatbot-container {
             background: rgba(31, 41, 55, 0.5);
             border-radius: 1rem;
@@ -321,6 +324,14 @@
             cursor: not-allowed;
         }
         /* --- END: CSS جديد لواجهة الدردشة --- */
+        
+        /* Live Insights and other sections CSS remains unchanged */
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .insight-card { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; padding: 2rem; text-align: center; backdrop-filter: blur(16px); border: 1px solid rgba(75, 85, 99, 0.3); transition: all 0.3s ease; }
+        .insight-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.5); }
+        .insight-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+        .insight-value { font-size: 1.5rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem; }
+        .insight-label { color: #9ca3af; font-size: 0.9rem; }
     </style>
 </head>
 
@@ -366,34 +377,36 @@
         </div>
     </section>
 
+    <section class="section" id="insights">
+        </section>
+    <section class="section" id="map">
+        </section>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // كل أكواد الجافاسكريبت الأخرى للموقع بقيت كما هي
-        
+        // كل أكواد الجافاسكريبت الأصلية للموقع موجودة هنا
+        // ... (كود الخريطة، المودال، القائمة، ...إلخ)
+
+
         // ========= START: JAVASCRIPT جديد بالكامل للدردشة مع ذاكرة =========
 
-        // 1. تعريف سجل المحادثة مع تعليمات النظام الأولية
         const systemPrompt = `
             أنت "مرشد الأردن الذكي"، مساعد سياحي خبير ومتحمس للأردن. مهمتك هي مساعدة السياح في التخطيط لرحلاتهم داخل الأردن فقط.
             قواعدك:
-            1. التخصص: معلوماتك تقتصر فقط على السياحة في الأردن (مدن، فنادق، مطاعم، تاريخ، طبيعة، تكاليف، مواصلات، نصائح).
-            2. الخطط السياحية: عند طلب خطة سياحية، قم ببنائها على شكل جدول أو نقاط واضحة (مثال: اليوم الأول، اليوم الثاني...). إذا كان السؤال عامًا، اطلب تفاصيل إضافية (مثل: كم عدد الأيام؟ ما هي الاهتمامات؟).
-            3. الأسئلة الخارجية: إذا سألك المستخدم عن أي شيء خارج نطاق السياحة في الأردن (مثل البرمجة، الطبخ، السياسة)، يجب أن تعتذر بلطف وتوضح أنك مختص بالسياحة الأردنية فقط.
-            4. اللهجة والأسلوب: استخدم لهجة عربية واضحة ومرحبة.
+            1. التخصص: معلوماتك تقتصر فقط على السياحة في الأردن.
+            2. الخطط السياحية: عند طلب خطة، قم ببنائها كنقاط واضحة. إذا كان السؤال عامًا، اطلب تفاصيل (عدد الأيام، الاهتمامات).
+            3. الأسئلة الخارجية: إذا سئلت عن شيء خارج السياحة الأردنية، اعتذر بلطف.
+            4. اللهجة: استخدم لهجة عربية واضحة ومرحبة.
         `;
         
-        // نبدأ بسجل محادثة فارغ، وسنضيف التعليمات مع أول رسالة
         let chatHistory = [];
 
         const chatWindow = document.getElementById('chatWindow');
         const inputElement = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
         
-        // إضافة الرسالة الترحيبية الأولى من البوت
         document.addEventListener('DOMContentLoaded', () => {
             const welcomeMessage = "مرحباً بك! أنا مرشدك السياحي الذكي في الأردن. كيف يمكنني مساعدتك في التخطيط لرحلتك اليوم؟";
             appendMessage(welcomeMessage, 'bot');
-            // نضيف الرسالة الترحيبية للذاكرة
             chatHistory.push({ role: 'model', parts: [{ text: welcomeMessage }] });
         });
         
@@ -418,9 +431,9 @@
             if (!userInput) return;
 
             appendMessage(userInput, 'user');
-            
-            // إذا كانت هذه أول رسالة من المستخدم، نضيف تعليمات النظام أولاً
-            if (chatHistory.length <= 1) {
+
+            // نضيف تعليمات النظام مع أول رسالة يرسلها المستخدم
+            if (chatHistory.length <= 1) { // <=1 because the model's welcome is the first message
                 chatHistory.unshift({ role: 'user', parts: [{ text: systemPrompt }] });
             }
 
@@ -466,9 +479,8 @@
                 inputElement.focus();
             }
         }
-        // ========= END: JAVASCRIPT جديد بالكامل للدردشة مع ذاكرة =========
+        // ========= END: JAVASCRIPT للدردشة مع ذاكرة =========
 
     </script>
 </body>
-
 </html>
