@@ -80,7 +80,15 @@
         .insight-label { color: #9ca3af; font-size: 0.9rem; }
         
         .map-container { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; padding: 1rem; backdrop-filter: blur(16px); border: 1px solid rgba(75, 85, 99, 0.3); }
-        #map { height: 500px; border-radius: 0.5rem; }
+        #map {
+  height: 500px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+  border-radius: 0.5rem;
+  z-index: 1;
+}
 
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }
         .category-card { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; overflow: hidden; backdrop-filter: blur(16px); border: 1px solid rgba(75, 85, 99, 0.3); transition: all 0.3s ease; cursor: pointer; }
@@ -339,7 +347,8 @@
             const defaultZoom = 7;
             const map = L.map('map').setView(defaultCenter, defaultZoom);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            setTimeout(() => { map.invalidateSize(); }, 500);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
