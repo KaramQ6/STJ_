@@ -528,130 +528,6 @@
             font-size: 1.2rem;
         }
 
-        /* Timeline */
-        .timeline-container {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .timeline-line {
-            position: absolute;
-            left: 2rem;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, #8b5cf6, #3b82f6);
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-left: 5rem;
-            margin-bottom: 3rem;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 1.5rem;
-            top: 0.5rem;
-            width: 1rem;
-            height: 1rem;
-            background: #8b5cf6;
-            border-radius: 50%;
-            border: 3px solid #0f0f10;
-            z-index: 10;
-        }
-
-        .timeline-content {
-            background: rgba(31, 41, 55, 0.5);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(75, 85, 99, 0.3);
-        }
-
-        .timeline-time {
-            color: #8b5cf6;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-description {
-            color: #9ca3af;
-            line-height: 1.5;
-        }
-
-        /* Testimonials */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .testimonial-card {
-            background: rgba(31, 41, 55, 0.5);
-            border-radius: 1rem;
-            padding: 2rem;
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(75, 85, 99, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
-            border-color: rgba(139, 92, 246, 0.5);
-        }
-
-        .testimonial-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .testimonial-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 1rem;
-        }
-
-        .testimonial-info h4 {
-            color: #ffffff;
-            font-weight: 600;
-            margin-bottom: 0.2rem;
-        }
-
-        .testimonial-info p {
-            color: #9ca3af;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .testimonial-rating {
-            margin-bottom: 1rem;
-        }
-
-        .star {
-            color: #fbbf24;
-            font-size: 1.1rem;
-        }
-
-        .testimonial-text {
-            color: #d1d5db;
-            line-height: 1.6;
-            font-style: italic;
-        }
-
         /* Back to Top Button */
         .back-to-top {
             position: fixed;
@@ -730,21 +606,8 @@
                 padding: 0 1rem;
             }
 
-            .categories-grid,
-            .testimonials-grid {
+            .categories-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .timeline-line {
-                left: 1rem;
-            }
-
-            .timeline-item {
-                padding-left: 3rem;
-            }
-
-            .timeline-dot {
-                left: 0.5rem;
             }
 
             .back-to-top {
@@ -786,8 +649,6 @@
                 <li><a class="nav-link" href="#insights">Insights</a></li>
                 <li><a class="nav-link" href="#map">Map</a></li>
                 <li><a class="nav-link" href="#categories">Explore</a></li>
-                <li><a class="nav-link" href="#itinerary">Itinerary</a></li>
-                <li><a class="nav-link" href="#testimonials">Reviews</a></li>
             </ul>
             <div class="mobile-menu">
                 <span></span>
@@ -922,109 +783,6 @@
                         <p class="category-description">Experience thrilling adventures from hot air balloon rides over
                             Wadi Rum to diving in the Red Sea at Aqaba.</p>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section" id="itinerary">
-        <div class="container">
-            <h2 class="section-title">Smart Tour Itinerary</h2>
-            <p class="section-subtitle">A perfectly planned day in Jordan optimized by AI for the best travel
-                experience.</p>
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-time">9:00 AM</div>
-                        <h4 class="timeline-title">🏨 Arrive at Hotel</h4>
-                        <p class="timeline-description">Check into your smart hotel and receive your personalized Jordan
-                            travel kit with IoT sensors and AR devices for enhanced exploration.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-time">10:30 AM</div>
-                        <h4 class="timeline-title">🏙️ Explore Downtown Amman</h4>
-                        <p class="timeline-description">Discover Amman's vibrant downtown with our AI-guided walking
-                            tour, featuring the Roman Theatre, Citadel, and bustling souks.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-time">2:00 PM</div>
-                        <h4 class="timeline-title">🏛️ Visit Archaeological Ruins</h4>
-                        <p class="timeline-description">Experience Petra's magnificence with AR visualization showing
-                            how the ancient city looked 2000 years ago, complete with virtual guides.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-time">7:00 PM</div>
-                        <h4 class="timeline-title">🍽️ Night Food Market</h4>
-                        <p class="timeline-description">Savor authentic Jordanian cuisine at local food markets with
-                            AI-powered recommendations based on your dietary preferences.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section" id="testimonials">
-        <div class="container">
-            <h2 class="section-title">What Travelers Say</h2>
-            <p class="section-subtitle">Real experiences from smart travelers who explored Jordan with our AI-powered
-                platform.</p>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <img alt="Sarah Johnson" class="testimonial-avatar"
-                            src="https://images.unsplash.com/photo-1494790108755-2616b612b494?w=150&h=150&fit=crop&crop=face" />
-                        <div class="testimonial-info">
-                            <h4>Sarah Johnson</h4>
-                            <p>Travel Blogger, USA</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-rating">
-                        <span class="star">★★★★★</span>
-                    </div>
-                    <p class="testimonial-text">"The Smart Jordan AI guide was incredible! It led us to hidden gems in
-                        Petra that we never would have found. The real-time crowd data helped us avoid busy times and
-                        made our visit so much more enjoyable."</p>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <img alt="Marco Rodriguez" class="testimonial-avatar"
-                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" />
-                        <div class="testimonial-info">
-                            <h4>Marco Rodriguez</h4>
-                            <p>Photographer, Spain</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-rating">
-                        <span class="star">★★★★★</span>
-                    </div>
-                    <p class="testimonial-text">"The AR experiences at historical sites were mind-blowing! Seeing how
-                        ancient Jordan looked through the AR glasses was like time travel. The interactive map helped me
-                        find the perfect photography spots."</p>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-header">
-                        <img alt="Emma Chen" class="testimonial-avatar"
-                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" />
-                        <div class="testimonial-info">
-                            <h4>Emma Chen</h4>
-                            <p>Adventure Traveler, Australia</p>
-                        </div>
-                    </div>
-                    <div class="testimonial-rating">
-                        <span class="star">★★★★★</span>
-                    </div>
-                    <p class="testimonial-text">"The smart itinerary was perfectly planned! The AI recommendations for
-                        restaurants and activities were spot-on. The live environment data helped us prepare for weather
-                        changes during our Wadi Rum camping trip."</p>
                 </div>
             </div>
         </div>
