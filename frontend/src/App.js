@@ -234,13 +234,17 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Enhanced Fixed Navigation */}
+      {/* Enhanced Fixed Navigation with Scroll Progress */}
       <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-xl z-50 border-b border-gray-800/50 transition-all duration-300 shadow-xl">
+        {/* Scroll Progress Bar */}
+        <div className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-600 via-purple-400 to-blue-600 transition-all duration-300 ease-out shadow-lg shadow-purple-500/50" 
+             style={{ width: `${scrollProgress}%` }}></div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-white hover:text-purple-400 transition-colors cursor-pointer font-poppins tracking-tight" onClick={() => scrollToSection('home')}>
-                <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Smart</span>
+              <h1 className="text-xl font-bold text-white hover:text-purple-400 transition-all duration-300 cursor-pointer font-poppins tracking-tight transform hover:scale-105" onClick={() => scrollToSection('home')}>
+                <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent animate-glow">Smart</span>
                 <span className="text-white ml-1">Jordan</span>
               </h1>
             </div>
@@ -258,18 +262,21 @@ const App = () => {
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`group px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden font-inter ${
+                    className={`group px-4 py-2 rounded-full text-sm font-medium transition-all duration-500 relative overflow-hidden font-inter transform hover:scale-105 ${
                       activeSection === item.id
-                        ? 'text-white bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-600/25'
+                        ? 'text-white bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-600/25 scale-105'
                         : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
                     }`}
                   >
                     <span className="relative z-10 flex items-center">
-                      <span className="mr-1 text-xs">{item.icon}</span>
+                      <span className="mr-1 text-xs transition-transform duration-300 group-hover:scale-125">{item.icon}</span>
                       {item.label}
                     </span>
                     {activeSection !== item.id && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                      <>
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/10 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                      </>
                     )}
                   </button>
                 ))}
@@ -278,7 +285,7 @@ const App = () => {
             
             {/* Enhanced Mobile Menu Button */}
             <div className="md:hidden">
-              <button className="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-all duration-300">
+              <button className="text-gray-300 hover:text-white p-2 rounded-lg hover:bg-gray-800/50 transition-all duration-300 transform hover:scale-110">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
