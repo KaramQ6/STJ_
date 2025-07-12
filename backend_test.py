@@ -10,8 +10,8 @@ import time
 from datetime import datetime
 import sys
 
-# Backend URL from environment
-BACKEND_URL = "https://demobackend.emergentagent.com/api"
+# Backend URL - using localhost since external URL is not accessible
+BACKEND_URL = "http://localhost:8001/api"
 
 class BackendTester:
     def __init__(self):
