@@ -2,13 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
+    <title>SmartTour.JO</title>
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Smart Jordan - AI-powered tourism guide for exploring Jordan's wonders" />
+    <meta name="description" content="SmartTour.JO - AI-powered tourism guide for exploring Jordan's wonders" />
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -18,12 +19,15 @@
     <style>
         html[lang="ar"] body { font-family: 'Cairo', sans-serif; }
         html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { line-height: 1.6; color: #ffffff; background-color: #0f0f10; overflow-x: hidden; }
         html { scroll-behavior: smooth; }
+        
         .lang-switcher { display: flex; gap: 10px; align-items: center; }
         .lang-switcher button { background: none; border: 1px solid #4b5563; color: #d1d5db; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s ease; }
         .lang-switcher button:hover, .lang-switcher button.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
+
         .navbar { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 1000; padding: 1rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 700; color: #8b5cf6; text-decoration: none; }
@@ -31,9 +35,22 @@
         .nav-link { color: #d1d5db; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border-radius: 0.5rem; transition: all 0.3s ease; position: relative; }
         .nav-link:hover, .nav-link.active { color: #ffffff; background: rgba(139, 92, 246, 0.2); transform: translateY(-2px); }
         .nav-link.active::after { content: ''; position: absolute; bottom: -0.5rem; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: #8b5cf6; border-radius: 50%; }
+
         .mobile-menu { display: none; flex-direction: column; cursor: pointer; }
         .mobile-menu span { width: 25px; height: 3px; background: #ffffff; margin: 3px 0; transition: 0.3s; }
-        .hero { height: 100vh; background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3)), url('https://images.unsplash.com/photo-1580633411685-2c8c6a3f9a74?q=80&w=1932&auto=format&fit=crop') center/cover; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
+        
+        .hero { 
+            height: 100vh; 
+            /* !! أضف رابط صورتك هنا !! */
+            /* مثال: url('/images/your-jordan-image.jpg') */
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3)), url('') center/cover; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden; 
+        }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.4); z-index: 1; }
         .hero-content { max-width: 800px; padding: 0 2rem; position: relative; z-index: 2; animation: fadeInUp 1s ease-out; }
         .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; margin-bottom: 1rem; background: linear-gradient(135deg, #ffffff, #e5e7eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
@@ -105,7 +122,7 @@
 
     <nav class="navbar">
         <div class="nav-container">
-            <a class="logo" href="#hero" data-translate="siteTitle">الأردن الذكي</a>
+            <a class="logo" href="#hero" data-translate="siteTitle">SmartTour.JO</a>
             <ul class="nav-menu">
                 <li><a class="nav-link active" href="#hero" data-translate="navHome">الرئيسية</a></li>
                 <li><a class="nav-link" href="#chatbot" data-translate="navAIGuide">المرشد الذكي</a></li>
@@ -136,7 +153,7 @@
             <p class="section-subtitle" data-translate="chatbotSubtitle">احصل على إجابات فورية حول معالم الأردن، أفضل أوقات السفر، العادات المحلية، وتوصيات شخصية من مساعدنا الذكي.</p>
             <div class="chatbot-container">
                 <div class="chatbot-header">
-                    <h3 data-translate="chatbotHeader">🤖 مساعد الأردن الذكي</h3>
+                    <h3 data-translate="chatbotHeader">🤖 مساعد SmartTour.JO الذكي</h3>
                     <p data-translate="chatbotSubheader">رفيقك الشخصي لاستكشاف الأردن</p>
                 </div>
                 <div class="chat-window" id="chatWindow"></div>
@@ -173,50 +190,30 @@
             <h2 class="section-title" data-translate="categoriesTitle">اكتشف الأردن على طريقتك</h2>
             <p class="section-subtitle" data-translate="categoriesSubtitle">اختر من بين فئاتنا المنسقة لتجد التجارب التي تتناسب مع اهتماماتك وأسلوب سفرك.</p>
             <div class="categories-grid">
-                <div class="category-card" data-category="nature">
-                    <div class="category-image" style="background-image: url('https://images.pexels.com/photos/17645580/pexels-photo-17645580.jpeg');">
-                        <div class="category-overlay"><span class="category-overlay-text" data-translate="catNatureOverlay">استكشف الطبيعة</span></div>
-                    </div>
-                    <div class="category-content"><h3 class="category-title" data-translate="catNatureTitle">🌿 مغامرات في الطبيعة</h3><p class="category-description" data-translate="catNatureDesc">اكتشف المناظر الطبيعية الخلابة في الأردن من صحراء وادي رم إلى مياه البحر الميت العلاجية.</p></div>
-                </div>
-                 <div class="category-card" data-category="culture">
-                    <div class="category-image" style="background-image: url('https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg');">
-                        <div class="category-overlay"><span class="category-overlay-text" data-translate="catCultureOverlay">اكتشف الثقافة</span></div>
-                    </div>
-                    <div class="category-content"><h3 class="category-title" data-translate="catCultureTitle">🏛️ التراث الثقافي</h3><p class="category-description" data-translate="catCultureDesc">استكشف البتراء القديمة، وآثار جرش الرومانية، وجرب الثقافة البدوية الأصيلة في المواقع التاريخية في الأردن.</p></div>
-                </div>
-                 <div class="category-card" data-category="religious">
-                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1750357445390-264bfe3b6db2');">
-                        <div class="category-overlay"><span class="category-overlay-text" data-translate="catReligiousOverlay">المواقع المقدسة</span></div>
-                    </div>
-                    <div class="category-content"><h3 class="category-title" data-translate="catReligiousTitle">⛪ المواقع الدينية</h3><p class="category-description" data-translate="catReligiousDesc">اتبع المسارات الدينية إلى جبل نيبو، والمغطس، وغيرها من المواقع المقدسة ذات الأهمية الروحية.</p></div>
-                </div>
-                <div class="category-card" data-category="adventure">
-                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1750357437870-5b4ef7f03df8');">
-                        <div class="category-overlay"><span class="category-overlay-text" data-translate="catAdventureOverlay">المغامرة تنتظرك</span></div>
-                    </div>
-                    <div class="category-content"><h3 class="category-title" data-translate="catAdventureTitle">🏔️ رياضات المغامرة</h3><p class="category-description" data-translate="catAdventureDesc">جرب مغامرات مثيرة من ركوب المنطاد فوق وادي رم إلى الغوص في البحر الأحمر في العقبة.</p></div>
-                </div>
+                <div class="category-card" data-category="nature"><div class="category-image" style="background-image: url('https://images.pexels.com/photos/17645580/pexels-photo-17645580.jpeg');"><div class="category-overlay"><span class="category-overlay-text" data-translate="catNatureOverlay">استكشف الطبيعة</span></div></div><div class="category-content"><h3 class="category-title" data-translate="catNatureTitle">🌿 مغامرات في الطبيعة</h3><p class="category-description" data-translate="catNatureDesc">اكتشف المناظر الطبيعية الخلابة في الأردن من صحراء وادي رم إلى مياه البحر الميت العلاجية.</p></div></div>
+                <div class="category-card" data-category="culture"><div class="category-image" style="background-image: url('https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg');"><div class="category-overlay"><span class="category-overlay-text" data-translate="catCultureOverlay">اكتشف الثقافة</span></div></div><div class="category-content"><h3 class="category-title" data-translate="catCultureTitle">🏛️ التراث الثقافي</h3><p class="category-description" data-translate="catCultureDesc">استكشف البتراء القديمة، وآثار جرش الرومانية، وجرب الثقافة البدوية الأصيلة في المواقع التاريخية في الأردن.</p></div></div>
+                <div class="category-card" data-category="religious"><div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1750357445390-264bfe3b6db2');"><div class="category-overlay"><span class="category-overlay-text" data-translate="catReligiousOverlay">المواقع المقدسة</span></div></div><div class="category-content"><h3 class="category-title" data-translate="catReligiousTitle">⛪ المواقع الدينية</h3><p class="category-description" data-translate="catReligiousDesc">اتبع المسارات الدينية إلى جبل نيبو، والمغطس، وغيرها من المواقع المقدسة ذات الأهمية الروحية.</p></div></div>
+                <div class="category-card" data-category="adventure"><div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1750357437870-5b4ef7f03df8');"><div class="category-overlay"><span class="category-overlay-text" data-translate="catAdventureOverlay">المغامرة تنتظرك</span></div></div><div class="category-content"><h3 class="category-title" data-translate="catAdventureTitle">🏔️ رياضات المغامرة</h3><p class="category-description" data-translate="catAdventureDesc">جرب مغامرات مثيرة من ركوب المنطاد فوق وادي رم إلى الغوص في البحر الأحمر في العقبة.</p></div></div>
             </div>
         </div>
     </section>
     <footer class="section" style="background: #0a0a0a;">
         <div class="container">
             <div style="text-align: center; padding: 2rem 0;">
-                <h3 style="color: #8b5cf6; font-size: 1.5rem; margin-bottom: 1rem;" data-translate="siteTitle">الأردن الذكي</h3>
+                <h3 style="color: #8b5cf6; font-size: 1.5rem; margin-bottom: 1rem;" data-translate="siteTitle">SmartTour.JO</h3>
                 <p style="color: #9ca3af; margin-bottom: 2rem;" data-translate="footerSlogan">رفيقك الذكي لاستكشاف عجائب الأردن</p>
                 <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
                     <a href="#" style="color: #9ca3af; text-decoration: none;" data-translate="footerPrivacy">سياسة الخصوصية</a>
                     <a href="#" style="color: #9ca3af; text-decoration: none;" data-translate="footerTerms">شروط الخدمة</a>
                     <a href="#" style="color: #9ca3af; text-decoration: none;" data-translate="footerContact">اتصل بنا</a>
                 </div>
-                <p style="color: #6b7280; margin-top: 2rem; font-size: 0.9rem;" data-translate="footerRights">© 2025 الأردن الذكي. جميع الحقوق محفوظة.</p>
+                <p style="color: #6b7280; margin-top: 2rem; font-size: 0.9rem;" data-translate="footerRights">© 2025 SmartTour.JO. جميع الحقوق محفوظة.</p>
             </div>
         </div>
     </footer>
     
-    <div class="modal" id="natureModal"><div class="modal-content"><span class="modal-close">×</span><h2 class="modal-title" data-translate="modalNatureTitle"></h2><p class="modal-text" data-translate="modalNatureText"></p><ul class="modal-highlights"><li data-translate="modalNature1"></li><li data-translate="modalNature2"></li><li data-translate="modalNature3"></li><li data-translate="modalNature4"></li></ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;" data-translate="modalBtnBook"></a></div></div>
-    <div class="modal" id="cultureModal"><div class="modal-content"><span class="modal-close">×</span><h2 class="modal-title" data-translate="modalCultureTitle"></h2><p class="modal-text" data-translate="modalCultureText"></p><ul class="modal-highlights"><li data-translate="modalCulture1"></li><li data-translate="modalCulture2"></li><li data-translate-modalCulture3"></li><li data-translate="modalCulture4"></li></ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;" data-translate="modalBtnBookCulture"></a></div></div>
+    <div class="modal" id="natureModal"><div class="modal-content"><span class="modal-close">×</span><h2 class="modal-title" data-translate="modalNatureTitle"></h2><p class="modal-text" data-translate="modalNatureText"></p><ul class="modal-highlights"><li data-translate="modalNature1"></li><li data-translate="modalNature2"></li><li data-translate="modalNature3"></li><li data-translate="modalNature4"></li></ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;" data-translate="modalBtnBookNature"></a></div></div>
+    <div class="modal" id="cultureModal"><div class="modal-content"><span class="modal-close">×</span><h2 class="modal-title" data-translate="modalCultureTitle"></h2><p class="modal-text" data-translate="modalCultureText"></p><ul class="modal-highlights"><li data-translate="modalCulture1"></li><li data-translate="modalCulture2"></li><li data-translate="modalCulture3"></li><li data-translate="modalCulture4"></li></ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;" data-translate="modalBtnBookCulture"></a></div></div>
     <div class="modal" id="religiousModal"><div class="modal-content"><span class="modal-close">×</span><h2 class="modal-title" data-translate="modalReligiousTitle"></h2><p class="modal-text" data-translate="modalReligiousText"></p><ul class="modal-highlights"><li data-translate="modalReligious1"></li><li data-translate="modalReligious2"></li><li data-translate="modalReligious3"></li><li data-translate="modalReligious4"></li></ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;" data-translate="modalBtnBookReligious"></a></div></div>
     <div class="modal" id="adventureModal"><div class="modal-content"><span class="modal-close">×</span><h2 class="modal-title" data-translate="modalAdventureTitle"></h2><p class="modal-text" data-translate="modalAdventureText"></p><ul class="modal-highlights"><li data-translate="modalAdventure1"></li><li data-translate="modalAdventure2"></li><li data-translate="modalAdventure3"></li><li data-translate="modalAdventure4"></li></ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;" data-translate="modalBtnBookAdventure"></a></div></div>
 
@@ -232,14 +229,14 @@
         // ===============================================
         const translations = {
             en: {
-                siteTitle: "Smart Jordan",
+                siteTitle: "SmartTour.JO",
                 navHome: "Home", navAIGuide: "AI Guide", navInsights: "Insights", navMap: "Map", navExplore: "Explore",
                 heroTitle: "Explore Jordan Smarter",
                 heroSubtitle: "Discover Jordan's hidden treasures with AI-powered recommendations, real-time insights, and interactive experiences that transform your journey into an unforgettable adventure.",
                 heroBtnStart: "Start Your Journey", heroBtnExplore: "Explore Categories",
                 chatbotTitle: "Ask Our Smart AI Guide",
                 chatbotSubtitle: "Get instant answers about Jordan's attractions, best travel times, local customs, and personalized recommendations from our intelligent travel assistant.",
-                chatbotHeader: "🤖 Smart Jordan AI Assistant", chatbotSubheader: "Your personal travel companion for exploring Jordan",
+                chatbotHeader: "🤖 SmartTour.JO AI Assistant", chatbotSubheader: "Your personal travel companion for exploring Jordan",
                 chatPlaceholder: "Request a tour plan or ask anything...", chatSend: "Send",
                 insightsTitle: "Live Environment Insights",
                 insightsSubtitle: "Real-time data from IoT sensors across Jordan's popular destinations to help you plan the perfect visit.",
@@ -253,19 +250,20 @@
                 catReligiousOverlay: "Sacred Sites", catReligiousTitle: "⛪ Religious Sites", catReligiousDesc: "Follow biblical paths to Mount Nebo, Bethany Beyond Jordan, and other sacred sites of spiritual significance.",
                 catAdventureOverlay: "Adventure Awaits", catAdventureTitle: "🏔️ Adventure Sports", catAdventureDesc: "Experience thrilling adventures from hot air balloon rides over Wadi Rum to diving in the Red Sea at Aqaba.",
                 footerSlogan: "Your intelligent companion for exploring Jordan's wonders",
-                footerPrivacy: "Privacy Policy", footerTerms: "Terms of Service", footerContact: "Contact Us", footerRights: "© 2025 Smart Jordan. All rights reserved.",
-                modalNatureTitle: "🌿 Nature Adventures", modalNatureText: "Jordan's natural landscapes offer some of the world's most breathtaking experiences. From the otherworldly red sands of Wadi Rum to the therapeutic waters of the Dead Sea.", modalNature1: "Stargazing in Wadi Rum's pristine desert skies", modalNature2: "Floating in the mineral-rich Dead Sea waters", modalNature3: "Hiking through diverse ecosystems in Dana Reserve", modalNature4: "Bird watching at Azraq Wetland Reserve", modalBtnBook: "Book Nature Tour",
+                footerPrivacy: "Privacy Policy", footerTerms: "Terms of Service", footerContact: "Contact Us", footerRights: "© 2025 SmartTour.JO. All rights reserved.",
+                modalNatureTitle: "🌿 Nature Adventures", modalNatureText: "Jordan's natural landscapes offer some of the world's most breathtaking experiences. From the otherworldly red sands of Wadi Rum to the therapeutic waters of the Dead Sea.", modalNature1: "Stargazing in Wadi Rum's pristine desert skies", modalNature2: "Floating in the mineral-rich Dead Sea waters", modalNature3: "Hiking through diverse ecosystems in Dana Reserve", modalNature4: "Bird watching at Azraq Wetland Reserve", modalBtnBookNature: "Book Nature Tour",
                 modalCultureTitle: "🏛️ Cultural Heritage", modalCultureText: "Jordan's cultural treasures span millennia, from the rose-red city of Petra to the remarkably preserved Roman ruins of Jerash.", modalCulture1: "Walk through Petra's Treasury and Monastery", modalCulture2: "Explore the colonnaded streets of Jerash", modalCulture3: "Experience traditional Bedouin hospitality", modalCulture4: "Visit ancient Amman Citadel", modalBtnBookCulture: "Book Cultural Tour",
                 modalReligiousTitle: "⛪ Religious Sites", modalReligiousText: "Jordan holds deep spiritual significance for three major world religions. Experience profound spiritual journeys in breathtaking natural settings.", modalReligious1: "Stand at Mount Nebo where Moses viewed the Promised Land", modalReligious2: "Visit the baptism site of Jesus Christ", modalReligious3: "See the ancient Madaba Map mosaic", modalReligious4: "Explore the fortress of Machaerus", modalBtnBookReligious: "Book Religious Tour",
-                modalAdventureTitle: "🏔️ Adventure Sports", modalAdventureText: "Jordan offers world-class adventure experiences for thrill-seekers. From soaring over Martian landscapes to diving in coral-rich waters.", modalAdventure1: "Hot air balloon flights over Wadi Rum at sunrise", modalAdventure2: "Overnight desert camping with Bedouin guides", modalAdventure3: "World-class diving and snorkeling in Aqaba", modalAdventure4: "Canyoning adventures in remote wadis", modalBtnBookAdventure: "Book Adventure Tour"
+                modalAdventureTitle: "🏔️ Adventure Sports", modalAdventureText: "Jordan offers world-class adventure experiences for thrill-seekers. From soaring over Martian landscapes to diving in coral-rich waters.", modalAdventure1: "Hot air balloon flights over Wadi Rum at sunrise", modalAdventure2: "Overnight desert camping with Bedouin guides", modalAdventure3: "World-class diving and snorkeling in Aqaba", modalAdventure4: "Canyoning adventures in remote wadis", modalBtnBookAdventure: "Book Adventure Tour",
+                petraPopup: "Petra - The Rose City", jerashPopup: "Jerash - Ancient Roman City", wadiRumPopup: "Wadi Rum - Valley of the Moon", yourLocationPopup: "<b>Your Location</b>", welcomePopup: "Welcome to Jordan!"
             },
             ar: {
-                siteTitle: "الأردن الذكي",
+                siteTitle: "SmartTour.JO",
                 navHome: "الرئيسية", navAIGuide: "المرشد الذكي", navInsights: "مؤشرات حيوية", navMap: "الخريطة", navExplore: "اكتشف",
                 heroTitle: "اكتشف الأردن بذكاء", heroSubtitle: "اكتشف كنوز الأردن الخفية مع توصيات مدعومة بالذكاء الاصطناعي، وبيانات لحظية، وتجارب تفاعلية تحول رحلتك إلى مغامرة لا تُنسى.",
                 heroBtnStart: "ابدأ رحلتك", heroBtnExplore: "استكشف الفئات",
                 chatbotTitle: "اسأل مرشدنا الذكي", chatbotSubtitle: "احصل على إجابات فورية حول معالم الأردن، أفضل أوقات السفر، العادات المحلية، وتوصيات شخصية من مساعدنا الذكي.",
-                chatbotHeader: "🤖 مساعد الأردن الذكي", chatbotSubheader: "رفيقك الشخصي لاستكشاف الأردن",
+                chatbotHeader: "🤖 مساعد SmartTour.JO الذكي", chatbotSubheader: "رفيقك الشخصي لاستكشاف الأردن",
                 chatPlaceholder: "اطلب خطة سياحية أو اسأل عن أي شيء...", chatSend: "أرسل",
                 insightsTitle: "مؤشرات بيئية حية", insightsSubtitle: "بيانات لحظية من حساسات إنترنت الأشياء في أشهر الوجهات السياحية بالأردن لمساعدتك على التخطيط لزيارتك بشكل مثالي.",
                 insightTemp: "درجة الحرارة", insightCrowd: "مستوى الازدحام", insightHumidity: "الرطوبة", insightAir: "جودة الهواء",
@@ -276,11 +274,12 @@
                 catReligiousOverlay: "المواقع المقدسة", catReligiousTitle: "⛪ المواقع الدينية", catReligiousDesc: "اتبع المسارات الدينية إلى جبل نيبو، والمغطس، وغيرها من المواقع المقدسة ذات الأهمية الروحية.",
                 catAdventureOverlay: "المغامرة تنتظرك", catAdventureTitle: "🏔️ رياضات المغامرة", catAdventureDesc: "جرب مغامرات مثيرة من ركوب المنطاد فوق وادي رم إلى الغوص في البحر الأحمر في العقبة.",
                 footerSlogan: "رفيقك الذكي لاستكشاف عجائب الأردن",
-                footerPrivacy: "سياسة الخصوصية", footerTerms: "شروط الخدمة", footerContact: "اتصل بنا", footerRights: "© 2025 الأردن الذكي. جميع الحقوق محفوظة.",
-                modalNatureTitle: "🌿 مغامرات في الطبيعة", modalNatureText: "تقدم المناظر الطبيعية في الأردن بعضًا من أروع التجارب في العالم. من رمال وادي رم الحمراء إلى مياه البحر الميت العلاجية.", modalNature1: "التحديق في النجوم في سماء وادي رم الصافية", modalNature2: "الطفو في مياه البحر الميت الغنية بالمعادن", modalNature3: "التنزه في محمية ضانا", modalNature4: "مشاهدة الطيور في محمية الأزرق", modalBtnBook: "حجز جولة طبيعية",
+                footerPrivacy: "سياسة الخصوصية", footerTerms: "شروط الخدمة", footerContact: "اتصل بنا", footerRights: "© 2025 SmartTour.JO. جميع الحقوق محفوظة.",
+                modalNatureTitle: "🌿 مغامرات في الطبيعة", modalNatureText: "تقدم المناظر الطبيعية في الأردن بعضًا من أروع التجارب في العالم. من رمال وادي رم الحمراء إلى مياه البحر الميت العلاجية.", modalNature1: "التحديق في النجوم في سماء وادي رم الصافية", modalNature2: "الطفو في مياه البحر الميت الغنية بالمعادن", modalNature3: "التنزه في محمية ضانا", modalNature4: "مشاهدة الطيور في محمية الأزرق", modalBtnBookNature: "حجز جولة طبيعية",
                 modalCultureTitle: "🏛️ التراث الثقافي", modalCultureText: "تمتد كنوز الأردن الثقافية لآلاف السنين، من مدينة البتراء الوردية إلى آثار جرش الرومانية المحفوظة بشكل رائع.", modalCulture1: "المشي عبر الخزنة والدير في البتراء", modalCulture2: "استكشاف شوارع جرش ذات الأعمدة", modalCulture3: "تجربة الضيافة البدوية الأصيلة", modalCulture4: "زيارة قلعة عمان القديمة", modalBtnBookCulture: "حجز جولة ثقافية",
                 modalReligiousTitle: "⛪ المواقع الدينية", modalReligiousText: "يحمل الأردن أهمية روحية عميقة لثلاث ديانات عالمية كبرى. استمتع برحلات روحانية عميقة في أماكن طبيعية خلابة.", modalReligious1: "الوقوف على جبل نيبو حيث رأى موسى الأرض الموعودة", modalReligious2: "زيارة موقع عماد السيد المسيح", modalReligious3: "رؤية فسيفساء خريطة مادبا القديمة", modalReligious4: "استكشاف قلعة مكاور", modalBtnBookReligious: "حجز جولة دينية",
-                modalAdventureTitle: "🏔️ رياضات المغامرة", modalAdventureText: "يقدم الأردن تجارب مغامرات عالمية المستوى للباحثين عن الإثارة. من التحليق فوق المناظر الطبيعية الخلابة إلى الغوص في المياه الغنية بالشعاب المرجانية.", modalAdventure1: "رحلات المنطاد فوق وادي رم عند شروق الشمس", modalAdventure2: "التخييم الليلي في الصحراء مع مرشدين بدو", modalAdventure3: "الغوص والغطس عالمي المستوى في العقبة", modalAdventure4: "مغامرات استكشاف الأودية في الوديان النائية", modalBtnBookAdventure: "حجز جولة مغامرات"
+                modalAdventureTitle: "🏔️ رياضات المغامرة", modalAdventureText: "يقدم الأردن تجارب مغامرات عالمية المستوى للباحثين عن الإثارة. من التحليق فوق المناظر الطبيعية الخلابة إلى الغوص في المياه الغنية بالشعاب المرجانية.", modalAdventure1: "رحلات المنطاد فوق وادي رم عند شروق الشمس", modalAdventure2: "التخييم الليلي في الصحراء مع مرشدين بدو", modalAdventure3: "الغوص والغطس عالمي المستوى في العقبة", modalAdventure4: "مغامرات استكشاف الأودية في الوديان النائية", modalBtnBookAdventure: "حجز جولة مغامرات",
+                petraPopup: "البتراء - المدينة الوردية", jerashPopup: "جرش - مدينة رومانية قديمة", wadiRumPopup: "وادي رم - وادي القمر", yourLocationPopup: "<b>موقعك الحالي</b>", welcomePopup: "مرحباً بك في الأردن!"
             }
         };
 
@@ -292,7 +291,7 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 if (translations[language] && translations[language][key]) {
-                    element.textContent = translations[language][key];
+                    element.innerHTML = translations[language][key];
                 }
             });
 
@@ -306,12 +305,12 @@
             document.getElementById('lang-ar').classList.toggle('active', language === 'ar');
             document.getElementById('lang-en').classList.toggle('active', language === 'en');
             
-            // Re-initialize map to update pop-up languages if it exists
             if (window.mapInstance) {
                 window.mapInstance.eachLayer(function (layer) {
-                    if (layer instanceof L.Marker) {
-                        const newPopupContent = translations[language][layer.options.translationKey] || layer.options.title;
-                        layer.bindPopup(newPopupContent);
+                    if (layer instanceof L.Marker && layer.options.translationKey) {
+                        const key = layer.options.translationKey;
+                        const popupText = translations[language][key] || layer.options.title;
+                        layer.bindPopup(popupText);
                     }
                 });
             }
@@ -328,39 +327,31 @@
             const defaultCenter = [31.0, 36.5];
             const defaultZoom = 7;
             const map = L.map('map').setView(defaultCenter, defaultZoom);
-            window.mapInstance = map; // Store map instance globally for language switcher
+            window.mapInstance = map; 
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Add markers with translation keys
-            L.marker([30.3285, 35.4444], { title: "Petra - The Rose City", translationKey: "petraPopup" }).addTo(map).bindPopup("البتراء - المدينة الوردية");
-            L.marker([32.2811, 35.8467], { title: "Jerash - Ancient Roman City", translationKey: "jerashPopup" }).addTo(map).bindPopup("جرش - مدينة رومانية قديمة");
-            L.marker([29.5792, 35.0097], { title: "Wadi Rum - Valley of the Moon", translationKey: "wadiRumPopup" }).addTo(map).bindPopup("وادي رم - وادي القمر");
+            L.marker([30.3285, 35.4444], { title: "Petra - The Rose City", translationKey: "petraPopup" }).addTo(map);
+            L.marker([32.2811, 35.8467], { title: "Jerash - Ancient Roman City", translationKey: "jerashPopup" }).addTo(map);
+            L.marker([29.5792, 35.0097], { title: "Wadi Rum - Valley of the Moon", translationKey: "wadiRumPopup" }).addTo(map);
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         const userLocation = [position.coords.latitude, position.coords.longitude];
                         map.setView(userLocation, 13);
-                        L.marker(userLocation, { translationKey: "yourLocationPopup" }).addTo(map)
-                            .bindPopup("<b>موقعك الحالي</b>")
-                            .openPopup();
+                        L.marker(userLocation, { translationKey: "yourLocationPopup" }).addTo(map).bindPopup("<b>موقعك الحالي</b>").openPopup();
                     },
-                    () => { // Error callback
+                    () => { 
                         console.log("Geolocation failed. Defaulting to Jordan view.");
-                        L.marker(defaultCenter, { translationKey: "welcomePopup" }).addTo(map)
-                            .bindPopup("مرحباً بك في الأردن!");
                     }
                 );
             } else {
                 console.log("Geolocation is not supported by this browser.");
-                L.marker(defaultCenter, { translationKey: "welcomePopup" }).addTo(map)
-                    .bindPopup("مرحباً بك في الأردن!");
             }
 
-            // Invalidate size after a short delay to ensure it renders correctly
             setTimeout(() => map.invalidateSize(), 400);
 
         } else {
@@ -370,12 +361,9 @@
         // ===============================================
         // =========== 3. OTHER PAGE SCRIPTS =============
         // ===============================================
-        
-        // Load initial language from storage or default to Arabic
         const savedLang = localStorage.getItem('language') || 'ar';
         setLanguage(savedLang);
         
-        // Navigation scroll highlighting
         window.addEventListener('scroll', () => {
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -395,7 +383,6 @@
             });
         });
 
-        // Live Environment Insights
         function updateInsights() {
             const lang = document.documentElement.lang || 'ar';
             const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] };
@@ -412,7 +399,6 @@
         updateInsights();
         setInterval(updateInsights, 5000);
 
-        // Category Modals
         const categoryCards = document.querySelectorAll('.category-card');
         categoryCards.forEach(card => {
             card.addEventListener('click', () => {
@@ -421,7 +407,7 @@
                 const modal = document.getElementById(modalId);
                 if (modal) {
                     modal.style.display = 'block';
-                    setLanguage(document.documentElement.lang); // Refresh modal text
+                    setLanguage(document.documentElement.lang); 
                 }
             });
         });
@@ -437,7 +423,6 @@
             }
         });
 
-        // Back to Top Button
         const backToTopBtn = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 300) {
@@ -450,7 +435,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Smooth scrolling for navigation links
         document.querySelectorAll('a.nav-link[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -462,14 +446,13 @@
             });
         });
 
-        // Chatbot Logic
         const systemPrompt = `
-            You are "Smart Jordan Guide", an expert and enthusiastic tour guide for Jordan. Your job is to help tourists plan their trips within Jordan ONLY.
+            You are "SmartTour.JO AI Assistant", an expert and enthusiastic tour guide for Jordan. Your job is to help tourists plan their trips within Jordan ONLY.
             Your rules:
-            1.  Specialization: Your knowledge is limited to tourism in Jordan only.
-            2.  Itineraries: When a plan is requested, build it with clear points. If the question is general, ask for details (number of days, interests).
-            3.  External questions: If asked about something outside of Jordanian tourism, politely decline.
-            4.  Tone: Use a clear and welcoming Arabic dialect.
+            1. Specialization: Your knowledge is limited to tourism in Jordan only.
+            2. Itineraries: When a plan is requested, build it with clear points. If the question is general, ask for details (number of days, interests).
+            3. External questions: If asked about something outside of Jordanian tourism, politely decline.
+            4. Tone: Use a clear and welcoming Arabic dialect.
         `;
         let chatHistory = [];
         const chatWindow = document.getElementById('chatWindow');
@@ -505,7 +488,7 @@
 
             appendMessage(userInput, 'user');
 
-            if (chatHistory.length === 0 || (chatHistory.length > 0 && chatHistory[0].role !== 'user' && chatHistory[0].parts[0].text !== systemPrompt)) {
+            if (chatHistory.length === 0 || (chatHistory[0].role !== 'user' && chatHistory[0].parts[0].text !== systemPrompt)) {
                chatHistory.unshift({ role: 'user', parts: [{ text: systemPrompt }] });
             }
 
@@ -551,8 +534,8 @@
                 inputElement.focus();
             }
         }
+
     });
     </script>
 </body>
-
 </html>
