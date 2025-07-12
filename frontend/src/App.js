@@ -805,42 +805,140 @@ const App = () => {
         </div>
       )}
 
-      {/* Interactive Map Section */}
-      <section ref={mapRef} id="map" className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Interactive Jordan Map Section */}
+      <section ref={mapRef} id="map" className={`py-20 bg-gray-900 relative overflow-hidden transition-all duration-1000 ${isVisible.map ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}>
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-indigo-500/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              Interactive Map
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent font-poppins">
+              Explore Jordan Interactive Map
             </h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-              Explore Jordan's attractions with our smart interactive map
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter">
+              Discover Jordan's magnificent destinations with our interactive map featuring all major tourist attractions
             </p>
           </div>
           
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50">
-            <div className="h-96 bg-gray-700/50 rounded-xl flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Map Integration Ready</h3>
-                <p className="text-gray-300 mb-4">Connect your preferred mapping service</p>
-                <div className="flex flex-col sm:flex-row gap-2 justify-center">
-                  <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
-                    Google Maps
-                  </button>
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
-                    Leaflet.js
-                  </button>
-                  <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
-                    Custom Map
-                  </button>
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Map Container */}
+            <div className="lg:col-span-2">
+              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-500 shadow-2xl hover:shadow-purple-500/10">
+                <div className="relative h-96 lg:h-[500px] rounded-xl overflow-hidden">
+                  <MapContainer
+                    center={[31.2397, 35.2305]} // Center of Jordan
+                    zoom={7}
+                    style={{ height: '100%', width: '100%', borderRadius: '12px' }}
+                    className="z-10"
+                  >
+                    <TileLayer
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    
+                    {jordanDestinations.map((destination) => (
+                      <Marker
+                        key={destination.id}
+                        position={destination.position}
+                        icon={createCustomIcon(destination.type, destination.icon)}
+                      >
+                        <Popup className="custom-popup">
+                          <div className="p-2 min-w-[250px]">
+                            <div className="flex items-center mb-2">
+                              <span className="text-2xl mr-2">{destination.icon}</span>
+                              <h3 className="font-bold text-lg text-gray-800">{destination.name}</h3>
+                            </div>
+                            <p className="text-gray-600 mb-2 font-medium">{destination.description}</p>
+                            <p className="text-sm text-gray-500 mb-3">{destination.details}</p>
+                            <div className="flex items-center justify-between">
+                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                destination.type === 'historical' ? 'bg-amber-100 text-amber-800' :
+                                destination.type === 'nature' ? 'bg-green-100 text-green-800' :
+                                destination.type === 'religious' ? 'bg-purple-100 text-purple-800' :
+                                'bg-blue-100 text-blue-800'
+                              }`}>
+                                {destination.type.charAt(0).toUpperCase() + destination.type.slice(1)}
+                              </span>
+                              <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded-full text-xs font-medium hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
+                                Learn More
+                              </button>
+                            </div>
+                          </div>
+                        </Popup>
+                        <Tooltip direction="top" offset={[0, -10]} opacity={0.9}>
+                          <div className="text-center">
+                            <div className="text-lg mb-1">{destination.icon}</div>
+                            <div className="font-semibold">{destination.name}</div>
+                          </div>
+                        </Tooltip>
+                      </Marker>
+                    ))}
+                  </MapContainer>
+                  
+                  {/* Map Overlay Controls */}
+                  <div className="absolute top-4 right-4 z-[1000] space-y-2">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-lg p-2 shadow-lg">
+                      <div className="text-xs font-medium text-gray-700 mb-1">Legend</div>
+                      <div className="space-y-1 text-xs">
+                        <div className="flex items-center"><span className="mr-1">🏛️</span> Historical</div>
+                        <div className="flex items-center"><span className="mr-1">🌊</span> Nature</div>
+                        <div className="flex items-center"><span className="mr-1">⛰️</span> Religious</div>
+                        <div className="flex items-center"><span className="mr-1">🏙️</span> Cities</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            
+            {/* Destinations List */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-white mb-4 font-poppins">Featured Destinations</h3>
+              <div className="space-y-3 max-h-[500px] overflow-y-auto custom-scrollbar">
+                {jordanDestinations.map((destination, index) => (
+                  <div 
+                    key={destination.id}
+                    className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 cursor-pointer animate-fade-in-up"
+                    style={{animationDelay: `${index * 0.1}s`}}
+                  >
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-3">{destination.icon}</span>
+                      <div>
+                        <h4 className="text-white font-semibold">{destination.name}</h4>
+                        <span className={`text-xs px-2 py-1 rounded-full ${
+                          destination.type === 'historical' ? 'bg-amber-600/20 text-amber-400' :
+                          destination.type === 'nature' ? 'bg-green-600/20 text-green-400' :
+                          destination.type === 'religious' ? 'bg-purple-600/20 text-purple-400' :
+                          'bg-blue-600/20 text-blue-400'
+                        }`}>
+                          {destination.type}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-gray-300 text-sm leading-relaxed">{destination.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* Map Statistics */}
+          <div className="grid md:grid-cols-4 gap-6 mt-16">
+            {[
+              { label: 'UNESCO Sites', value: '5', icon: '🏛️', color: 'text-amber-400' },
+              { label: 'Natural Reserves', value: '3', icon: '🌿', color: 'text-green-400' },
+              { label: 'Historical Sites', value: '15+', icon: '📿', color: 'text-purple-400' },
+              { label: 'Adventure Spots', value: '8', icon: '🏕️', color: 'text-blue-400' }
+            ].map((stat, index) => (
+              <div key={index} className="text-center bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700/30 hover:border-purple-500/50 transition-all duration-500 transform hover:scale-105 animate-fade-in-up" style={{animationDelay: `${index * 0.1}s`}}>
+                <div className="text-3xl mb-2">{stat.icon}</div>
+                <div className={`text-2xl font-bold mb-1 ${stat.color}`}>{stat.value}</div>
+                <div className="text-gray-300 text-sm">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
