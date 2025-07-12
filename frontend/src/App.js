@@ -5,6 +5,119 @@ import "./App.css";
 import 'leaflet/dist/leaflet.css';
 
 const App = () => {
+  // Fix for default Leaflet markers
+  delete L.Icon.Default.prototype._getIconUrl;
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+  });
+
+  // Jordan tourist destinations
+  const jordanDestinations = [
+    {
+      id: 'petra',
+      name: 'Petra',
+      position: [30.3285, 35.4444],
+      description: 'The ancient rose-red city carved into cliffs by the Nabataeans',
+      type: 'historical',
+      icon: '🏛️',
+      details: 'UNESCO World Heritage Site and one of the New Seven Wonders of the World'
+    },
+    {
+      id: 'wadi-rum',
+      name: 'Wadi Rum',
+      position: [29.5759, 35.4208],
+      description: 'Dramatic desert landscape known as the Valley of the Moon',
+      type: 'nature',
+      icon: '🏜️',
+      details: 'Protected desert wilderness with stunning red sand formations'
+    },
+    {
+      id: 'dead-sea',
+      name: 'Dead Sea',
+      position: [31.5553, 35.4732],
+      description: 'The lowest point on Earth with therapeutic mineral-rich waters',
+      type: 'nature',
+      icon: '🌊',
+      details: 'Famous for its high salt content allowing effortless floating'
+    },
+    {
+      id: 'jerash',
+      name: 'Jerash',
+      position: [32.2814, 35.8936],
+      description: 'Remarkably preserved Roman ruins and ancient city',
+      type: 'historical',
+      icon: '🏛️',
+      details: 'One of the best-preserved Roman provincial towns in the world'
+    },
+    {
+      id: 'amman',
+      name: 'Amman',
+      position: [31.9454, 35.9284],
+      description: 'Modern capital city blending ancient history with contemporary culture',
+      type: 'city',
+      icon: '🏙️',
+      details: 'Jordan\'s bustling capital with ancient citadel and Roman amphitheater'
+    },
+    {
+      id: 'aqaba',
+      name: 'Aqaba',
+      position: [29.5328, 34.9439],
+      description: 'Red Sea resort town famous for diving and coral reefs',
+      type: 'nature',
+      icon: '🏖️',
+      details: 'Gateway to spectacular underwater world and coral gardens'
+    },
+    {
+      id: 'mount-nebo',
+      name: 'Mount Nebo',
+      position: [31.7690, 35.7272],
+      description: 'Sacred biblical site where Moses viewed the Promised Land',
+      type: 'religious',
+      icon: '⛰️',
+      details: 'Holy mountain with panoramic views and ancient mosaics'
+    },
+    {
+      id: 'dana-reserve',
+      name: 'Dana Biosphere Reserve',
+      position: [30.6774, 35.6270],
+      description: 'Jordan\'s largest nature reserve with diverse ecosystems',
+      type: 'nature',
+      icon: '🌿',
+      details: 'Home to rare wildlife and stunning canyon landscapes'
+    }
+  ];
+
+  // Custom marker icons for different types
+  const createCustomIcon = (type, emoji) => {
+    const iconHtml = `
+      <div style="
+        background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50% 50% 50% 0;
+        border: 3px solid white;
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        transform: rotate(-45deg);
+        position: relative;
+      ">
+        <span style="transform: rotate(45deg); filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));">${emoji}</span>
+      </div>
+    `;
+    
+    return L.divIcon({
+      html: iconHtml,
+      className: 'custom-marker',
+      iconSize: [40, 40],
+      iconAnchor: [20, 35],
+      popupAnchor: [0, -35]
+    });
+  };
   const [sensorData, setSensorData] = useState({
     temperature: 28,
     humidity: 45,
