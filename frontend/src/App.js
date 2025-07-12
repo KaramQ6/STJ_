@@ -391,105 +391,145 @@ const App = () => {
         </div>
       </section>
 
-      {/* Enhanced Floating Chatbot */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <div className="bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-700/30 w-80 h-96 flex flex-col overflow-hidden group hover:shadow-purple-500/20 transition-all duration-500">
-          {/* Enhanced header */}
-          <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-blue-600 p-4 flex items-center justify-between relative overflow-hidden">
-            {/* Animated background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 animate-pulse"></div>
-            
-            <div className="flex items-center space-x-3 relative z-10">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30 shadow-lg">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-white font-semibold text-lg font-poppins">Smart Guide</h3>
-                <div className="flex items-center space-x-1">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <p className="text-white/90 text-sm font-inter">AI Assistant Online</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Chat controls */}
-            <div className="flex items-center space-x-2 relative z-10">
-              <button className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-          </div>
+      {/* Modern Messaging Interface Chatbot */}
+      <div className="fixed bottom-6 right-6 z-50 group">
+        <div className={`bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 transition-all duration-500 overflow-hidden ${chatbotLoaded ? 'w-96 h-[32rem]' : 'w-80 h-20'} hover:shadow-purple-500/20`}>
           
-          {/* Chat area */}
-          <div className="flex-1 relative bg-gradient-to-b from-gray-800/50 to-gray-900/80">
-            {chatbotLoaded ? (
-              <iframe
-                src="about:blank"
-                className="w-full h-full border-none"
-                title="Smart Jordan AI Assistant"
-                sandbox="allow-scripts allow-same-origin"
-              />
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
-                {/* Avatar */}
+          {!chatbotLoaded ? (
+            /* Compact Chat Trigger */
+            <div 
+              onClick={() => setChatbotLoaded(true)}
+              className="flex items-center justify-between p-4 cursor-pointer group-hover:bg-white/5 transition-all duration-300"
+            >
+              <div className="flex items-center space-x-3">
                 <div className="relative">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center shadow-xl">
-                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                   </div>
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-gray-800 animate-pulse"></div>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
                 </div>
-                
-                {/* Welcome message */}
-                <div className="text-center space-y-2">
-                  <p className="text-white font-semibold text-lg font-poppins">Welcome to Smart Jordan!</p>
-                  <p className="text-gray-300 text-sm font-inter leading-relaxed">
-                    I'm your AI travel assistant, ready to help you explore Jordan's amazing destinations.
-                  </p>
+                <div>
+                  <h3 className="text-white font-semibold text-lg font-poppins">Smart Guide</h3>
+                  <p className="text-white/70 text-sm font-inter">Click to chat</p>
                 </div>
-                
-                {/* Quick actions */}
-                <div className="grid grid-cols-2 gap-2 w-full">
-                  <button className="bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 text-purple-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 backdrop-blur-sm">
-                    🗺️ Plan Trip
-                  </button>
-                  <button className="bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 backdrop-blur-sm">
-                    🏛️ Explore Sites
-                  </button>
-                </div>
-                
-                {/* Start button */}
-                <button
-                  onClick={() => setChatbotLoaded(true)}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25 font-inter"
-                >
-                  Start Conversation
-                </button>
               </div>
-            )}
-          </div>
-          
-          {/* Input area (when loaded) */}
-          {chatbotLoaded && (
-            <div className="p-3 bg-gray-800/80 backdrop-blur-sm border-t border-gray-700/50">
-              <div className="flex items-center space-x-2">
-                <input 
-                  type="text" 
-                  placeholder="Ask me anything about Jordan..."
-                  className="flex-1 bg-gray-700/50 border border-gray-600/50 rounded-2xl px-4 py-2 text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent backdrop-blur-sm"
-                />
-                <button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg">
+              <svg className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          ) : (
+            /* Full Chat Interface */
+            <>
+              {/* Chat Header */}
+              <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-blue-600 p-4 flex items-center justify-between relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 animate-pulse"></div>
+                
+                <div className="flex items-center space-x-3 relative z-10">
+                  <div className="relative">
+                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30 shadow-lg">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-purple-600 animate-pulse"></div>
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold text-lg font-poppins">Smart Jordan AI</h3>
+                    <div className="flex items-center space-x-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <p className="text-white/90 text-sm font-inter">Online • Ready to help</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <button 
+                  onClick={() => setChatbotLoaded(false)}
+                  className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors relative z-10"
+                >
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
-            </div>
+              
+              {/* Chat Messages Area */}
+              <div className="flex-1 p-4 space-y-4 bg-gradient-to-b from-gray-900/80 to-black/80 h-80 overflow-y-auto">
+                {/* Welcome Message */}
+                <div className="flex items-start space-x-3 animate-fade-in-up">
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-2xl rounded-tl-sm p-3 shadow-lg border border-white/10">
+                      <p className="text-white text-sm font-inter leading-relaxed">
+                        👋 Welcome to Smart Jordan! I'm your AI travel assistant. Ask me anything about Jordan's attractions, best travel times, local customs, or get personalized recommendations!
+                      </p>
+                    </div>
+                    <p className="text-white/50 text-xs mt-1 font-inter">Just now</p>
+                  </div>
+                </div>
+                
+                {/* Suggested Quick Actions */}
+                <div className="space-y-2 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+                  <p className="text-white/70 text-sm font-inter">Quick suggestions:</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button className="bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 text-purple-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 backdrop-blur-sm text-left">
+                      🗺️ Plan my trip to Petra
+                    </button>
+                    <button className="bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 backdrop-blur-sm text-left">
+                      🏛️ Explore historical sites
+                    </button>
+                    <button className="bg-green-600/20 hover:bg-green-600/30 border border-green-500/30 text-green-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 backdrop-blur-sm text-left">
+                      🌊 Dead Sea activities
+                    </button>
+                    <button className="bg-yellow-600/20 hover:bg-yellow-600/30 border border-yellow-500/30 text-yellow-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 backdrop-blur-sm text-left">
+                      🏜️ Wadi Rum adventures
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Typing indicator */}
+                <div className="flex items-center space-x-2 opacity-70">
+                  <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Message Input */}
+              <div className="p-4 bg-gray-800/80 backdrop-blur-sm border-t border-white/10">
+                <div className="flex items-center space-x-3">
+                  <div className="flex-1 relative">
+                    <input 
+                      type="text" 
+                      placeholder="Ask me anything about Jordan..."
+                      className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent backdrop-blur-sm font-inter"
+                    />
+                    <button className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 text-white/60 hover:text-white transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                      </svg>
+                    </button>
+                  </div>
+                  <button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </>
           )}
         </div>
       </div>
