@@ -69,13 +69,13 @@ class BackendTester:
     def test_cors_headers(self):
         """Test CORS configuration"""
         try:
-            response = requests.options(f"{BACKEND_URL}/", timeout=10)
-            headers = response.headers
+            # Test with Origin header to trigger CORS response
+            headers = {'Origin': 'http://localhost:3000'}
+            response = requests.get(f"{BACKEND_URL}/", headers=headers, timeout=10)
             
             cors_headers = {
-                'Access-Control-Allow-Origin': headers.get('Access-Control-Allow-Origin'),
-                'Access-Control-Allow-Methods': headers.get('Access-Control-Allow-Methods'),
-                'Access-Control-Allow-Headers': headers.get('Access-Control-Allow-Headers')
+                'Access-Control-Allow-Origin': response.headers.get('Access-Control-Allow-Origin'),
+                'Access-Control-Allow-Credentials': response.headers.get('Access-Control-Allow-Credentials')
             }
             
             if cors_headers['Access-Control-Allow-Origin']:
@@ -84,7 +84,7 @@ class BackendTester:
                 return True
             else:
                 self.log_test("CORS Configuration", False, 
-                            f"CORS headers missing or incomplete: {cors_headers}")
+                            f"CORS headers missing: {cors_headers}")
                 return False
         except requests.exceptions.RequestException as e:
             self.log_test("CORS Configuration", False, f"Error testing CORS: {str(e)}")
