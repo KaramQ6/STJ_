@@ -239,6 +239,26 @@ p {
   animation: slideInFromBottom 0.6s ease-out;
 }
 
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.6s ease-out;
+}
+
+.animate-slide-in-top {
+  animation: slideInFromTop 0.6s ease-out;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-data-update {
+  animation: dataUpdate 0.3s ease-in-out;
+}
+
 /* Line clamp utility */
 .line-clamp-2 {
   display: -webkit-box;
