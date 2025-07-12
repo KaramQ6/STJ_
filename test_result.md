@@ -246,16 +246,19 @@ test_plan:
   test_priority: "high_first"
 
   - task: "Interactive Map Implementation"
-    implemented: false
-    working: "NA"
+    implemented: true
+    working: true
     file: "/app/frontend/src/App.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Starting implementation of interactive Jordan map with Leaflet.js to replace placeholder map section. Installing react-leaflet dependencies."
+        - working: true
+          agent: "main"
+          comment: "Successfully implemented interactive Jordan map with Leaflet.js featuring: 1) Full OpenStreetMap integration 2) 8 Jordan tourist destinations with custom markers 3) Interactive popups with destination details 4) Hover tooltips 5) Legend overlay 6) Destinations sidebar list 7) Map statistics section 8) Premium styling matching website theme 9) Custom CSS animations and responsive design. Map displays correctly and loads without errors."
 
 agent_communication:
     - agent: "main"
