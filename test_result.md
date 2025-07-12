@@ -236,6 +236,7 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Interactive Map Implementation"
     - "UI Enhancement - Premium Chatbot Interface"
     - "Final UI Polish and Verification"
     - "Comprehensive Testing and Validation"
