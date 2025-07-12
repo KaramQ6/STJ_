@@ -534,40 +534,66 @@ const App = () => {
         </div>
       </div>
 
-      {/* Features Section */}
-      <section ref={featuresRef} id="features" className="py-20 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+      {/* Enhanced Features Section */}
+      <section ref={featuresRef} id="features" className="py-20 bg-gray-900 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-purple-500/10 to-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className={`text-center mb-16 transition-all duration-1000 ${isVisible.features ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent font-poppins">
               Smart Features for Smart Travelers
             </h2>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto font-inter">
               Experience Jordan like never before with AI-powered recommendations and real-time insights
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className={`grid md:grid-cols-3 gap-8 transition-all duration-1000 ${isVisible.features ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`} style={{animationDelay: '0.3s'}}>
             {[
               {
                 icon: "🤖",
                 title: "AI Itinerary Suggestions",
-                description: "Get personalized travel plans based on your preferences, time, and interests"
+                description: "Get personalized travel plans based on your preferences, time, and interests",
+                gradient: "from-purple-500/20 to-purple-700/20",
+                borderColor: "border-purple-500/30",
+                hoverGlow: "hover:shadow-purple-500/20"
               },
               {
                 icon: "🥽",
                 title: "AR Views",
-                description: "Augmented reality experiences that bring historical sites to life"
+                description: "Augmented reality experiences that bring historical sites to life",
+                gradient: "from-blue-500/20 to-blue-700/20",
+                borderColor: "border-blue-500/30",
+                hoverGlow: "hover:shadow-blue-500/20"
               },
               {
                 icon: "📊",
                 title: "IoT Sensors",
-                description: "Real-time data on weather, crowds, and optimal visiting times"
+                description: "Real-time data on weather, crowds, and optimal visiting times",
+                gradient: "from-indigo-500/20 to-indigo-700/20",
+                borderColor: "border-indigo-500/30",
+                hoverGlow: "hover:shadow-indigo-500/20"
               }
             ].map((feature, index) => (
-              <div key={index} className="group bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 hover:bg-gray-800/70 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border border-gray-700/50 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/10">
-                <div className="text-5xl mb-6 transform group-hover:scale-110 transition-transform duration-300">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-4 text-white group-hover:text-purple-300 transition-colors">{feature.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{feature.description}</p>
+              <div key={index} className={`group bg-gradient-to-br ${feature.gradient} backdrop-blur-sm rounded-2xl p-8 hover:bg-gradient-to-br hover:from-gray-800/70 hover:to-gray-900/70 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border ${feature.borderColor} ${feature.hoverGlow} hover:shadow-2xl relative overflow-hidden animate-fade-in-up`} style={{animationDelay: `${0.1 * index}s`}}>
+                
+                {/* Hover overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                
+                <div className="relative z-10">
+                  <div className="text-5xl mb-6 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">{feature.icon}</div>
+                  <h3 className="text-xl font-semibold mb-4 text-white group-hover:text-purple-300 transition-colors font-poppins">{feature.title}</h3>
+                  <p className="text-gray-300 leading-relaxed font-inter group-hover:text-gray-200 transition-colors">{feature.description}</p>
+                  
+                  {/* Progress indicator */}
+                  <div className="mt-6 w-full bg-gray-700/50 rounded-full h-1 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className={`h-full bg-gradient-to-r ${feature.gradient.replace('/20', '')} transition-all duration-1000 ease-out group-hover:w-full`} style={{width: '0%'}}></div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
