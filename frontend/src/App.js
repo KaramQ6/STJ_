@@ -300,25 +300,41 @@ const App = () => {
         </div>
       </section>
 
-      {/* Floating Chatbot */}
+      {/* Enhanced Floating Chatbot */}
       <div className="fixed bottom-6 right-6 z-50">
-        <div className="bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-700/50 w-80 h-96 flex flex-col overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-4 flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+        <div className="bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-700/30 w-80 h-96 flex flex-col overflow-hidden group hover:shadow-purple-500/20 transition-all duration-500">
+          {/* Enhanced header */}
+          <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-blue-600 p-4 flex items-center justify-between relative overflow-hidden">
+            {/* Animated background */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 animate-pulse"></div>
+            
+            <div className="flex items-center space-x-3 relative z-10">
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30 shadow-lg">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
               <div>
-                <h3 className="text-white font-semibold">Smart Guide</h3>
-                <p className="text-white/80 text-sm">AI Assistant Ready</p>
+                <h3 className="text-white font-semibold text-lg font-poppins">Smart Guide</h3>
+                <div className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <p className="text-white/90 text-sm font-inter">AI Assistant Online</p>
+                </div>
               </div>
+            </div>
+            
+            {/* Chat controls */}
+            <div className="flex items-center space-x-2 relative z-10">
+              <button className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
           </div>
           
-          {/* Iframe Container for Real Chatbot */}
-          <div className="flex-1 relative">
+          {/* Chat area */}
+          <div className="flex-1 relative bg-gradient-to-b from-gray-800/50 to-gray-900/80">
             {chatbotLoaded ? (
               <iframe
                 src="about:blank"
@@ -327,24 +343,63 @@ const App = () => {
                 sandbox="allow-scripts allow-same-origin"
               />
             ) : (
-              <div className="flex items-center justify-center h-full bg-gray-800">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
+                {/* Avatar */}
+                <div className="relative">
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center shadow-xl">
+                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                     </svg>
                   </div>
-                  <p className="text-gray-300 text-sm mb-2">AI Assistant Ready</p>
-                  <button
-                    onClick={() => setChatbotLoaded(true)}
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
-                  >
-                    Load Chatbot
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-gray-800 animate-pulse"></div>
+                </div>
+                
+                {/* Welcome message */}
+                <div className="text-center space-y-2">
+                  <p className="text-white font-semibold text-lg font-poppins">Welcome to Smart Jordan!</p>
+                  <p className="text-gray-300 text-sm font-inter leading-relaxed">
+                    I'm your AI travel assistant, ready to help you explore Jordan's amazing destinations.
+                  </p>
+                </div>
+                
+                {/* Quick actions */}
+                <div className="grid grid-cols-2 gap-2 w-full">
+                  <button className="bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 text-purple-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 backdrop-blur-sm">
+                    🗺️ Plan Trip
+                  </button>
+                  <button className="bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 backdrop-blur-sm">
+                    🏛️ Explore Sites
                   </button>
                 </div>
+                
+                {/* Start button */}
+                <button
+                  onClick={() => setChatbotLoaded(true)}
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25 font-inter"
+                >
+                  Start Conversation
+                </button>
               </div>
             )}
           </div>
+          
+          {/* Input area (when loaded) */}
+          {chatbotLoaded && (
+            <div className="p-3 bg-gray-800/80 backdrop-blur-sm border-t border-gray-700/50">
+              <div className="flex items-center space-x-2">
+                <input 
+                  type="text" 
+                  placeholder="Ask me anything about Jordan..."
+                  className="flex-1 bg-gray-700/50 border border-gray-600/50 rounded-2xl px-4 py-2 text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-transparent backdrop-blur-sm"
+                />
+                <button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg">
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
