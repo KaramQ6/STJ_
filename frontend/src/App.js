@@ -295,19 +295,61 @@ const App = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Enhanced Hero Section with Dynamic Background */}
       <section ref={heroRef} id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/40 to-blue-900/40 z-10"></div>
+        {/* Animated Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/60 via-blue-900/40 to-indigo-900/60 z-10 animate-pulse"></div>
+        
+        {/* Dynamic Background Image with Parallax Effect */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105 transition-transform duration-700 hover:scale-110"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-105 transition-transform duration-1000 parallax"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1712323028707-6e59c3d2271a')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1712323028707-6e59c3d2271a')`,
+            transform: `translateY(${scrollProgress * 0.5}px) scale(1.1)`
           }}
         ></div>
         
-        <div className="relative z-20 text-center px-4 sm:px-6 lg:px-8">
+        {/* Floating Geometric Elements */}
+        <div className="absolute inset-0 z-15">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-full blur-xl animate-float"></div>
+          <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-full blur-lg animate-float" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-br from-indigo-500/15 to-purple-500/15 rounded-full blur-2xl animate-float" style={{animationDelay: '2s'}}></div>
+        </div>
+        
+        {/* Interactive Jordan Map Illustration */}
+        <div className="absolute right-10 top-1/2 transform -translate-y-1/2 z-20 hidden lg:block">
+          <div className="relative w-64 h-64 opacity-30 hover:opacity-50 transition-opacity duration-500 group">
+            {/* Map Container */}
+            <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl backdrop-blur-sm border border-white/10 p-6 group-hover:scale-105 transition-transform duration-500">
+              <div className="text-white/80 text-center">
+                <div className="text-4xl mb-2">🗺️</div>
+                <div className="text-sm font-inter">Interactive Jordan Map</div>
+                <div className="mt-4 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span>📍 Petra</span>
+                    <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span>🏛️ Jerash</span>
+                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span>🌊 Dead Sea</span>
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span>🏜️ Wadi Rum</span>
+                    <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className={`relative z-20 text-center px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible.home ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}>
           <div className="animate-fade-in-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight font-poppins tracking-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight font-poppins tracking-tight animate-glow">
               Explore Jordan Smarter
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl mb-8 text-gray-200 max-w-4xl mx-auto leading-relaxed font-inter font-light">
@@ -316,7 +358,7 @@ const App = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button 
                 onClick={() => scrollToSection('features')}
-                className="group bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-purple-500/25 font-inter relative overflow-hidden"
+                className="group bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-purple-500/30 font-inter relative overflow-hidden"
               >
                 <span className="relative z-10 flex items-center">
                   <svg className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -338,6 +380,13 @@ const App = () => {
                 </span>
               </button>
             </div>
+          </div>
+        </div>
+        
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
       </section>
