@@ -53,10 +53,15 @@ const App = () => {
     return () => clearInterval(interval);
   }, [sensorData]);
 
-  // Scroll tracking for active section and back to top button
+  // Enhanced scroll tracking with progress bar and visibility animations
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight - windowHeight;
+      const scrollPercentage = (scrollY / documentHeight) * 100;
+      
+      setScrollProgress(scrollPercentage);
       setShowBackToTop(scrollY > 300);
 
       const sections = [
@@ -69,18 +74,28 @@ const App = () => {
         { id: 'insights', ref: insightsRef }
       ];
 
+      // Check section visibility and active section
       for (let section of sections) {
         if (section.ref.current) {
           const rect = section.ref.current.getBoundingClientRect();
+          
+          // Check if section is in viewport for animations
+          const isInViewport = rect.top < windowHeight * 0.8 && rect.bottom > 0;
+          setIsVisible(prev => ({
+            ...prev,
+            [section.id]: isInViewport
+          }));
+          
+          // Set active section
           if (rect.top <= 100 && rect.bottom >= 100) {
             setActiveSection(section.id);
-            break;
           }
         }
       }
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
