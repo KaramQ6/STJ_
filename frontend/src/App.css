@@ -821,6 +821,153 @@ img {
   }
 }
 
+/* Custom Map Styles */
+.leaflet-container {
+  background: #1f2937 !important;
+  border-radius: 12px;
+}
+
+.leaflet-control-container {
+  font-family: 'Inter', sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  border: none;
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  padding: 0;
+}
+
+.leaflet-popup-tip {
+  background: white;
+  border: none;
+  box-shadow: none;
+}
+
+.leaflet-tooltip {
+  background: rgba(17, 24, 39, 0.95) !important;
+  border: 1px solid rgba(139, 92, 246, 0.3) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12px !important;
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2) !important;
+  backdrop-filter: blur(12px);
+}
+
+.leaflet-tooltip::before {
+  border-top-color: rgba(17, 24, 39, 0.95) !important;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+}
+
+/* Custom Marker Animations */
+.custom-marker {
+  animation: markerPulse 2s infinite;
+}
+
+@keyframes markerPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.custom-marker:hover {
+  animation: markerBounce 0.6s ease-in-out;
+}
+
+@keyframes markerBounce {
+  0%, 20%, 60%, 100% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.2);
+  }
+  80% {
+    transform: scale(1.1);
+  }
+}
+
+/* Custom Scrollbar for Map Destinations */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(55, 65, 81, 0.3);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #8b5cf6, #3b82f6);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #a78bfa, #60a5fa);
+}
+
+/* Map Attribution Styling */
+.leaflet-control-attribution {
+  background: rgba(17, 24, 39, 0.8) !important;
+  color: #d1d5db !important;
+  font-size: 10px !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(8px);
+}
+
+.leaflet-control-attribution a {
+  color: #8b5cf6 !important;
+}
+
+/* Map Control Buttons */
+.leaflet-control-zoom a {
+  background: rgba(17, 24, 39, 0.9) !important;
+  color: white !important;
+  border: 1px solid rgba(139, 92, 246, 0.3) !important;
+  border-radius: 6px !important;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: rgba(139, 92, 246, 0.8) !important;
+  border-color: rgba(139, 92, 246, 0.6) !important;
+  transform: scale(1.1);
+}
+
+/* Interactive Map Enhancements */
+.leaflet-interactive:hover {
+  filter: brightness(1.1);
+  transition: filter 0.3s ease;
+}
+
+/* Map Loading Animation */
+.leaflet-tile-container {
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Custom Legend Styling */
+.map-legend {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 /* Enhanced light mode */
 @media (prefers-color-scheme: light) {
   :root {
