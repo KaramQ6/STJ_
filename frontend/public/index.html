@@ -68,6 +68,7 @@
             top: 0;
             width: 100%;
             background: rgba(0, 0, 0, 0.9);
+setTimeout(() => { map.invalidateSize(); }, 300);
             backdrop-filter: blur(16px);
             z-index: 1000;
             padding: 1rem 0;
@@ -942,7 +943,7 @@
             // ========= MAP SCRIPT =========
             const defaultCenter = [31.0, 36.5];
             const defaultZoom = 7;
-            const map = L.map('map').setView(defaultCenter, defaultZoom);
+            const map = const map = L.map('map').setView(defaultCenter, defaultZoom);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
