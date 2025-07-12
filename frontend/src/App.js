@@ -613,15 +613,105 @@ const App = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { label: 'Temperature', value: `${sensorData.temperature}°C`, icon: '🌡️', color: 'text-red-400' },
-              { label: 'Humidity', value: `${sensorData.humidity}%`, icon: '💧', color: 'text-blue-400' },
-              { label: 'Crowd Level', value: sensorData.crowdLevel, icon: '👥', color: 'text-yellow-400' },
-              { label: 'Air Quality', value: sensorData.airQuality, icon: '🌬️', color: 'text-green-400' }
+              { 
+                label: 'Temperature', 
+                value: `${sensorData.temperature}°C`, 
+                icon: '🌡️', 
+                color: 'text-red-400',
+                bgColor: 'from-red-500/20 to-orange-500/20',
+                borderColor: 'border-red-500/30',
+                unit: '°C',
+                rawValue: sensorData.temperature,
+                previousValue: previousSensorData.temperature
+              },
+              { 
+                label: 'Humidity', 
+                value: `${sensorData.humidity}%`, 
+                icon: '💧', 
+                color: 'text-blue-400',
+                bgColor: 'from-blue-500/20 to-cyan-500/20',
+                borderColor: 'border-blue-500/30',
+                unit: '%',
+                rawValue: sensorData.humidity,
+                previousValue: previousSensorData.humidity
+              },
+              { 
+                label: 'Crowd Level', 
+                value: sensorData.crowdLevel, 
+                icon: '👥', 
+                color: 'text-yellow-400',
+                bgColor: 'from-yellow-500/20 to-orange-500/20',
+                borderColor: 'border-yellow-500/30',
+                unit: '',
+                rawValue: sensorData.crowdLevel,
+                previousValue: previousSensorData.crowdLevel
+              },
+              { 
+                label: 'Air Quality', 
+                value: sensorData.airQuality, 
+                icon: '🌬️', 
+                color: 'text-green-400',
+                bgColor: 'from-green-500/20 to-emerald-500/20',
+                borderColor: 'border-green-500/30',
+                unit: '',
+                rawValue: sensorData.airQuality,
+                previousValue: previousSensorData.airQuality
+              }
             ].map((insight, index) => (
-              <div key={index} className="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 text-center border border-gray-700/50 hover:border-purple-500/50 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10">
-                <div className="text-4xl mb-4 transform hover:scale-110 transition-transform duration-300">{insight.icon}</div>
-                <div className={`text-2xl font-bold mb-2 ${insight.color} transition-all duration-300`}>{insight.value}</div>
-                <div className="text-gray-300 text-sm">{insight.label}</div>
+              <div 
+                key={index} 
+                className={`bg-gradient-to-br ${insight.bgColor} backdrop-blur-sm rounded-2xl p-6 text-center border ${insight.borderColor} hover:border-purple-500/50 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/10 relative overflow-hidden group`}
+              >
+                {/* Animated background glow */}
+                <div className={`absolute inset-0 bg-gradient-to-r ${insight.bgColor} opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
+                
+                {/* Update indicator */}
+                {isDataUpdating && (
+                  <div className="absolute top-2 right-2 w-3 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+                )}
+                
+                <div className="relative z-10">
+                  <div className={`text-4xl mb-4 transform hover:scale-110 transition-transform duration-300 ${isDataUpdating ? 'animate-pulse' : ''}`}>
+                    {insight.icon}
+                  </div>
+                  
+                  <div className={`text-2xl font-bold mb-2 ${insight.color} transition-all duration-500 ${
+                    isDataUpdating ? 'transform scale-110 animate-pulse' : ''
+                  } ${insight.rawValue !== insight.previousValue ? 'animate-bounce' : ''}`}>
+                    <span className="font-mono tracking-wider">{insight.value}</span>
+                  </div>
+                  
+                  <div className="text-gray-300 text-sm font-medium tracking-wide uppercase">
+                    {insight.label}
+                  </div>
+                  
+                  {/* Progress bar for numeric values */}
+                  {typeof insight.rawValue === 'number' && (
+                    <div className="mt-3 w-full bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                      <div 
+                        className={`h-full bg-gradient-to-r ${insight.bgColor} transition-all duration-1000 ease-out`}
+                        style={{ 
+                          width: insight.label === 'Temperature' 
+                            ? `${Math.min((insight.rawValue / 40) * 100, 100)}%`
+                            : `${Math.min((insight.rawValue / 100) * 100, 100)}%`
+                        }}
+                      ></div>
+                    </div>
+                  )}
+                  
+                  {/* Status indicator for text values */}
+                  {typeof insight.rawValue === 'string' && (
+                    <div className="mt-3 flex justify-center">
+                      <div className={`w-2 h-2 rounded-full ${
+                        insight.rawValue === 'Good' || insight.rawValue === 'Excellent' || insight.rawValue === 'Low' 
+                          ? 'bg-green-400' 
+                          : insight.rawValue === 'Medium' || insight.rawValue === 'Moderate'
+                          ? 'bg-yellow-400'
+                          : 'bg-red-400'
+                      } animate-pulse`}></div>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
