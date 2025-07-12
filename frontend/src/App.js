@@ -31,19 +31,25 @@ const App = () => {
   const testimonialsRef = useRef(null);
   const insightsRef = useRef(null);
 
-  // Simulate live sensor data updates
+  // Simulate live sensor data updates with smooth animations
   useEffect(() => {
     const interval = setInterval(() => {
-      setSensorData(prev => ({
-        temperature: Math.round(25 + Math.random() * 10),
-        humidity: Math.round(40 + Math.random() * 20),
-        crowdLevel: ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)],
-        airQuality: ['Good', 'Moderate', 'Excellent'][Math.floor(Math.random() * 3)]
-      }));
+      setIsDataUpdating(true);
+      setPreviousSensorData(sensorData);
+      
+      setTimeout(() => {
+        setSensorData(prev => ({
+          temperature: Math.round(25 + Math.random() * 10),
+          humidity: Math.round(40 + Math.random() * 20),
+          crowdLevel: ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)],
+          airQuality: ['Good', 'Moderate', 'Excellent'][Math.floor(Math.random() * 3)]
+        }));
+        setIsDataUpdating(false);
+      }, 300);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [sensorData]);
 
   // Scroll tracking for active section and back to top button
   useEffect(() => {
