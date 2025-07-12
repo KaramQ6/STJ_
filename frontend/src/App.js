@@ -22,6 +22,8 @@ const App = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [chatbotLoaded, setChatbotLoaded] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
   
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
