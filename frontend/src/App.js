@@ -9,6 +9,15 @@ const App = () => {
     airQuality: 'Good'
   });
 
+  const [previousSensorData, setPreviousSensorData] = useState({
+    temperature: 28,
+    humidity: 45,
+    crowdLevel: 'Medium',
+    airQuality: 'Good'
+  });
+
+  const [isDataUpdating, setIsDataUpdating] = useState(false);
+
   const [activeSection, setActiveSection] = useState('home');
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
