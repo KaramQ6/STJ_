@@ -11,13 +11,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* All CSS from the previous merged code is here... */
         /* --- Base & Reset --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { line-height: 1.6; color: #ffffff; background-color: #0f0f10; overflow-x: hidden; }
         html[lang="ar"] body { font-family: 'Cairo', sans-serif; }
         html[lang="en"] body { font-family: 'Poppins', sans-serif; }
+        
+        /* --- Global Styles & Utilities --- */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
         .section { padding: 5rem 0; position: relative; }
         .section:nth-child(even) { background-color: #111827; }
@@ -26,6 +27,8 @@
         .btn { padding: 1rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
         .btn-primary { background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2); }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4); }
+        
+        /* --- Navbar --- */
         .navbar { position: fixed; top: 0; width: 100%; background: rgba(15, 15, 16, 0.8); backdrop-filter: blur(12px); z-index: 1000; padding: 1rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 700; color: #8b5cf6; text-decoration: none; }
@@ -34,11 +37,15 @@
         .nav-link:hover, .nav-link.active { color: #ffffff; background: rgba(139, 92, 246, 0.2); }
         .lang-switcher button { background: none; border: 1px solid #4b5563; color: #d1d5db; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s ease; }
         .lang-switcher button.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
+        
+        /* --- Hero Section --- */
         .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1589493243452-90422a139199'); background-size: cover; background-position: center; }
         .hero-content { max-width: 800px; padding: 0 2rem; animation: fadeInUp 1s ease-out; }
         .hero h1 { font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 700; margin-bottom: 1rem; color: #ffffff; text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); }
         .hero p { font-size: clamp(1.1rem, 2vw, 1.3rem); margin-bottom: 2rem; color: #f3f4f6; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); }
         .hero-buttons { display: flex; gap: 1rem; justify-content: center; }
+        
+        /* --- Chatbot --- */
         .chatbot-container { background: rgba(31, 41, 55, 0.5); border-radius: 12px; padding: 2rem; backdrop-filter: blur(16px); border: 1px solid rgba(75, 85, 99, 0.3); }
         #chatWindow { background: #111827; border-radius: 8px; height: 400px; padding: 1rem; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 1rem; }
         .chat-message { padding: 0.75rem 1rem; border-radius: 12px; max-width: 80%; line-height: 1.5; white-space: pre-wrap; }
@@ -50,21 +57,34 @@
         #chatInput { flex-grow: 1; padding: 1rem; border-radius: 8px; border: 1px solid #4b5563; background-color: #1f2937; color: white; font-size: 1rem; }
         #sendButton { padding: 1rem 1.5rem; border-radius: 8px; font-weight: 700; transition: background-color 0.2s; }
         #sendButton:disabled { background: #583c9c; cursor: not-allowed; }
+        
+        /* --- Other Sections --- */
         .card-container { background: rgba(31, 41, 55, 0.5); border-radius: 12px; padding: 2rem; backdrop-filter: blur(16px); border: 1px solid rgba(75, 85, 99, 0.3); }
         #map { height: 500px; border-radius: 8px; z-index: 1; }
         .insights-grid, .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
         .insight-card, .category-card { background: #111827; border-radius: 12px; text-align: center; padding: 1.5rem; border: 1px solid rgba(75, 85, 99, 0.3); transition: all 0.3s ease; }
         .insight-card:hover, .category-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15); border-color: #8b5cf6; }
-        .category-card { padding: 0; overflow: hidden; text-align: start; }
+        .category-card { padding: 0; overflow: hidden; text-align: start; cursor: pointer; }
         .category-image { height: 200px; background-size: cover; background-position: center; }
         .category-content { padding: 1.5rem; }
         .category-title { font-size: 1.3rem; }
+        
+        /* --- Modal --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+        .modal-content { background: #1f2937; padding: 2rem; border-radius: 12px; width: 90%; max-width: 500px; position: relative; animation: modalSlideIn 0.3s ease-out; }
+        @keyframes modalSlideIn { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-close { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; font-weight: bold; color: #9ca3af; cursor: pointer; transition: color 0.2s; }
+        html[dir="rtl"] .modal-close { right: auto; left: 1.5rem; }
+        .modal-close:hover { color: white; }
+        
+        /* --- Back to Top & Animations --- */
         .back-to-top { position: fixed; bottom: 2rem; right: 2rem; width: 50px; height: 50px; border-radius: 50%; display: none; align-items: center; justify-content: center; z-index: 1000; background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; border: none; cursor: pointer; font-size: 1.5rem; }
         html[dir="rtl"] .back-to-top { right: auto; left: 2rem; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) { .nav-menu { display: none; } }
     </style>
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-container container">
@@ -82,6 +102,7 @@
             </ul>
         </div>
     </nav>
+
     <main>
         <section class="hero" id="hero">
             <div class="hero-content">
@@ -93,6 +114,7 @@
                 </div>
             </div>
         </section>
+
         <section class="section" id="chatbot">
             <div class="container">
                 <h2 class="section-title" data-translate="chatbotTitle"></h2>
@@ -106,6 +128,7 @@
                 </div>
             </div>
         </section>
+
         <section class="section" id="ar-experience">
             <div class="container" style="text-align: center;">
                 <h2 class="section-title" data-translate="arTitle"></h2>
@@ -113,6 +136,7 @@
                 <a href="ar.html" class="btn btn-primary" data-translate="arBtn"></a>
             </div>
         </section>
+
         <section class="section" id="map-section">
             <div class="container">
                 <h2 class="section-title" data-translate="mapTitle"></h2>
@@ -122,6 +146,7 @@
                 </div>
             </div>
         </section>
+
         <section class="section" id="categories">
             <div class="container">
                 <h2 class="section-title" data-translate="categoriesTitle"></h2>
@@ -130,16 +155,24 @@
             </div>
         </section>
     </main>
+
     <footer class="section" style="background: #0a0a0a; padding: 2rem 0;">
         <div class="container" style="text-align: center;">
              <p style="color: #6b7280; font-size: 0.9rem;" data-translate="footerRights"></p>
         </div>
     </footer>
+    
+    <div id="natureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 data-translate="modalNatureTitle"></h2><p data-translate="modalNatureText"></p></div></div>
+    <div id="cultureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 data-translate="modalCultureTitle"></h2><p data-translate="modalCultureText"></p></div></div>
+    <div id="religiousModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 data-translate="modalReligiousTitle"></h2><p data-translate="modalReligiousText"></p></div></div>
+    <div id="adventureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 data-translate="modalAdventureTitle"></h2><p data-translate="modalAdventureText"></p></div></div>
+
     <button class="back-to-top" id="backToTop">↑</button>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
             const translations = {
                 en: {
                     siteTitle: "SmartTour.JO", navHome: "Home", navAIGuide: "AI Guide", navAR: "AR View", navMap: "Map", navExplore: "Explore", arTitle: "Augmented Reality", arSubtitle: "Bring Jordan's history to life. Try our location-based AR experiences.", arBtn: "Launch AR Experience",
@@ -148,7 +181,8 @@
                     mapTitle: "Interactive Jordan Map", mapSubtitle: "Explore Jordan's attractions and plan your route.",
                     categoriesTitle: "Discover Jordan Your Way", categoriesSubtitle: "Choose from our curated categories to find experiences that match your interests.",
                     footerRights: "© 2024 SmartTour.JO. All rights reserved.",
-                    yourLocationPopup: "<b>Your Location</b>", thinking: "...thinking"
+                    yourLocationPopup: "<b>Your Location</b>", thinking: "...thinking",
+                    modalNatureTitle: "Nature Adventures", modalNatureText: "From the deserts of Wadi Rum to the therapeutic waters of the Dead Sea.", modalCultureTitle: "Cultural Heritage", modalCultureText: "Explore ancient Petra, Roman ruins of Jerash, and authentic Bedouin culture.", modalReligiousTitle: "Religious Sites", modalReligiousText: "Follow biblical paths to Mount Nebo, Bethany, and other sacred sites.", modalAdventureTitle: "Adventure Sports", modalAdventureText: "Experience thrilling adventures like desert camping, Red Sea diving, and canyoning."
                 },
                 ar: {
                     siteTitle: "SmartTour.JO", navHome: "الرئيسية", navAIGuide: "المرشد الذكي", navAR: "الواقع المعزز", navMap: "الخريطة", navExplore: "اكتشف", arTitle: "تجربة الواقع المعزز", arSubtitle: "أعد تاريخ الأردن إلى الحياة. جرّب تجارب الواقع المعزز المعتمدة على الموقع.", arBtn: "شغّل تجربة الـ AR",
@@ -157,24 +191,26 @@
                     mapTitle: "خريطة الأردن التفاعلية", mapSubtitle: "استكشف معالم الأردن وخطط مسارك مع خريطتنا.",
                     categoriesTitle: "اكتشف الأردن على طريقتك", categoriesSubtitle: "اختر من بين فئاتنا المنسقة لتجد التجارب التي تتناسب مع اهتماماتك.",
                     footerRights: "© 2024 SmartTour.JO. جميع الحقوق محفوظة.",
-                    yourLocationPopup: "<b>موقعك الحالي</b>", thinking: "...لحظة من فضلك"
+                    yourLocationPopup: "<b>موقعك الحالي</b>", thinking: "...لحظة من فضلك",
+                    modalNatureTitle: "مغامرات في الطبيعة", modalNatureText: "من صحراء وادي رم الشاسعة إلى مياه البحر الميت العلاجية.", modalCultureTitle: "تراث ثقافي", modalCultureText: "استكشف البتراء القديمة، وآثار جرش الرومانية، والتقاليد البدوية الأصيلة.", modalReligiousTitle: "مواقع دينية", modalReligiousText: "اتبع المسارات المقدسة إلى جبل نيبو والمغطس وغيرها من المواقع الهامة.", modalAdventureTitle: "رياضات المغامرة", modalAdventureText: "جرب مغامرات مثيرة مثل التخييم الصحراوي، والغوص في البحر الأحمر، واستكشاف الأودية."
                 }
             };
             const categoriesData = {
                 en: [
-                    { id: 'nature', title: '🌿 Nature', image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg'},
-                    { id: 'culture', title: '🏛️ Culture', image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg'},
-                    { id: 'religious', title: '⛪ Religious', image: 'https://images.unsplash.com/photo-1619522165660-e4381de13158'},
-                    { id: 'adventure', title: '🧗 Adventure', image: 'https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg'}
+                    { id: 'nature', title: '🌿 Nature', description: 'Wadi Rum deserts, Dead Sea waters.', image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg'},
+                    { id: 'culture', title: '🏛️ Culture', description: 'Ancient Petra, Roman ruins, local traditions.', image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg'},
+                    { id: 'religious', title: '⛪ Religious', description: 'Mount Nebo, Bethany, and other sacred sites.', image: 'https://images.unsplash.com/photo-1619522165660-e4381de13158'},
+                    { id: 'adventure', title: '🧗 Adventure', description: 'Camping, diving, and canyoning.', image: 'https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg'}
                 ],
                 ar: [
-                    { id: 'nature', title: '🌿 طبيعة', image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg'},
-                    { id: 'culture', title: '🏛️ ثقافة وتاريخ', image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg'},
-                    { id: 'religious', title: '⛪ مواقع دينية', image: 'https://images.unsplash.com/photo-1619522165660-e4381de13158'},
-                    { id: 'adventure', title: '🧗 مغامرات', image: 'https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg'}
+                    { id: 'nature', title: '🌿 طبيعة', description: 'صحراء وادي رم، مياه البحر الميت.', image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg'},
+                    { id: 'culture', title: '🏛️ ثقافة وتاريخ', description: 'البتراء القديمة، آثار جرش، التقاليد المحلية.', image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg'},
+                    { id: 'religious', title: '⛪ مواقع دينية', description: 'جبل نيبو، المغطس، ومواقع مقدسة أخرى.', image: 'https://images.unsplash.com/photo-1619522165660-e4381de13158'},
+                    { id: 'adventure', title: '🧗 مغامرات', description: 'تخييم، غوص، واستكشاف الأودية.', image: 'https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg'}
                 ]
             };
 
+            // --- FUNCTIONS ---
             const setLanguage = (lang) => {
                 document.documentElement.lang = lang;
                 document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -192,11 +228,17 @@
                 categoriesData[lang].forEach(cat => {
                     const card = document.createElement('div');
                     card.className = 'category-card';
-                    card.innerHTML = `<div class="category-image" style="background-image: url('${cat.image}')"></div><div class="category-content"><h3 class="category-title">${cat.title}</h3></div>`;
+                    card.setAttribute('data-category', cat.id);
+                    card.innerHTML = `<div class="category-image" style="background-image: url('${cat.image}')"></div><div class="category-content"><h3 class="category-title">${cat.title}</h3><p>${cat.description}</p></div>`;
+                    card.addEventListener('click', () => {
+                        const modal = document.getElementById(cat.id + 'Modal');
+                        if(modal) modal.style.display = 'flex';
+                    });
                     categoriesGrid.appendChild(card);
                 });
             }
-
+            
+            // --- INITIALIZATION & EVENT LISTENERS ---
             const map = L.map('map').setView([31.0, 36.5], 7);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
             if (navigator.geolocation) {
@@ -210,8 +252,13 @@
             const backToTopBtn = document.getElementById('backToTop');
             window.addEventListener('scroll', () => backToTopBtn.style.display = (window.scrollY > 300) ? 'flex' : 'none');
             backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            
             document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
             document.getElementById('lang-ar').addEventListener('click', () => setLanguage('ar'));
+            
+            document.querySelectorAll('.modal-close').forEach(btn => btn.addEventListener('click', e => e.target.closest('.modal').style.display = 'none'));
+            window.addEventListener('click', e => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; });
+
             setLanguage(localStorage.getItem('language') || 'ar');
         });
 
@@ -245,11 +292,11 @@
 
             const thinkingMessage = document.createElement('div');
             thinkingMessage.className = 'chat-message bot-message';
-            thinkingMessage.innerText = document.documentElement.lang === 'ar' ? '...لحظة من فضلك' : '...thinking';
+            const lang = document.documentElement.lang || 'ar';
+            thinkingMessage.innerText = lang === 'ar' ? '...لحظة من فضلك' : '...thinking';
             chatWindow.appendChild(thinkingMessage);
             chatWindow.scrollTop = chatWindow.scrollHeight;
 
-            // THIS IS THE WORKING PUBLIC BACKEND URL
             const workerUrl = "https://white-frost-8014.karam200566.workers.dev/";
 
             try {
@@ -258,7 +305,6 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ history: chatHistory })
                 });
-
                 if (!response.ok) throw new Error(`Network error: ${response.status}`);
                 
                 const data = await response.json();
@@ -267,7 +313,6 @@
                 chatWindow.removeChild(thinkingMessage);
                 appendMessage(botResponse, 'bot');
                 chatHistory.push({ role: 'model', parts: [{ text: botResponse }] });
-
             } catch (error) {
                 chatWindow.removeChild(thinkingMessage);
                 appendMessage(`❌ فشل الاتصال بالخادم. ${error.message}`, 'bot');
@@ -277,9 +322,7 @@
             }
         }
         
-        inputElement.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !sendButton.disabled) sendMessage();
-        });
+        inputElement.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !sendButton.disabled) sendMessage(); });
     </script>
 </body>
 </html>
