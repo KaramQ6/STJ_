@@ -147,7 +147,6 @@ const App = () => {
   const featuresRef = useRef(null);
   const exploreRef = useRef(null);
   const mapRef = useRef(null);
-  const itineraryRef = useRef(null);
   const testimonialsRef = useRef(null);
   const insightsRef = useRef(null);
 
@@ -187,7 +186,6 @@ const App = () => {
         { id: 'features', ref: featuresRef },
         { id: 'explore', ref: exploreRef },
         { id: 'map', ref: mapRef },
-        { id: 'itinerary', ref: itineraryRef },
         { id: 'testimonials', ref: testimonialsRef },
         { id: 'insights', ref: insightsRef }
       ];
@@ -223,7 +221,6 @@ const App = () => {
       features: featuresRef,
       explore: exploreRef,
       map: mapRef,
-      itinerary: itineraryRef,
       testimonials: testimonialsRef,
       insights: insightsRef
     };
@@ -299,32 +296,6 @@ const App = () => {
     }
   ];
 
-  const itinerarySteps = [
-    {
-      time: '09:00 AM',
-      title: 'Arrive at Hotel',
-      description: 'Check-in and receive your smart travel kit with IoT sensors and AR devices',
-      icon: '🏨'
-    },
-    {
-      time: '10:30 AM',
-      title: 'Visit Downtown',
-      description: 'Explore Amman\'s vibrant downtown with AI-guided walking tour',
-      icon: '🏙️'
-    },
-    {
-      time: '02:00 PM',
-      title: 'Archaeological Site',
-      description: 'Petra exploration with AR visualization of ancient structures',
-      icon: '🏛️'
-    },
-    {
-      time: '07:00 PM',
-      title: 'Night Food Market',
-      description: 'Traditional Jordanian cuisine experience with local food recommendations',
-      icon: '🍽️'
-    }
-  ];
 
   const testimonials = [
     {
@@ -373,7 +344,6 @@ const App = () => {
                   { id: 'features', label: 'Features', icon: '⚡' },
                   { id: 'explore', label: 'Explore', icon: '🗺️' },
                   { id: 'map', label: 'Map', icon: '📍' },
-                  { id: 'itinerary', label: 'Itinerary', icon: '📋' },
                   { id: 'testimonials', label: 'Reviews', icon: '⭐' },
                   { id: 'insights', label: 'Insights', icon: '📊' }
                 ].map((item) => (
