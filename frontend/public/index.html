@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Jordan - Explore Jordan Smarter</title>
+    <title>SmartTour.JO - اكتشف الأردن بذكاء</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
+
     <style>
         /* --- Base & Reset --- */
         * {
@@ -25,12 +26,14 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #ffffff;
             background-color: #0f0f10;
             overflow-x: hidden;
         }
+        
+        html[lang="ar"] body { font-family: 'Cairo', sans-serif; }
+        html[lang="en"] body { font-family: 'Poppins', sans-serif; }
 
         /* --- Global Styles & Utilities --- */
         .container {
@@ -44,18 +47,18 @@
             position: relative;
         }
 
-        .section:nth-child(odd) {
+        .section:nth-child(even) {
             background-color: #111827;
         }
 
         .section-title {
             text-align: center;
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2.2rem, 5vw, 3rem);
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: transparent;
             background-clip: text;
         }
 
@@ -64,7 +67,7 @@
             font-size: 1.2rem;
             color: #9ca3af;
             margin-bottom: 3rem;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
@@ -80,46 +83,42 @@
             font-size: 1rem;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
-            transform: translateY(0);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
             color: white;
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4);
         }
 
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
-
+        
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-3px);
+            border-color: #8b5cf6;
         }
 
-        /* --- Fixed Navigation --- */
+        /* --- Navbar --- */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(15, 15, 16, 0.8);
+            backdrop-filter: blur(12px);
             z-index: 1000;
             padding: 1rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
         }
 
         .nav-container {
@@ -127,7 +126,7 @@
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
@@ -139,6 +138,7 @@
             display: flex;
             list-style: none;
             gap: 1.5rem;
+            align-items: center;
         }
 
         .nav-link {
@@ -146,90 +146,57 @@
             text-decoration: none;
             font-weight: 500;
             padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s ease;
-            position: relative;
+            border-radius: 8px;
+            transition: all 0.2s ease;
         }
-
-        .nav-link:hover,
-        .nav-link.active {
+        
+        .nav-link:hover, .nav-link.active {
             color: #ffffff;
             background: rgba(139, 92, 246, 0.2);
         }
-
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
-            background: #06b6d4;
-            border-radius: 50%;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            background: none;
-            border: none;
-            gap: 5px;
-        }
-
-        .mobile-menu-btn span {
-            width: 25px;
-            height: 3px;
-            background: #ffffff;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
         
-        /* Mobile Nav Transitions */
-        .mobile-menu-btn.open span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
+        .lang-switcher button {
+            background: none;
+            border: 1px solid #4b5563;
+            color: #d1d5db;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s ease;
         }
-        .mobile-menu-btn.open span:nth-child(2) {
-            opacity: 0;
-        }
-        .mobile-menu-btn.open span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
+
+        .lang-switcher button.active {
+            background: #8b5cf6;
+            color: white;
+            border-color: #8b5cf6;
         }
 
         /* --- Hero Section --- */
         .hero {
             height: 100vh;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.2)), url('https://images.unsplash.com/photo-1589493243452-90422a139199') center/cover no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1589493243452-90422a139199');
+            background-size: cover;
+            background-position: center;
         }
 
         .hero-content {
             max-width: 800px;
             padding: 0 2rem;
-            position: relative;
-            z-index: 2;
-            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 1s ease-out;
         }
-
+        
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
             font-weight: 700;
             margin-bottom: 1rem;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .hero p {
@@ -243,87 +210,128 @@
             display: flex;
             gap: 1rem;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
-        /* --- Chatbot, Insights, Map, AR --- */
-        .chatbot-container, .insights-container, .map-container, .ar-container {
+        /* --- Chatbot --- */
+        .chatbot-container {
             background: rgba(31, 41, 55, 0.5);
             border-radius: 12px;
             padding: 2rem;
             backdrop-filter: blur(16px);
             border: 1px solid rgba(75, 85, 99, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            text-align: center;
         }
         
-        .insight-card {
-            background: rgba(255,255,255,0.05);
-            padding: 1.5rem;
+        #chatWindow {
+            background: #111827;
+            border-radius: 8px;
+            height: 400px;
+            padding: 1rem;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .chat-message {
+            padding: 0.75rem 1rem;
             border-radius: 12px;
-        }
-
-        .insight-card p {
-            font-size: 1.2rem;
-            color: #d1d5db;
-        }
-
-        #temp, #crowd {
-            font-weight: 700;
-            color: #06b6d4;
-            transition: all 0.3s ease;
+            max-width: 80%;
+            line-height: 1.5;
+            white-space: pre-wrap; /* To respect newlines from AI */
         }
         
-        .ar-container {
-            text-align: center;
+        .user-message {
+            background-color: #8b5cf6;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+            html[dir="rtl"] & {
+                align-self: flex-start;
+                border-bottom-right-radius: 12px;
+                border-bottom-left-radius: 2px;
+            }
+        }
+        
+        .bot-message {
+            background-color: #374151;
+            color: #f3f4f6;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+             html[dir="rtl"] & {
+                align-self: flex-end;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 2px;
+            }
+        }
+        
+        .chat-input-area {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        #chatInput {
+            flex-grow: 1;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #4b5563;
+            background-color: #1f2937;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        #sendButton {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: background-color 0.2s;
+        }
+        
+        #sendButton:disabled {
+            background: #583c9c;
+            cursor: not-allowed;
+        }
+
+        /* --- General Card & Container Styles --- */
+        .card-container {
+            background: rgba(31, 41, 55, 0.5);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(75, 85, 99, 0.3);
         }
 
         #map {
-            height: 400px;
-            border-radius: 12px;
+            height: 500px;
+            border-radius: 8px;
             z-index: 1;
         }
-        
-        .leaflet-popup-content-wrapper {
-            background: #1f2937;
-            color: #fff;
-            border-radius: 8px;
-        }
 
-        .leaflet-popup-tip {
-            background: #1f2937;
-        }
-        
-        .leaflet-popup-content a {
-            color: #06b6d4;
-        }
-
-        /* --- Tourism Categories --- */
-        .categories-grid {
+        .insights-grid, .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
 
-        .category-card {
-            background: rgba(31, 41, 55, 0.5);
+        .insight-card, .category-card {
+            background: #111827;
             border-radius: 12px;
-            overflow: hidden;
+            text-align: center;
+            padding: 1.5rem;
             border: 1px solid rgba(75, 85, 99, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .category-card:hover {
+        .insight-card:hover, .category-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
-            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
+            border-color: #8b5cf6;
+        }
+        
+        .category-card {
+            padding: 0;
+            overflow: hidden;
+            text-align: start;
         }
 
         .category-image {
@@ -331,541 +339,341 @@
             background-size: cover;
             background-position: center;
         }
-
+        
         .category-content {
             padding: 1.5rem;
         }
         
         .category-title {
             font-size: 1.3rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
         }
 
-        .category-description {
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-
-        /* --- Modal --- */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: #1f2937;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
-            animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #9ca3af;
-            transition: color 0.3s ease;
-        }
-        .modal-close:hover { color: #ffffff; }
-
-        .modal-image {
-            height: 250px;
-            width: 100%;
-            object-fit: cover;
-        }
-        
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 1rem;
-        }
-
-        .modal-text {
-            color: #d1d5db;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* --- Testimonials --- */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .testimonial-card {
-            background: rgba(31, 41, 55, 0.5);
-            border-radius: 12px;
-            padding: 2rem;
-            border: 1px solid rgba(75, 85, 99, 0.3);
-        }
-        
-        .testimonial-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .testimonial-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 1rem;
-            border: 2px solid #8b5cf6;
-        }
-
-        .testimonial-info h4 {
-            font-weight: 600;
-        }
-
-        .testimonial-info p {
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-
-        .testimonial-rating {
-            color: #f59e0b;
-            margin-bottom: 1rem;
-        }
-
-        .testimonial-text {
-            color: #d1d5db;
-            font-style: italic;
-        }
-
-        /* --- Back to Top Button --- */
+        /* --- Back to Top & Modal --- */
         .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
-            border: none;
-            cursor: pointer;
+            position: fixed; bottom: 2rem; right: 2rem;
+            width: 50px; height: 50px; border-radius: 50%; display: none;
+            align-items: center; justify-content: center; z-index: 1000;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white; border: none; cursor: pointer;
             font-size: 1.5rem;
+            html[dir="rtl"] & { right: auto; left: 2rem; }
         }
 
-        .back-to-top:hover {
-            transform: translateY(-3px) scale(1.1);
-        }
-
-        /* --- Animations --- */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translateY(-50px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: rgba(0, 0, 0, 0.95);
-                padding: 1rem 0;
-            }
-            
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .mobile-menu-btn {
-                display: flex;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-
-            .section {
-                padding: 4rem 0;
-            }
-            
-            .container {
-                padding: 0 1rem;
-            }
-
-            .back-to-top {
-                bottom: 1rem;
-                right: 1rem;
-            }
+            .nav-menu { display: none; } /* Add logic for mobile menu if needed */
         }
     </style>
 </head>
 
 <body>
     <nav class="navbar">
-        <div class="container nav-container">
-            <a href="#home" class="logo">Smart Jordan</a>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#features" class="nav-link">Features</a></li>
-                <li><a href="#map" class="nav-link">Map</a></li>
-                <li><a href="#chatbot" class="nav-link">Chatbot</a></li>
-                <li><a href="#insights" class="nav-link">Live Insights</a></li>
-                <li><a href="#ar-experience" class="nav-link">AR-Experience</a></li>
-                <li><a href="#categories" class="nav-link">Categories</a></li>
-                <li><a href="#itinerary" class="nav-link">Itinerary</a></li>
-                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+        <div class="nav-container container">
+            <a class="logo" href="#hero" data-translate="siteTitle">SmartTour.JO</a>
+            <ul class="nav-menu">
+                <li><a class="nav-link active" href="#hero" data-translate="navHome"></a></li>
+                <li><a class="nav-link" href="#chatbot" data-translate="navAIGuide"></a></li>
+                <li><a class="nav-link" href="#insights" data-translate="navInsights"></a></li>
+                <li><a class="nav-link" href="#map-section" data-translate="navMap"></a></li>
+                <li><a class="nav-link" href="#categories" data-translate="navExplore"></a></li>
+                <li class="lang-switcher">
+                    <button id="lang-ar">العربية</button>
+                    <button id="lang-en">English</button>
+                </li>
             </ul>
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
+            </div>
     </nav>
 
     <main>
-        <section id="home" class="hero">
+        <section class="hero" id="hero">
             <div class="hero-content">
-                <h1>Explore Jordan Smarter</h1>
-                <p>Discover Jordan's hidden treasures with AI-powered recommendations, real-time insights, and interactive experiences that transform your journey into an unforgettable adventure.</p>
+                <h1 data-translate="heroTitle"></h1>
+                <p data-translate="heroSubtitle"></p>
                 <div class="hero-buttons">
-                    <a href="#chatbot" class="btn btn-primary">Start Your Smart Journey</a>
-                    <a href="#categories" class="btn btn-secondary">Explore Categories</a>
+                    <a class="btn btn-primary" href="#chatbot" data-translate="heroBtnStart"></a>
+                    <a class="btn btn-secondary" href="#categories" data-translate="heroBtnExplore"></a>
                 </div>
             </div>
         </section>
 
-        <section id="features" class="section">
+        <section class="section" id="chatbot">
             <div class="container">
-                <h2 class="section-title">Our Smart Features</h2>
-                <p class="section-subtitle">Leveraging technology to provide you with a seamless and intelligent travel experience in Jordan.</p>
-                 <div class="categories-grid">
-                    <div class="category-card"><div class="category-content"><h3 class="category-title">🤖 AI Chatbot Guide</h3><p class="category-description">Get instant, personalized answers and travel plans from our smart assistant.</p></div></div>
-                    <div class="category-card"><div class="category-content"><h3 class="category-title">📊 Live IoT Insights</h3><p class="category-description">Plan perfectly with real-time data on weather and crowd levels at key sites.</p></div></div>
-                    <div class="category-card"><div class="category-content"><h3 class="category-title">📲 AR Experiences</h3><p class="category-description">Bring history to life by viewing ancient sites in augmented reality.</p></div></div>
+                <h2 class="section-title" data-translate="chatbotTitle"></h2>
+                <p class="section-subtitle" data-translate="chatbotSubtitle"></p>
+                <div class="chatbot-container">
+                    <div id="chatWindow"></div>
+                    <div class="chat-input-area">
+                        <input id="chatInput" type="text" data-translate-placeholder="chatPlaceholder" />
+                        <button id="sendButton" class="btn btn-primary" onclick="sendMessage()" data-translate="chatSend"></button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="map" class="section">
+        <section class="section" id="insights">
             <div class="container">
-                <h2 class="section-title">Interactive Map</h2>
-                <p class="section-subtitle">Explore Jordan's attractions and plan your route with our map featuring real-time location data.</p>
-                <div class="map-container">
+                <h2 class="section-title" data-translate="insightsTitle"></h2>
+                <p class="section-subtitle" data-translate="insightsSubtitle"></p>
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-value">🌡️ <span id="temp">--</span>°C</div>
+                        <div class="insight-label" data-translate="insightTemp"></div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-value">👥 <span id="crowd">--</span></div>
+                        <div class="insight-label" data-translate="insightCrowd"></div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-value">💧 <span id="humidity">--</span>%</div>
+                        <div class="insight-label" data-translate="insightHumidity"></div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-value">🌬️ <span id="air-quality">--</span></div>
+                        <div class="insight-label" data-translate="insightAir"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="ar-experience" class="section">
+            <div class="container" style="text-align: center;">
+                <h2 class="section-title" data-translate="arTitle"></h2>
+                <p class="section-subtitle" data-translate="arSubtitle"></p>
+                <a href="ar.html" class="btn btn-primary" data-translate="arBtn"></a>
+            </div>
+        </section>
+
+        <section class="section" id="map-section">
+            <div class="container">
+                <h2 class="section-title" data-translate="mapTitle"></h2>
+                <p class="section-subtitle" data-translate="mapSubtitle"></p>
+                <div class="card-container">
                     <div id="map"></div>
                 </div>
             </div>
         </section>
 
-        <section id="chatbot" class="section">
+        <section class="section" id="categories">
             <div class="container">
-                <h2 class="section-title">Ask Our Smart AI Guide</h2>
-                <p class="section-subtitle">Get instant answers about Jordan's attractions, best travel times, and personalized recommendations.</p>
-                <div class="chatbot-container">
-                    <iframe src="https://www.chatbase.co/chatbot-iframe/65d67f69-4f4d-4bd7-a2b8-d9bd1de06dd3" width="100%" style="height:500px;border-radius:12px;border:none"></iframe>
-                    <div style="text-align: center; margin-top: 1.5rem;">
-                        <a href="itinerary.html" class="btn btn-primary">View My Itinerary</a>
+                <h2 class="section-title" data-translate="categoriesTitle"></h2>
+                <p class="section-subtitle" data-translate="categoriesSubtitle"></p>
+                <div class="categories-grid">
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="insights" class="section">
-            <div class="container">
-                <h2 class="section-title">Live Environment Insights</h2>
-                <p class="section-subtitle">Real-time data from IoT sensors across Jordan's popular destinations to help you plan the perfect visit.</p>
-                <div class="insights-container">
-                    <div class="insights-grid">
-                        <div class="insight-card">
-                            <p>🌡️ Temperature: <span id="temp">--</span></p>
-                        </div>
-                        <div class="insight-card">
-                            <p>👥 Crowd Level: <span id="crowd">--</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="ar-experience" class="section">
-            <div class="container">
-                <h2 class="section-title">Augmented Reality Experience</h2>
-                <p class="section-subtitle">Bring ancient history to life right in front of you. Point your camera at a Hiro marker to see the magic.</p>
-                <div class="ar-container">
-                     <p>Click the button below to open the AR view and scan a Hiro marker to see a 3D object appear in your world!</p>
-                     <a href="ar.html" class="btn btn-primary" style="margin-top: 1.5rem;">View in AR</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="categories" class="section">
-            <div class="container">
-                <h2 class="section-title">Discover Jordan Your Way</h2>
-                <p class="section-subtitle">Choose from our curated categories to find experiences that match your interests.</p>
-                <div class="categories-grid" id="categories-grid">
-                    </div>
-            </div>
-        </section>
-        
-        <section id="itinerary" class="section">
-            <div class="container">
-                <h2 class="section-title">Your Personalized Itinerary</h2>
-                <p class="section-subtitle">Based on your preferences, our AI has crafted the perfect journey for you. View your detailed plan now.</p>
-                 <div style="text-align: center;">
-                    <a href="itinerary.html" class="btn btn-primary">View Full Itinerary</a>
-                </div>
-            </div>
-        </section>
-
-
-        <section id="testimonials" class="section">
-            <div class="container">
-                <h2 class="section-title">What Travelers Say</h2>
-                <p class="section-subtitle">Real experiences from smart travelers who explored Jordan with our platform.</p>
-                <div class="testimonials-grid">
-                    <div class="testimonial-card">
-                        <div class="testimonial-header">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Sarah J." class="testimonial-avatar">
-                            <div class="testimonial-info">
-                                <h4>Sarah J. 🇺🇸</h4>
-                                <p>Travel Blogger</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-rating">★★★★★</div>
-                        <p class="testimonial-text">"The AI guide was incredible! It led us to hidden gems in Petra we never would have found. The crowd data was a lifesaver!"</p>
-                    </div>
-                    <div class="testimonial-card">
-                         <div class="testimonial-header">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Marco R." class="testimonial-avatar">
-                            <div class="testimonial-info">
-                                <h4>Marco R. 🇪🇸</h4>
-                                <p>Photographer</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-rating">★★★★★</div>
-                        <p class="testimonial-text">"The AR experience at Jerash was mind-blowing. Seeing the ancient city come to life was like time travel. Absolutely unforgettable."</p>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-header">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="Emma C." class="testimonial-avatar">
-                            <div class="testimonial-info">
-                                <h4>Emma C. 🇦🇺</h4>
-                                <p>Adventure Seeker</p>
-                            </div>
-                        </div>
-                        <div class="testimonial-rating">★★★★★</div>
-                        <p class="testimonial-text">"Perfectly planned itinerary! The AI recommendations for food were spot-on. The smart map made navigating so easy."</p>
-                    </div>
-                </div>
             </div>
         </section>
     </main>
-
-    <div id="category-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" id="modal-close-btn">&times;</span>
-            <img id="modal-image" src="" alt="Category Image" class="modal-image">
-            <div class="modal-body">
-                <h2 id="modal-title" class="modal-title"></h2>
-                <p id="modal-description" class="modal-text"></p>
-                <button class="btn btn-primary" style="width: 100%;">Add to My Tour</button>
-            </div>
+    
+    <footer class="section" style="background: #0a0a0a; padding-bottom: 2rem;">
+        <div class="container" style="text-align: center;">
+             <p style="color: #6b7280; margin-top: 2rem; font-size: 0.9rem;" data-translate="footerRights"></p>
         </div>
-    </div>
-
-    <button id="back-to-top" class="back-to-top" title="Go to top">↑</button>
+    </footer>
+    
+    <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- Navigation ---
-            const navMenu = document.getElementById('nav-menu');
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            mobileMenuBtn.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
-                mobileMenuBtn.classList.toggle('open');
-            });
+        document.addEventListener('DOMContentLoaded', function () {
             
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                     navMenu.classList.remove('active');
-                     mobileMenuBtn.classList.remove('open');
-                });
-            });
-
-            // Scroll-spy for nav links
-            const sections = document.querySelectorAll('section[id]');
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (window.pageYOffset >= sectionTop - 150) {
-                        current = section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${current}`) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-
-            // --- IoT Data Simulation ---
-            const crowdLevels = ["Low", "Medium", "High"];
-            const tempElement = document.getElementById("temp");
-            const crowdElement = document.getElementById("crowd");
+            // ===============================================
+            // =========== 1. TRANSLATIONS & LANGUAGE ==========
+            // ===============================================
+            const translations = {
+                en: {
+                    siteTitle: "SmartTour.JO", navHome: "Home", navAIGuide: "AI Guide", navInsights: "Insights", arTitle: "Augmented Reality", arSubtitle: "Bring Jordan's history to life. Try our location-based AR experiences.", arBtn: "Launch AR Experience", navMap: "Map", navExplore: "Explore",
+                    heroTitle: "Explore Jordan Smarter", heroSubtitle: "Discover Jordan's hidden treasures with AI-powered recommendations, real-time insights, and interactive experiences.", heroBtnStart: "Start Your Journey", heroBtnExplore: "Explore Categories",
+                    chatbotTitle: "Ask Our Smart AI Guide", chatbotSubtitle: "Get instant answers about Jordan's attractions, travel times, and personalized recommendations.", chatPlaceholder: "Request a tour plan or ask anything...", chatSend: "Send",
+                    insightsTitle: "Live Environment Insights", insightsSubtitle: "Real-time data from IoT sensors across Jordan's popular destinations.", insightTemp: "Temperature", insightCrowd: "Crowd Level", insightHumidity: "Humidity", insightAir: "Air Quality",
+                    mapTitle: "Interactive Jordan Map", mapSubtitle: "Explore Jordan's attractions and plan your route with our interactive map.",
+                    categoriesTitle: "Discover Jordan Your Way", categoriesSubtitle: "Choose from our curated categories to find experiences that match your interests.",
+                    footerRights: "© 2024 SmartTour.JO. All rights reserved.",
+                    // Popups and others
+                    yourLocationPopup: "<b>Your Location</b>", welcomePopup: "Welcome to Jordan!", thinking: "...thinking"
+                },
+                ar: {
+                    siteTitle: "SmartTour.JO", navHome: "الرئيسية", navAIGuide: "المرشد الذكي", navInsights: "مؤشرات حيوية", arTitle: "تجربة الواقع المعزز", arSubtitle: "أعد تاريخ الأردن إلى الحياة. جرّب تجارب الواقع المعزز المعتمدة على الموقع.", arBtn: "شغّل تجربة الـ AR", navMap: "الخريطة", navExplore: "اكتشف",
+                    heroTitle: "اكتشف الأردن بذكاء", heroSubtitle: "اكتشف كنوز الأردن الخفية مع توصيات مدعومة بالذكاء الاصطناعي، وبيانات لحظية، وتجارب تفاعلية.", heroBtnStart: "ابدأ رحلتك الذكية", heroBtnExplore: "استكشف الفئات",
+                    chatbotTitle: "اسأل مرشدنا الذكي", chatbotSubtitle: "احصل على إجابات فورية حول معالم الأردن، أفضل أوقات السفر، وتوصيات شخصية.", chatPlaceholder: "اطلب خطة سياحية أو اسأل عن أي شيء...", chatSend: "أرسل",
+                    insightsTitle: "مؤشرات بيئية حية", insightsSubtitle: "بيانات لحظية من حساسات إنترنت الأشياء في أشهر الوجهات السياحية بالأردن.", insightTemp: "درجة الحرارة", insightCrowd: "مستوى الازدحام", insightHumidity: "الرطوبة", insightAir: "جودة الهواء",
+                    mapTitle: "خريطة الأردن التفاعلية", mapSubtitle: "استكشف معالم الأردن وخطط مسارك مع خريطتنا التفاعلية.",
+                    categoriesTitle: "اكتشف الأردن على طريقتك", categoriesSubtitle: "اختر من بين فئاتنا المنسقة لتجد التجارب التي تتناسب مع اهتماماتك.",
+                    footerRights: "© 2024 SmartTour.JO. جميع الحقوق محفوظة.",
+                    // Popups and others
+                    yourLocationPopup: "<b>موقعك الحالي</b>", welcomePopup: "مرحباً بك في الأردن!", thinking: "...لحظة من فضلك"
+                }
+            };
             
-            if(tempElement && crowdElement) {
-                setInterval(() => {
-                    tempElement.innerText = `${22 + Math.floor(Math.random() * 12)}°C`;
-                    crowdElement.innerText = crowdLevels[Math.floor(Math.random() * 3)];
-                }, 5000);
-            }
+            const categoriesData = {
+                en: [
+                    { id: 'nature', title: '🌿 Nature', description: 'From the deserts of Wadi Rum to the waters of the Dead Sea.', image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg'},
+                    { id: 'culture', title: '🏛️ Culture', description: 'Explore ancient Petra, Roman ruins of Jerash, and local traditions.', image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg'},
+                    { id: 'religious', title: '⛪ Religious', description: 'Follow biblical paths to Mount Nebo, Bethany, and other sacred sites.', image: 'https://images.unsplash.com/photo-1619522165660-e4381de13158'},
+                    { id: 'adventure', title: '🧗 Adventure', description: 'Desert camping, Red Sea diving, and canyoning adventures.', image: 'https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg'}
+                ],
+                ar: [
+                    { id: 'nature', title: '🌿 طبيعة', description: 'من صحراء وادي رم الشاسعة إلى مياه البحر الميت العلاجية.', image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg'},
+                    { id: 'culture', title: '🏛️ ثقافة وتاريخ', description: 'استكشف البتراء القديمة، وآثار جرش الرومانية، والتقاليد المحلية.', image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg'},
+                    { id: 'religious', title: '⛪ مواقع دينية', description: 'اتبع المسارات المقدسة إلى جبل نيبو والمغطس وغيرها من المواقع الهامة.', image: 'https://images.unsplash.com/photo-1619522165660-e4381de13158'},
+                    { id: 'adventure', title: '🧗 مغامرات', description: 'تخييم في الصحراء، غوص في البحر الأحمر، ومغامرات في الأودية.', image: 'https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg'}
+                ]
+            };
 
-            // --- Interactive Map ---
-            const mapElement = document.getElementById("map");
-            if (mapElement) {
-                const map = L.map("map").setView([31.9516, 35.9239], 8);
-                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
+            const setLanguage = (lang) => {
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+                localStorage.setItem('language', lang);
 
-                const locations = {
-                    "Amman": [31.9516, 35.9239],
-                    "Petra": [30.3285, 35.4444],
-                    "Wadi Rum": [29.5759, 35.4208],
-                    "Jerash": [32.2814, 35.8936],
-                    "Dead Sea": [31.5553, 35.4732]
-                };
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.getAttribute('data-translate');
+                    el.textContent = translations[lang][key] || '';
+                });
 
-                for(const [name, coords] of Object.entries(locations)) {
-                     L.marker(coords).addTo(map).bindPopup(`<b>${name}</b>`).openPopup();
-                }
-            }
+                document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
+                    const key = el.getAttribute('data-translate-placeholder');
+                    el.placeholder = translations[lang][key] || '';
+                });
 
-            // --- Category Cards & Modal ---
-            const categories = [
-                {
-                    id: 'nature',
-                    title: '🌿 Nature',
-                    description: 'From the deserts of Wadi Rum to the waters of the Dead Sea.',
-                    image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg'
-                },
-                {
-                    id: 'culture',
-                    title: '🏛️ Culture',
-                    description: 'Explore ancient Petra, Roman ruins of Jerash, and local traditions.',
-                    image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg'
-                },
-                {
-                    id: 'religious',
-                    title: '⛪ Religious',
-                    description: 'Follow biblical paths to Mount Nebo, Bethany, and other sacred sites.',
-                    image: 'https://images.unsplash.com/photo-1619522165660-e4381de13158'
-                },
-                {
-                    id: 'adventure',
-                    title: '🧗 Adventure',
-                    description: 'Experience thrilling adventures like desert camping and Red Sea diving.',
-                    image: 'https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg'
-                }
-            ];
+                document.getElementById('lang-ar').classList.toggle('active', lang === 'ar');
+                document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+                
+                populateCategories(lang);
+                updateInsights();
+            };
+            
+            // ===============================================
+            // =========== 2. CORE FUNCTIONALITY =============
+            // ===============================================
 
-            const categoriesGrid = document.getElementById('categories-grid');
-            const modal = document.getElementById('category-modal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalDescription = document.getElementById('modal-description');
-            const modalImage = document.getElementById('modal-image');
-            const closeModalBtn = document.getElementById('modal-close-btn');
-
-            if (categoriesGrid) {
-                categories.forEach(category => {
+            // --- Populate Categories ---
+            const categoriesGrid = document.querySelector('.categories-grid');
+            function populateCategories(lang) {
+                categoriesGrid.innerHTML = ''; // Clear existing cards
+                categoriesData[lang].forEach(cat => {
                     const card = document.createElement('div');
                     card.className = 'category-card';
                     card.innerHTML = `
-                        <div class="category-image" style="background-image: url('${category.image}')"></div>
+                        <div class="category-image" style="background-image: url('${cat.image}')"></div>
                         <div class="category-content">
-                            <h3 class="category-title">${category.title}</h3>
-                            <p class="category-description">${category.description}</p>
+                            <h3 class="category-title">${cat.title}</h3>
+                            <p>${cat.description}</p>
                         </div>
                     `;
-                    card.addEventListener('click', () => {
-                        modalTitle.textContent = category.title;
-                        modalDescription.textContent = category.description;
-                        modalImage.src = category.image;
-                        modal.style.display = 'flex';
-                    });
                     categoriesGrid.appendChild(card);
                 });
             }
 
-            if(modal) {
-                closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
-                window.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.style.display = 'none';
-                    }
+            // --- IoT Insights ---
+            function updateInsights() {
+                const lang = document.documentElement.lang;
+                const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] };
+                const airQualityLevels = { en: ["Good", "Moderate"], ar: ["جيدة", "متوسطة"] };
+                
+                document.getElementById("temp").innerText = `${Math.floor(Math.random() * 12) + 22}`;
+                document.getElementById("crowd").innerText = crowdLevels[lang][Math.floor(Math.random() * 3)];
+                document.getElementById("humidity").innerText = `${Math.floor(Math.random() * 21) + 35}`;
+                document.getElementById("air-quality").innerText = airQualityLevels[lang][Math.floor(Math.random() * 2)];
+            }
+            setInterval(updateInsights, 5000);
+
+            // --- Interactive Map ---
+            const map = L.map('map').setView([31.0, 36.5], 7);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    const userLoc = [pos.coords.latitude, pos.coords.longitude];
+                    map.setView(userLoc, 13);
+                    L.marker(userLoc).addTo(map).bindPopup(translations[document.documentElement.lang].yourLocationPopup).openPopup();
                 });
             }
 
             // --- Back to Top Button ---
-            const backToTopBtn = document.getElementById('back-to-top');
-            if (backToTopBtn) {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 300) {
-                        backToTopBtn.style.display = 'flex';
-                    } else {
-                        backToTopBtn.style.display = 'none';
-                    }
+            const backToTopBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                backToTopBtn.style.display = (window.scrollY > 300) ? 'flex' : 'none';
+            });
+            backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            
+            // --- Language Switcher Events ---
+            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+            document.getElementById('lang-ar').addEventListener('click', () => setLanguage('ar'));
+
+            // --- Initial Load ---
+            const savedLang = localStorage.getItem('language') || 'ar';
+            setLanguage(savedLang);
+        });
+
+        // ===============================================
+        // =========== 3. AI CHATBOT LOGIC ===============
+        // ===============================================
+        const chatWindow = document.getElementById('chatWindow');
+        const inputElement = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        let chatHistory = [];
+
+        function appendMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${type}-message`;
+            messageDiv.innerText = message;
+            chatWindow.appendChild(messageDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const userInput = inputElement.value.trim();
+            if (!userInput) return;
+
+            appendMessage(userInput, 'user');
+            chatHistory.push({ role: 'user', parts: [{ text: userInput }] });
+            
+            inputElement.value = '';
+            sendButton.disabled = true;
+
+            const lang = document.documentElement.lang;
+            const thinkingText = translations[lang].thinking;
+            const thinkingMessage = document.createElement('div');
+            thinkingMessage.className = 'chat-message bot-message';
+            thinkingMessage.innerText = thinkingText;
+            chatWindow.appendChild(thinkingMessage);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // !!! IMPORTANT !!!
+            // REPLACE THIS URL WITH THE URL OF YOUR DEPLOYED BACKEND ON RENDER
+            const apiUrl = "https://your-backend-api-url.onrender.com/chat";
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userInput, history: chatHistory }) // Send history for context
                 });
 
-                backToTopBtn.addEventListener('click', () => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
+                if (!response.ok) throw new Error(`Server error: ${response.status}`);
+                
+                const data = await response.json();
+                const botResponse = data.reply;
+                
+                chatWindow.removeChild(thinkingMessage);
+                appendMessage(botResponse, 'bot');
+                chatHistory.push({ role: 'model', parts: [{ text: botResponse }] });
+
+            } catch (error) {
+                console.error("Chat API Error:", error);
+                chatWindow.removeChild(thinkingMessage);
+                appendMessage(`❌ فشل الاتصال بالخادم. الرجاء التأكد من أن السيرفر الخلفي يعمل.`, 'bot');
+            } finally {
+                sendButton.disabled = false;
+                inputElement.focus();
             }
+        }
+        
+        inputElement.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !sendButton.disabled) sendMessage();
         });
+
     </script>
 </body>
 </html>
