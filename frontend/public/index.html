@@ -1,208 +1,72 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>SmartTour.JO</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="SmartTour.JO - AI-powered tourism guide for exploring Jordan's wonders" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Jordan - Explore Jordan Smarter</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <style>
-        html[lang="ar"] body {
-            font-family: 'Cairo', sans-serif;
-        }
-
-        html[lang="en"] body {
-            font-family: 'Poppins', sans-serif;
-        }
-
+        /* --- Base & Reset --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #ffffff;
             background-color: #0f0f10;
             overflow-x: hidden;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* --- General & Navbar --- */
-        .lang-switcher {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .lang-switcher button {
-            background: none;
-            border: 1px solid #4b5563;
-            color: #d1d5db;
-            padding: 5px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.2s ease;
-        }
-
-        .lang-switcher button:hover,
-        .lang-switcher button.active {
-            background: #8b5cf6;
-            color: white;
-            border-color: #8b5cf6;
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
+        /* --- Global Styles & Utilities --- */
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #8b5cf6;
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: #d1d5db;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            transition: all 0.3s ease;
+        .section {
+            padding: 6rem 0;
             position: relative;
         }
 
-        .nav-link:hover,
-        .nav-link.active {
-            color: #ffffff;
-            background: rgba(139, 92, 246, 0.2);
-            transform: translateY(-2px);
+        .section:nth-child(odd) {
+            background-color: #111827;
         }
 
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 4px;
-            background: #8b5cf6;
-            border-radius: 50%;
-        }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .mobile-menu span {
-            width: 25px;
-            height: 3px;
-            background: #ffffff;
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-
-        /* --- Hero Section (New & Improved) --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .section-title {
             text-align: center;
-            position: relative;
-            overflow: hidden;
-
-            /* The new layered background method */
-            background-image:
-                /* 1. Dark overlay */
-                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                /* 2. Color gradient */
-                linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3)),
-                /* 3. The actual image from Unsplash */
-                url('petra.webp');
-
-            background-size: cover;
-            background-position: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 2;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff, #e5e7eb);
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        .hero p {
-            font-size: clamp(1.1rem, 2vw, 1.3rem);
-            margin-bottom: 2rem;
-            color: #f3f4f6;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .btn {
@@ -210,7 +74,7 @@
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: none;
             cursor: pointer;
             font-size: 1rem;
@@ -221,7 +85,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
             color: white;
             box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
         }
@@ -244,210 +108,215 @@
             transform: translateY(-3px);
         }
 
-        /* --- Other Sections --- */
-        .section {
-            padding: 5rem 0;
+        /* --- Fixed Navigation --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
             position: relative;
         }
 
-        .section:nth-child(odd) {
-            background: #111827;
+        .nav-link:hover,
+        .nav-link.active {
+            color: #ffffff;
+            background: rgba(139, 92, 246, 0.2);
         }
 
-        .section:nth-child(even) {
-            background: #0f0f10;
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #06b6d4;
+            border-radius: 50%;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: none;
+            border: none;
+            gap: 5px;
         }
 
-        .section-title {
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        /* Mobile Nav Transitions */
+        .mobile-menu-btn.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .mobile-menu-btn.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu-btn.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.2)), url('https://images.unsplash.com/photo-1589493243452-90422a139199') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            font-size: clamp(2rem, 4vw, 3rem);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
 
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #9ca3af;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            margin-bottom: 2rem;
+            color: #f3f4f6;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- Chatbot --- */
-        .chatbot-container {
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* --- Chatbot, Insights, Map, AR --- */
+        .chatbot-container, .insights-container, .map-container, .ar-container {
             background: rgba(31, 41, 55, 0.5);
-            border-radius: 1rem;
+            border-radius: 12px;
             padding: 2rem;
             backdrop-filter: blur(16px);
             border: 1px solid rgba(75, 85, 99, 0.3);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .chatbot-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .chatbot-header h3 {
-            font-size: 1.5rem;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-        }
-
-        .chatbot-header p {
-            color: #9ca3af;
-        }
-
-        #chatWindow {
-            background: rgba(15, 15, 16, 0.5);
-            border-radius: 8px;
-            height: 400px;
-            padding: 1rem;
-            overflow-y: auto;
-            margin-bottom: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            border: 1px solid #4b5563;
-        }
-
-        .chat-message {
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            max-width: 80%;
-            line-height: 1.5;
-            white-space: pre-wrap;
-        }
-
-        .user-message {
-            background-color: #8b5cf6;
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 2px;
-        }
-
-        .bot-message {
-            background-color: #374151;
-            color: #f3f4f6;
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
-        }
-
-        .chat-input-area {
-            display: flex;
-            gap: 1rem;
-        }
-
-        #chatInput {
-            flex-grow: 1;
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid #4b5563;
-            background-color: #1f2937;
-            color: white;
-            font-size: 1rem;
-        }
-
-        #sendButton {
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            background: #8b5cf6;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.2s;
-        }
-
-        #sendButton:disabled {
-            background-color: #583c9c;
-            cursor: not-allowed;
-        }
-
-        /* --- Insights --- */
         .insights-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            text-align: center;
+        }
+        
+        .insight-card {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
         }
 
-        .insight-card {
-            background: rgba(31, 41, 55, 0.5);
-            border-radius: 1rem;
-            padding: 2rem;
-            text-align: center;
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(75, 85, 99, 0.3);
+        .insight-card p {
+            font-size: 1.2rem;
+            color: #d1d5db;
+        }
+
+        #temp, #crowd {
+            font-weight: 700;
+            color: #06b6d4;
             transition: all 0.3s ease;
         }
-
-        .insight-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
-            border-color: rgba(139, 92, 246, 0.5);
-        }
-
-        .insight-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .insight-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #8b5cf6;
-            margin-bottom: 0.5rem;
-        }
-
-        .insight-label {
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-
-        /* --- Map --- */
-        .map-container {
-            background: rgba(31, 41, 55, 0.5);
-            border-radius: 1rem;
-            padding: 1rem;
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(75, 85, 99, 0.3);
+        
+        .ar-container {
+            text-align: center;
         }
 
         #map {
-            height: 500px;
-            border-radius: 0.5rem;
+            height: 400px;
+            border-radius: 12px;
             z-index: 1;
         }
+        
+        .leaflet-popup-content-wrapper {
+            background: #1f2937;
+            color: #fff;
+            border-radius: 8px;
+        }
 
-        /* --- Categories --- */
+        .leaflet-popup-tip {
+            background: #1f2937;
+        }
+        
+        .leaflet-popup-content a {
+            color: #06b6d4;
+        }
+
+        /* --- Tourism Categories --- */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
         }
 
         .category-card {
             background: rgba(31, 41, 55, 0.5);
-            border-radius: 1rem;
+            border-radius: 12px;
             overflow: hidden;
-            backdrop-filter: blur(16px);
             border: 1px solid rgba(75, 85, 99, 0.3);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
 
@@ -461,37 +330,12 @@
             height: 200px;
             background-size: cover;
             background-position: center;
-            position: relative;
-        }
-
-        .category-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.6), rgba(59, 130, 246, 0.6));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .category-card:hover .category-overlay {
-            opacity: 1;
-        }
-
-        .category-overlay-text {
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
         }
 
         .category-content {
             padding: 1.5rem;
         }
-
+        
         .category-title {
             font-size: 1.3rem;
             font-weight: 600;
@@ -502,7 +346,6 @@
         .category-description {
             color: #9ca3af;
             font-size: 0.9rem;
-            line-height: 1.5;
         }
 
         /* --- Modal --- */
@@ -516,17 +359,18 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
             background: #1f2937;
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 1rem;
+            border-radius: 12px;
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
             position: relative;
-            animation: modalSlideIn 0.3s ease;
+            animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
 
         .modal-close {
@@ -538,14 +382,16 @@
             color: #9ca3af;
             transition: color 0.3s ease;
         }
+        .modal-close:hover { color: #ffffff; }
 
-        html[lang="ar"] .modal-close {
-            right: auto;
-            left: 1rem;
+        .modal-image {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
         }
-
-        .modal-close:hover {
-            color: #ffffff;
+        
+        .modal-body {
+            padding: 2rem;
         }
 
         .modal-title {
@@ -560,98 +406,109 @@
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
-
-        .modal-highlights {
-            list-style: none;
-            padding: 0;
+        
+        /* --- Testimonials --- */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .modal-highlights li {
+        .testimonial-card {
+            background: rgba(31, 41, 55, 0.5);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+            border: 2px solid #8b5cf6;
+        }
+
+        .testimonial-info h4 {
+            font-weight: 600;
+        }
+
+        .testimonial-info p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-rating {
+            color: #f59e0b;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
             color: #d1d5db;
-            padding: 0.5rem 0;
-            position: relative;
-            padding-left: 1.5rem;
+            font-style: italic;
         }
 
-        html[lang="ar"] .modal-highlights li {
-            padding-left: 0;
-            padding-right: 1.5rem;
-        }
-
-        html[lang="ar"] .modal-highlights li::before {
-            left: auto;
-            right: 0;
-        }
-
-        .modal-highlights li::before {
-            content: '•';
-            color: #8b5cf6;
-            position: absolute;
-            left: 0;
-            font-size: 1.2rem;
-        }
-
-        /* --- Etc --- */
+        /* --- Back to Top Button --- */
         .back-to-top {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            background: linear-gradient(135deg, #8b5cf6, #06b6d4);
             color: white;
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            border: none;
-            cursor: pointer;
             display: none;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
             box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
-        }
-
-        html[lang="ar"] .back-to-top {
-            right: auto;
-            left: 2rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
         }
 
         .back-to-top:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
+            transform: translateY(-3px) scale(1.1);
         }
 
+        /* --- Animations --- */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-50px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* --- Responsive --- */
+        /* --- Responsive Design --- */
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                padding: 1rem 0;
+            }
+            
+            .nav-menu.active {
+                display: flex;
             }
 
-            .mobile-menu {
+            .mobile-menu-btn {
                 display: flex;
             }
 
@@ -663,432 +520,226 @@
             .btn {
                 width: 100%;
                 max-width: 300px;
+                justify-content: center;
             }
 
             .section {
-                padding: 3rem 0;
+                padding: 4rem 0;
             }
-
+            
             .container {
                 padding: 0 1rem;
-            }
-
-            .categories-grid {
-                grid-template-columns: 1fr;
             }
 
             .back-to-top {
                 bottom: 1rem;
                 right: 1rem;
             }
-
-            html[lang="ar"] .back-to-top {
-                right: auto;
-                left: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-            }
-
-            .modal-content {
-                margin: 10% auto;
-                padding: 1.5rem;
-            }
         }
     </style>
 </head>
 
 <body>
-
     <nav class="navbar">
-        <div class="nav-container">
-            <a class="logo" href="#hero" data-translate="siteTitle">SmartTour.JO</a>
-            <ul class="nav-menu">
-                <li><a class="nav-link active" href="#hero" data-translate="navHome">الرئيسية</a></li>
-                <li><a class="nav-link" href="#chatbot" data-translate="navAIGuide">المرشد الذكي</a></li>
-                <li><a class="nav-link" href="#insights" data-translate="navInsights">مؤشرات حيوية</a></li>
-                <li><a class="nav-link" href="#map-section" data-translate="navMap">الخريطة</a></li>
-                <li><a class="nav-link" href="#categories" data-translate="navExplore">اكتشف</a></li>
-                <li class="lang-switcher">
-                    <button id="lang-ar">العربية</button>
-                    <button id="lang-en">English</button>
-                </li>
+        <div class="container nav-container">
+            <a href="#home" class="logo">Smart Jordan</a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#map" class="nav-link">Map</a></li>
+                <li><a href="#chatbot" class="nav-link">Chatbot</a></li>
+                <li><a href="#insights" class="nav-link">Live Insights</a></li>
+                <li><a href="#ar-experience" class="nav-link">AR-Experience</a></li>
+                <li><a href="#categories" class="nav-link">Categories</a></li>
+                <li><a href="#itinerary" class="nav-link">Itinerary</a></li>
+                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
             </ul>
-            <div class="mobile-menu"><span></span><span></span><span></span></div>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
-    <section class="hero" id="hero">
-        <div class="hero-content">
-            <h1 data-translate="heroTitle">اكتشف الأردن بذكاء</h1>
-            <p data-translate="heroSubtitle">اكتشف كنوز الأردن الخفية مع توصيات مدعومة بالذكاء الاصطناعي، وبيانات لحظية،
-                وتجارب تفاعلية تحول رحلتك إلى مغامرة لا تُنسى.</p>
-            <div class="hero-buttons">
-                <a class="btn btn-primary" href="#chatbot" data-translate="heroBtnStart">ابدأ رحلتك</a>
-                <a class="btn btn-secondary" href="#categories" data-translate="heroBtnExplore">استكشف الفئات</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="chatbot">
-        <div class="container">
-            <h2 class="section-title" data-translate="chatbotTitle">اسأل مرشدنا الذكي</h2>
-            <p class="section-subtitle" data-translate="chatbotSubtitle">احصل على إجابات فورية حول معالم الأردن، أفضل
-                أوقات السفر، العادات المحلية، وتوصيات شخصية من مساعدنا الذكي.</p>
-            <div class="chatbot-container">
-                <div class="chatbot-header">
-                    <h3 data-translate="chatbotHeader">🤖 مساعد SmartTour.JO الذكي</h3>
-                    <p data-translate="chatbotSubheader">رفيقك الشخصي لاستكشاف الأردن</p>
-                </div>
-                <div class="chat-window" id="chatWindow"></div>
-                <div class="chat-input-area">
-                    <input id="chatInput" data-translate-placeholder="chatPlaceholder"
-                        placeholder="اطلب خطة سياحية أو اسأل عن أي شيء..." type="text" />
-                    <button id="sendButton" onclick="sendMessage()" data-translate="chatSend">أرسل</button>
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Explore Jordan Smarter</h1>
+                <p>Discover Jordan's hidden treasures with AI-powered recommendations, real-time insights, and interactive experiences that transform your journey into an unforgettable adventure.</p>
+                <div class="hero-buttons">
+                    <a href="#chatbot" class="btn btn-primary">Start Your Smart Journey</a>
+                    <a href="#categories" class="btn btn-secondary">Explore Categories</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section" id="insights">
-        <div class="container">
-            <h2 class="section-title" data-translate="insightsTitle">مؤشرات بيئية حية</h2>
-            <p class="section-subtitle" data-translate="insightsSubtitle">بيانات لحظية من حساسات إنترنت الأشياء في أشهر
-                الوجهات السياحية بالأردن لمساعدتك على التخطيط لزيارتك بشكل مثالي.</p>
-            <div class="insights-grid">
-                <div class="insight-card"><span class="insight-icon">🌡️</span>
-                    <div class="insight-value" id="temp">-- °C</div>
-                    <div class="insight-label" data-translate="insightTemp">درجة الحرارة</div>
-                </div>
-                <div class="insight-card"><span class="insight-icon">👥</span>
-                    <div class="insight-value" id="crowd">--</div>
-                    <div class="insight-label" data-translate="insightCrowd">مستوى الازدحام</div>
-                </div>
-                <div class="insight-card"><span class="insight-icon">💧</span>
-                    <div class="insight-value" id="humidity">--%</div>
-                    <div class="insight-label" data-translate="insightHumidity">الرطوبة</div>
-                </div>
-                <div class="insight-card"><span class="insight-icon">🌬️</span>
-                    <div class="insight-value" id="air-quality">--</div>
-                    <div class="insight-label" data-translate="insightAir">جودة الهواء</div>
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">Our Smart Features</h2>
+                <p class="section-subtitle">Leveraging technology to provide you with a seamless and intelligent travel experience in Jordan.</p>
+                 <div class="categories-grid">
+                    <div class="category-card"><div class="category-content"><h3 class="category-title">🤖 AI Chatbot Guide</h3><p class="category-description">Get instant, personalized answers and travel plans from our smart assistant.</p></div></div>
+                    <div class="category-card"><div class="category-content"><h3 class="category-title">📊 Live IoT Insights</h3><p class="category-description">Plan perfectly with real-time data on weather and crowd levels at key sites.</p></div></div>
+                    <div class="category-card"><div class="category-content"><h3 class="category-title">📲 AR Experiences</h3><p class="category-description">Bring history to life by viewing ancient sites in augmented reality.</p></div></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section" id="map-section">
-        <div class="container">
-            <h2 class="section-title" data-translate="mapTitle">خريطة الأردن التفاعلية</h2>
-            <p class="section-subtitle" data-translate="mapSubtitle">استكشف معالم الأردن وخطط مسارك مع خريطتنا التفاعلية
-                التي تدعم بيانات الموقع الحية.</p>
-            <div class="map-container">
-                <div id="map"></div>
+        <section id="map" class="section">
+            <div class="container">
+                <h2 class="section-title">Interactive Map</h2>
+                <p class="section-subtitle">Explore Jordan's attractions and plan your route with our map featuring real-time location data.</p>
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section" id="categories">
-        <div class="container">
-            <h2 class="section-title" data-translate="categoriesTitle">اكتشف الأردن على طريقتك</h2>
-            <p class="section-subtitle" data-translate="categoriesSubtitle">اختر من بين فئاتنا المنسقة لتجد التجارب التي
-                تتناسب مع اهتماماتك وأسلوب سفرك.</p>
-            <div class="categories-grid">
-                <div class="category-card" data-category="nature">
-                    <div class="category-image"
-                        style="background-image: url('https://images.pexels.com/photos/17645580/pexels-photo-17645580.jpeg');">
-                        <div class="category-overlay"><span class="category-overlay-text"
-                                data-translate="catNatureOverlay">استكشف الطبيعة</span></div>
-                    </div>
-                    <div class="category-content">
-                        <h3 class="category-title" data-translate="catNatureTitle">🌿 مغامرات في الطبيعة</h3>
-                        <p class="category-description" data-translate="catNatureDesc">اكتشف المناظر الطبيعية الخلابة في
-                            الأردن من صحراء وادي رم إلى مياه البحر الميت العلاجية.</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="culture">
-                    <div class="category-image"
-                        style="background-image: url('https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg');">
-                        <div class="category-overlay"><span class="category-overlay-text"
-                                data-translate="catCultureOverlay">اكتشف الثقافة</span></div>
-                    </div>
-                    <div class="category-content">
-                        <h3 class="category-title" data-translate="catCultureTitle">🏛️ التراث الثقافي</h3>
-                        <p class="category-description" data-translate="catCultureDesc">استكشف البتراء القديمة، وآثار
-                            جرش الرومانية، وجرب الثقافة البدوية الأصيلة في المواقع التاريخية في الأردن.</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="religious">
-                    <div class="category-image"
-                        style="background-image: url('https://images.unsplash.com/photo-1750357445390-264bfe3b6db2');">
-                        <div class="category-overlay"><span class="category-overlay-text"
-                                data-translate="catReligiousOverlay">المواقع المقدسة</span></div>
-                    </div>
-                    <div class="category-content">
-                        <h3 class="category-title" data-translate="catReligiousTitle">⛪ المواقع الدينية</h3>
-                        <p class="category-description" data-translate="catReligiousDesc">اتبع المسارات الدينية إلى جبل
-                            نيبو، والمغطس، وغيرها من المواقع المقدسة ذات الأهمية الروحية.</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="adventure">
-                    <div class="category-image"
-                        style="background-image: url('https://images.unsplash.com/photo-1750357437870-5b4ef7f03df8');">
-                        <div class="category-overlay"><span class="category-overlay-text"
-                                data-translate="catAdventureOverlay">المغامرة تنتظرك</span></div>
-                    </div>
-                    <div class="category-content">
-                        <h3 class="category-title" data-translate="catAdventureTitle">🏔️ رياضات المغامرة</h3>
-                        <p class="category-description" data-translate="catAdventureDesc">جرب مغامرات مثيرة من ركوب
-                            المنطاد فوق وادي رم إلى الغوص في البحر الأحمر في العقبة.</p>
+        <section id="chatbot" class="section">
+            <div class="container">
+                <h2 class="section-title">Ask Our Smart AI Guide</h2>
+                <p class="section-subtitle">Get instant answers about Jordan's attractions, best travel times, and personalized recommendations.</p>
+                <div class="chatbot-container">
+                    <iframe src="https://www.chatbase.co/chatbot-iframe/65d67f69-4f4d-4bd7-a2b8-d9bd1de06dd3" width="100%" style="height:500px;border-radius:12px;border:none"></iframe>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <a href="itinerary.html" class="btn btn-primary">View My Itinerary</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="section" style="background: #0a0a0a;">
-        <div class="container">
-            <div style="text-align: center; padding: 2rem 0;">
-                <h3 style="color: #8b5cf6; font-size: 1.5rem; margin-bottom: 1rem;" data-translate="siteTitle">
-                    SmartTour.JO</h3>
-                <p style="color: #9ca3af; margin-bottom: 2rem;" data-translate="footerSlogan">رفيقك الذكي لاستكشاف عجائب
-                    الأردن</p>
-                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-                    <a href="#" style="color: #9ca3af; text-decoration: none;" data-translate="footerPrivacy">سياسة
-                        الخصوصية</a>
-                    <a href="#" style="color: #9ca3af; text-decoration: none;" data-translate="footerTerms">شروط
-                        الخدمة</a>
-                    <a href="#" style="color: #9ca3af; text-decoration: none;" data-translate="footerContact">اتصل
-                        بنا</a>
+        <section id="insights" class="section">
+            <div class="container">
+                <h2 class="section-title">Live Environment Insights</h2>
+                <p class="section-subtitle">Real-time data from IoT sensors across Jordan's popular destinations to help you plan the perfect visit.</p>
+                <div class="insights-container">
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <p>🌡️ Temperature: <span id="temp">--</span></p>
+                        </div>
+                        <div class="insight-card">
+                            <p>👥 Crowd Level: <span id="crowd">--</span></p>
+                        </div>
+                    </div>
                 </div>
-                <p style="color: #6b7280; margin-top: 2rem; font-size: 0.9rem;" data-translate="footerRights">© 2025
-                    SmartTour.JO. جميع الحقوق محفوظة.</p>
             </div>
-        </div>
-    </footer>
+        </section>
 
-    <div class="modal" id="natureModal">
-        <div class="modal-content"><span class="modal-close">×</span>
-            <h2 class="modal-title" data-translate="modalNatureTitle"></h2>
-            <p class="modal-text" data-translate="modalNatureText"></p>
-            <ul class="modal-highlights">
-                <li data-translate="modalNature1"></li>
-                <li data-translate="modalNature2"></li>
-                <li data-translate="modalNature3"></li>
-                <li data-translate="modalNature4"></li>
-            </ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;" data-translate="modalBtnBookNature"></a>
-        </div>
-    </div>
-    <div class="modal" id="cultureModal">
-        <div class="modal-content"><span class="modal-close">×</span>
-            <h2 class="modal-title" data-translate="modalCultureTitle"></h2>
-            <p class="modal-text" data-translate="modalCultureText"></p>
-            <ul class="modal-highlights">
-                <li data-translate="modalCulture1"></li>
-                <li data-translate="modalCulture2"></li>
-                <li data-translate="modalCulture3"></li>
-                <li data-translate="modalCulture4"></li>
-            </ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;" data-translate="modalBtnBookCulture"></a>
-        </div>
-    </div>
-    <div class="modal" id="religiousModal">
-        <div class="modal-content"><span class="modal-close">×</span>
-            <h2 class="modal-title" data-translate="modalReligiousTitle"></h2>
-            <p class="modal-text" data-translate="modalReligiousText"></p>
-            <ul class="modal-highlights">
-                <li data-translate="modalReligious1"></li>
-                <li data-translate="modalReligious2"></li>
-                <li data-translate="modalReligious3"></li>
-                <li data-translate="modalReligious4"></li>
-            </ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;"
-                data-translate="modalBtnBookReligious"></a>
-        </div>
-    </div>
-    <div class="modal" id="adventureModal">
-        <div class="modal-content"><span class="modal-close">×</span>
-            <h2 class="modal-title" data-translate="modalAdventureTitle"></h2>
-            <p class="modal-text" data-translate="modalAdventureText"></p>
-            <ul class="modal-highlights">
-                <li data-translate="modalAdventure1"></li>
-                <li data-translate="modalAdventure2"></li>
-                <li data-translate="modalAdventure3"></li>
-                <li data-translate="modalAdventure4"></li>
-            </ul><a class="btn btn-primary" href="#" style="margin-top: 1rem;"
-                data-translate="modalBtnBookAdventure"></a>
+        <section id="ar-experience" class="section">
+            <div class="container">
+                <h2 class="section-title">Augmented Reality Experience</h2>
+                <p class="section-subtitle">Bring ancient history to life right in front of you. Point your camera at a Hiro marker to see the magic.</p>
+                <div class="ar-container">
+                     <p>Click the button below to open the AR view and scan a Hiro marker to see a 3D object appear in your world!</p>
+                     <a href="ar.html" class="btn btn-primary" style="margin-top: 1.5rem;">View in AR</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="categories" class="section">
+            <div class="container">
+                <h2 class="section-title">Discover Jordan Your Way</h2>
+                <p class="section-subtitle">Choose from our curated categories to find experiences that match your interests.</p>
+                <div class="categories-grid" id="categories-grid">
+                    </div>
+            </div>
+        </section>
+        
+        <section id="itinerary" class="section">
+            <div class="container">
+                <h2 class="section-title">Your Personalized Itinerary</h2>
+                <p class="section-subtitle">Based on your preferences, our AI has crafted the perfect journey for you. View your detailed plan now.</p>
+                 <div style="text-align: center;">
+                    <a href="itinerary.html" class="btn btn-primary">View Full Itinerary</a>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="testimonials" class="section">
+            <div class="container">
+                <h2 class="section-title">What Travelers Say</h2>
+                <p class="section-subtitle">Real experiences from smart travelers who explored Jordan with our platform.</p>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Sarah J." class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h4>Sarah J. 🇺🇸</h4>
+                                <p>Travel Blogger</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"The AI guide was incredible! It led us to hidden gems in Petra we never would have found. The crowd data was a lifesaver!"</p>
+                    </div>
+                    <div class="testimonial-card">
+                         <div class="testimonial-header">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="Marco R." class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h4>Marco R. 🇪🇸</h4>
+                                <p>Photographer</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"The AR experience at Jerash was mind-blowing. Seeing the ancient city come to life was like time travel. Absolutely unforgettable."</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="Emma C." class="testimonial-avatar">
+                            <div class="testimonial-info">
+                                <h4>Emma C. 🇦🇺</h4>
+                                <p>Adventure Seeker</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">★★★★★</div>
+                        <p class="testimonial-text">"Perfectly planned itinerary! The AI recommendations for food were spot-on. The smart map made navigating so easy."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="category-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close-btn">&times;</span>
+            <img id="modal-image" src="" alt="Category Image" class="modal-image">
+            <div class="modal-body">
+                <h2 id="modal-title" class="modal-title"></h2>
+                <p id="modal-description" class="modal-text"></p>
+                <button class="btn btn-primary" style="width: 100%;">Add to My Tour</button>
+            </div>
         </div>
     </div>
 
-    <button class="back-to-top" id="backToTop">↑</button>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <button id="back-to-top" class="back-to-top" title="Go to top">↑</button>
 
     <script>
-        // --- Merged & Corrected JavaScript ---
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Navigation ---
+            const navMenu = document.getElementById('nav-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const navLinks = document.querySelectorAll('.nav-link');
 
-            // ===============================================
-            // =========== 1. LANGUAGE & TRANSLATION ===========
-            // ===============================================
-            const translations = {
-                en: {
-                    siteTitle: "SmartTour.JO",
-                    navHome: "Home", navAIGuide: "AI Guide", navInsights: "Insights", navMap: "Map", navExplore: "Explore",
-                    heroTitle: "Explore Jordan Smarter",
-                    heroSubtitle: "Discover Jordan's hidden treasures with AI-powered recommendations, real-time insights, and interactive experiences that transform your journey into an unforgettable adventure.",
-                    heroBtnStart: "Start Your Journey", heroBtnExplore: "Explore Categories",
-                    chatbotTitle: "Ask Our Smart AI Guide",
-                    chatbotSubtitle: "Get instant answers about Jordan's attractions, best travel times, local customs, and personalized recommendations from our intelligent travel assistant.",
-                    chatbotHeader: "🤖 SmartTour.JO AI Assistant", chatbotSubheader: "Your personal travel companion for exploring Jordan",
-                    chatPlaceholder: "Request a tour plan or ask anything...", chatSend: "Send",
-                    insightsTitle: "Live Environment Insights",
-                    insightsSubtitle: "Real-time data from IoT sensors across Jordan's popular destinations to help you plan the perfect visit.",
-                    insightTemp: "Temperature", insightCrowd: "Crowd Level", insightHumidity: "Humidity", insightAir: "Air Quality",
-                    mapTitle: "Interactive Jordan Map",
-                    mapSubtitle: "Explore Jordan's attractions and plan your route with our interactive map featuring real-time location data.",
-                    categoriesTitle: "Discover Jordan Your Way",
-                    categoriesSubtitle: "Choose from our curated categories to find experiences that match your interests and travel style.",
-                    catNatureOverlay: "Explore Nature", catNatureTitle: "🌿 Nature Adventures", catNatureDesc: "Discover Jordan's breathtaking natural landscapes from the otherworldly Wadi Rum desert to the therapeutic Dead Sea waters.",
-                    catCultureOverlay: "Discover Culture", catCultureTitle: "🏛️ Cultural Heritage", catCultureDesc: "Explore ancient Petra, Roman ruins of Jerash, and experience authentic Bedouin culture in Jordan's historical sites.",
-                    catReligiousOverlay: "Sacred Sites", catReligiousTitle: "⛪ Religious Sites", catReligiousDesc: "Follow biblical paths to Mount Nebo, Bethany Beyond Jordan, and other sacred sites of spiritual significance.",
-                    catAdventureOverlay: "Adventure Awaits", catAdventureTitle: "🏔️ Adventure Sports", catAdventureDesc: "Experience thrilling adventures from hot air balloon rides over Wadi Rum to diving in the Red Sea at Aqaba.",
-                    footerSlogan: "Your intelligent companion for exploring Jordan's wonders",
-                    footerPrivacy: "Privacy Policy", footerTerms: "Terms of Service", footerContact: "Contact Us", footerRights: "© 2025 SmartTour.JO. All rights reserved.",
-                    modalNatureTitle: "🌿 Nature Adventures", modalNatureText: "Jordan's natural landscapes offer some of the world's most breathtaking experiences. From the otherworldly red sands of Wadi Rum to the therapeutic waters of the Dead Sea.", modalNature1: "Stargazing in Wadi Rum's pristine desert skies", modalNature2: "Floating in the mineral-rich Dead Sea waters", modalNature3: "Hiking through diverse ecosystems in Dana Reserve", modalNature4: "Bird watching at Azraq Wetland Reserve", modalBtnBookNature: "Book Nature Tour",
-                    modalCultureTitle: "🏛️ Cultural Heritage", modalCultureText: "Jordan's cultural treasures span millennia, from the rose-red city of Petra to the remarkably preserved Roman ruins of Jerash.", modalCulture1: "Walk through Petra's Treasury and Monastery", modalCulture2: "Explore the colonnaded streets of Jerash", modalCulture3: "Experience traditional Bedouin hospitality", modalCulture4: "Visit ancient Amman Citadel", modalBtnBookCulture: "Book Cultural Tour",
-                    modalReligiousTitle: "⛪ Religious Sites", modalReligiousText: "Jordan holds deep spiritual significance for three major world religions. Experience profound spiritual journeys in breathtaking natural settings.", modalReligious1: "Stand at Mount Nebo where Moses viewed the Promised Land", modalReligious2: "Visit the baptism site of Jesus Christ", modalReligious3: "See the ancient Madaba Map mosaic", modalReligious4: "Explore the fortress of Machaerus", modalBtnBookReligious: "Book Religious Tour",
-                    modalAdventureTitle: "🏔️ Adventure Sports", modalAdventureText: "Jordan offers world-class adventure experiences for thrill-seekers. From soaring over Martian landscapes to diving in coral-rich waters.", modalAdventure1: "Hot air balloon flights over Wadi Rum at sunrise", modalAdventure2: "Overnight desert camping with Bedouin guides", modalAdventure3: "World-class diving and snorkeling in Aqaba", modalAdventure4: "Canyoning adventures in remote wadis", modalBtnBookAdventure: "Book Adventure Tour",
-                    petraPopup: "Petra - The Rose City", jerashPopup: "Jerash - Ancient Roman City", wadiRumPopup: "Wadi Rum - Valley of the Moon", yourLocationPopup: "<b>Your Location</b>", welcomePopup: "Welcome to Jordan!"
-                },
-                ar: {
-                    siteTitle: "SmartTour.JO",
-                    navHome: "الرئيسية", navAIGuide: "المرشد الذكي", navInsights: "مؤشرات حيوية", navMap: "الخريطة", navExplore: "اكتشف",
-                    heroTitle: "اكتشف الأردن بذكاء", heroSubtitle: "اكتشف كنوز الأردن الخفية مع توصيات مدعومة بالذكاء الاصطناعي، وبيانات لحظية، وتجارب تفاعلية تحول رحلتك إلى مغامرة لا تُنسى.",
-                    heroBtnStart: "ابدأ رحلتك", heroBtnExplore: "استكشف الفئات",
-                    chatbotTitle: "اسأل مرشدنا الذكي", chatbotSubtitle: "احصل على إجابات فورية حول معالم الأردن، أفضل أوقات السفر، العادات المحلية، وتوصيات شخصية من مساعدنا الذكي.",
-                    chatbotHeader: "🤖 مساعد SmartTour.JO الذكي", chatbotSubheader: "رفيقك الشخصي لاستكشاف الأردن",
-                    chatPlaceholder: "اطلب خطة سياحية أو اسأل عن أي شيء...", chatSend: "أرسل",
-                    insightsTitle: "مؤشرات بيئية حية", insightsSubtitle: "بيانات لحظية من حساسات إنترنت الأشياء في أشهر الوجهات السياحية بالأردن لمساعدتك على التخطيط لزيارتك بشكل مثالي.",
-                    insightTemp: "درجة الحرارة", insightCrowd: "مستوى الازدحام", insightHumidity: "الرطوبة", insightAir: "جودة الهواء",
-                    mapTitle: "خريطة الأردن التفاعلية", mapSubtitle: "استكشف معالم الأردن وخطط مسارك مع خريطتنا التفاعلية التي تدعم بيانات الموقع الحية.",
-                    categoriesTitle: "اكتشف الأردن على طريقتك", categoriesSubtitle: "اختر من بين فئاتنا المنسقة لتجد التجارب التي تتناسب مع اهتماماتك وأسلوب سفرك.",
-                    catNatureOverlay: "استكشف الطبيعة", catNatureTitle: "🌿 مغامرات في الطبيعة", catNatureDesc: "اكتشف المناظر الطبيعية الخلابة في الأردن من صحراء وادي رم إلى مياه البحر الميت العلاجية.",
-                    catCultureOverlay: "اكتشف الثقافة", catCultureTitle: "🏛️ التراث الثقافي", catCultureDesc: "استكشف البتراء القديمة، وآثار جرش الرومانية، وجرب الثقافة البدوية الأصيلة في المواقع التاريخية في الأردن.",
-                    catReligiousOverlay: "المواقع المقدسة", catReligiousTitle: "⛪ المواقع الدينية", catReligiousDesc: "اتبع المسارات الدينية إلى جبل نيبو، والمغطس، وغيرها من المواقع المقدسة ذات الأهمية الروحية.",
-                    catAdventureOverlay: "المغامرة تنتظرك", catAdventureTitle: "🏔️ رياضات المغامرة", catAdventureDesc: "جرب مغامرات مثيرة من ركوب المنطاد فوق وادي رم إلى الغوص في البحر الأحمر في العقبة.",
-                    footerSlogan: "رفيقك الذكي لاستكشاف عجائب الأردن",
-                    footerPrivacy: "سياسة الخصوصية", footerTerms: "شروط الخدمة", footerContact: "اتصل بنا", footerRights: "© 2025 SmartTour.JO. جميع الحقوق محفوظة.",
-                    modalNatureTitle: "🌿 مغامرات في الطبيعة", modalNatureText: "تقدم المناظر الطبيعية في الأردن بعضًا من أروع التجارب في العالم. من رمال وادي رم الحمراء إلى مياه البحر الميت العلاجية.", modalNature1: "التحديق في النجوم في سماء وادي رم الصافية", modalNature2: "الطفو في مياه البحر الميت الغنية بالمعادن", modalNature3: "التنزه في محمية ضانا", modalNature4: "مشاهدة الطيور في محمية الأزرق", modalBtnBookNature: "حجز جولة طبيعية",
-                    modalCultureTitle: "🏛️ التراث الثقافي", modalCultureText: "تمتد كنوز الأردن الثقافية لآلاف السنين، من مدينة البتراء الوردية إلى آثار جرش الرومانية المحفوظة بشكل رائع.", modalCulture1: "المشي عبر الخزنة والدير في البتراء", modalCulture2: "استكشاف شوارع جرش ذات الأعمدة", modalCulture3: "تجربة الضيافة البدوية الأصيلة", modalCulture4: "زيارة قلعة عمان القديمة", modalBtnBookCulture: "حجز جولة ثقافية",
-                    modalReligiousTitle: "⛪ المواقع الدينية", modalReligiousText: "يحمل الأردن أهمية روحية عميقة لثلاث ديانات عالمية كبرى. استمتع برحلات روحانية عميقة في أماكن طبيعية خلابة.", modalReligious1: "الوقوف على جبل نيبو حيث رأى موسى الأرض الموعودة", modalReligious2: "زيارة موقع عماد السيد المسيح", modalReligious3: "رؤية فسيفساء خريطة مادبا القديمة", modalReligious4: "استكشاف قلعة مكاور", modalBtnBookReligious: "حجز جولة دينية",
-                    modalAdventureTitle: "🏔️ رياضات المغامرة", modalAdventureText: "يقدم الأردن تجارب مغامرات عالمية المستوى للباحثين عن الإثارة. من التحليق فوق المناظر الطبيعية الخلابة إلى الغوص في المياه الغنية بالشعاب المرجانية.", modalAdventure1: "رحلات المنطاد فوق وادي رم عند شروق الشمس", modalAdventure2: "التخييم الليلي في الصحراء مع مرشدين بدو", modalAdventure3: "الغوص والغطس عالمي المستوى في العقبة", modalAdventure4: "مغامرات استكشاف الأودية في الوديان النائية", modalBtnBookAdventure: "حجز جولة مغامرات",
-                    petraPopup: "البتراء - المدينة الوردية", jerashPopup: "جرش - مدينة رومانية قديمة", wadiRumPopup: "وادي رم - وادي القمر", yourLocationPopup: "<b>موقعك الحالي</b>", welcomePopup: "مرحباً بك في الأردن!"
-                }
-            };
-
-            const setLanguage = (language) => {
-                document.documentElement.lang = language;
-                document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
-                localStorage.setItem('language', language);
-
-                document.querySelectorAll('[data-translate]').forEach(element => {
-                    const key = element.getAttribute('data-translate');
-                    if (translations[language] && translations[language][key]) {
-                        element.innerHTML = translations[language][key];
-                    }
+            mobileMenuBtn.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                mobileMenuBtn.classList.toggle('open');
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                     navMenu.classList.remove('active');
+                     mobileMenuBtn.classList.remove('open');
                 });
+            });
 
-                document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
-                    const key = element.getAttribute('data-translate-placeholder');
-                    if (translations[language] && translations[language][key]) {
-                        element.placeholder = translations[language][key];
-                    }
-                });
-
-                document.getElementById('lang-ar').classList.toggle('active', language === 'ar');
-                document.getElementById('lang-en').classList.toggle('active', language === 'en');
-
-                // Update map popups on language change
-                if (window.mapInstance) {
-                    window.mapInstance.eachLayer(function (layer) {
-                        if (layer instanceof L.Marker && layer.options.translationKey) {
-                            const key = layer.options.translationKey;
-                            const popupText = translations[language][key] || layer.options.title;
-                            layer.bindPopup(popupText);
-                        }
-                    });
-                }
-            };
-
-            document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
-            document.getElementById('lang-ar').addEventListener('click', () => setLanguage('ar'));
-
-            // ===============================================
-            // =========== 2. MAP INITIALIZATION =============
-            // ===============================================
-            const mapElement = document.getElementById('map');
-            if (mapElement) {
-                const defaultCenter = [31.0, 36.5];
-                const defaultZoom = 7;
-                const map = L.map('map').setView(defaultCenter, defaultZoom);
-                window.mapInstance = map;
-
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(map);
-
-                // Add markers with translation keys
-                L.marker([30.3285, 35.4444], { title: "Petra - The Rose City", translationKey: "petraPopup" }).addTo(map);
-                L.marker([32.2811, 35.8467], { title: "Jerash - Ancient Roman City", translationKey: "jerashPopup" }).addTo(map);
-                L.marker([29.5792, 35.0097], { title: "Wadi Rum - Valley of the Moon", translationKey: "wadiRumPopup" }).addTo(map);
-
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            const userLocation = [position.coords.latitude, position.coords.longitude];
-                            map.setView(userLocation, 13);
-                            L.marker(userLocation, { translationKey: "yourLocationPopup" }).addTo(map);
-                        },
-                        () => {
-                            console.log("Geolocation failed. Defaulting to Jordan view.");
-                        }
-                    );
-                } else {
-                    console.log("Geolocation is not supported by this browser.");
-                }
-
-                // Invalidate map size after a short delay to ensure it renders correctly
-                setTimeout(() => map.invalidateSize(), 400);
-
-            } else {
-                console.error("Map container #map not found!");
-            }
-
-            // ===============================================
-            // =========== 3. OTHER PAGE SCRIPTS =============
-            // ===============================================
-
-            // Set initial language from storage or default to Arabic
-            const savedLang = localStorage.getItem('language') || 'ar';
-            setLanguage(savedLang);
-
-            // Active nav link on scroll
+            // Scroll-spy for nav links
+            const sections = document.querySelectorAll('section[id]');
             window.addEventListener('scroll', () => {
-                const sections = document.querySelectorAll('section[id]');
-                const navLinks = document.querySelectorAll('.nav-link');
-                let current = 'hero';
+                let current = '';
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
-                    if (window.scrollY >= sectionTop - 150) {
+                    if (window.pageYOffset >= sectionTop - 150) {
                         current = section.getAttribute('id');
                     }
                 });
@@ -1101,166 +752,120 @@
                 });
             });
 
-            // Update IoT insights data
-            function updateInsights() {
-                const lang = document.documentElement.lang || 'ar';
-                const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] };
-                const airQualityLevels = { en: ["Good", "Moderate", "Excellent"], ar: ["جيدة", "متوسطة", "ممتازة"] };
-                const temp = Math.floor(Math.random() * 12) + 22;
-                const crowd = crowdLevels[lang][Math.floor(Math.random() * crowdLevels[lang].length)];
-                const humidity = (Math.floor(Math.random() * 21) + 35) + "%";
-                const airQuality = airQualityLevels[lang][Math.floor(Math.random() * airQualityLevels[lang].length)];
-                document.getElementById("temp").innerText = `${temp}°C`;
-                document.getElementById("crowd").innerText = crowd;
-                document.getElementById("humidity").innerText = humidity;
-                document.getElementById("air-quality").innerText = airQuality;
+            // --- IoT Data Simulation ---
+            const crowdLevels = ["Low", "Medium", "High"];
+            const tempElement = document.getElementById("temp");
+            const crowdElement = document.getElementById("crowd");
+            
+            if(tempElement && crowdElement) {
+                setInterval(() => {
+                    tempElement.innerText = `${22 + Math.floor(Math.random() * 12)}°C`;
+                    crowdElement.innerText = crowdLevels[Math.floor(Math.random() * 3)];
+                }, 5000);
             }
-            updateInsights();
-            setInterval(updateInsights, 5000);
 
-            // Category Modals
-            const categoryCards = document.querySelectorAll('.category-card');
-            categoryCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const category = card.getAttribute('data-category');
-                    const modalId = category + 'Modal';
-                    const modal = document.getElementById(modalId);
-                    if (modal) {
-                        modal.style.display = 'block';
-                        // Re-apply translations when opening modal to ensure content is correct
-                        setLanguage(document.documentElement.lang);
-                    }
-                });
-            });
-            const modalCloses = document.querySelectorAll('.modal-close');
-            modalCloses.forEach(close => {
-                close.addEventListener('click', (e) => {
-                    e.target.closest('.modal').style.display = 'none';
-                });
-            });
-            window.addEventListener('click', (e) => {
-                if (e.target.classList.contains('modal')) {
-                    e.target.style.display = 'none';
+            // --- Interactive Map ---
+            const mapElement = document.getElementById("map");
+            if (mapElement) {
+                const map = L.map("map").setView([31.9516, 35.9239], 8);
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                const locations = {
+                    "Amman": [31.9516, 35.9239],
+                    "Petra": [30.3285, 35.4444],
+                    "Wadi Rum": [29.5759, 35.4208],
+                    "Jerash": [32.2814, 35.8936],
+                    "Dead Sea": [31.5553, 35.4732]
+                };
+
+                for(const [name, coords] of Object.entries(locations)) {
+                     L.marker(coords).addTo(map).bindPopup(`<b>${name}</b>`).openPopup();
                 }
-            });
+            }
 
-            // Back to Top Button
-            const backToTopBtn = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTopBtn.style.display = 'flex';
-                } else {
-                    backToTopBtn.style.display = 'none';
+            // --- Category Cards & Modal ---
+            const categories = [
+                {
+                    id: 'nature',
+                    title: '🌿 Nature',
+                    description: 'From the deserts of Wadi Rum to the waters of the Dead Sea.',
+                    image: 'https://images.pexels.com/photos/2356045/pexels-photo-2356045.jpeg'
+                },
+                {
+                    id: 'culture',
+                    title: '🏛️ Culture',
+                    description: 'Explore ancient Petra, Roman ruins of Jerash, and local traditions.',
+                    image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg'
+                },
+                {
+                    id: 'religious',
+                    title: '⛪ Religious',
+                    description: 'Follow biblical paths to Mount Nebo, Bethany, and other sacred sites.',
+                    image: 'https://images.unsplash.com/photo-1619522165660-e4381de13158'
+                },
+                {
+                    id: 'adventure',
+                    title: '🧗 Adventure',
+                    description: 'Experience thrilling adventures like desert camping and Red Sea diving.',
+                    image: 'https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg'
                 }
-            });
-            backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            ];
 
-            // Smooth scroll for anchor links
-            document.querySelectorAll('a.nav-link[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            });
+            const categoriesGrid = document.getElementById('categories-grid');
+            const modal = document.getElementById('category-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDescription = document.getElementById('modal-description');
+            const modalImage = document.getElementById('modal-image');
+            const closeModalBtn = document.getElementById('modal-close-btn');
 
-            // --- Chatbot Logic ---
-            const systemPrompt = `
-            You are "SmartTour.JO AI Assistant", an expert and enthusiastic tour guide for Jordan. Your job is to help tourists plan their trips within Jordan ONLY.
-            Your rules:
-            1. Specialization: Your knowledge is limited to tourism in Jordan only.
-            2. Itineraries: When a plan is requested, build it with clear points. If the question is general, ask for details (number of days, interests).
-            3. External questions: If asked about something outside of Jordanian tourism, politely decline.
-            4. Tone: Use a clear and welcoming Arabic dialect.
-        `;
-            let chatHistory = [];
-            const chatWindow = document.getElementById('chatWindow');
-            const inputElement = document.getElementById('chatInput');
-            const sendButton = document.getElementById('sendButton');
-
-            const welcomeMessage = "مرحباً بك! أنا مرشدك السياحي الذكي في الأردن. كيف يمكنني مساعدتك في التخطيط لرحلتك اليوم؟";
-            if (chatWindow && chatWindow.children.length === 0) {
-                appendMessage(welcomeMessage, 'bot');
-                chatHistory.push({ role: 'model', parts: [{ text: welcomeMessage }] });
-            }
-
-            if (inputElement) {
-                inputElement.addEventListener('keypress', function (event) {
-                    if (event.key === 'Enter' && !sendButton.disabled) {
-                        event.preventDefault();
-                        sendMessage();
-                    }
-                });
-            }
-
-            function appendMessage(message, type) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `chat-message ${type}-message`;
-                messageDiv.innerText = message;
-                chatWindow.appendChild(messageDiv);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            }
-
-            window.sendMessage = async function () {
-                const userInput = inputElement.value.trim();
-                if (!userInput) return;
-
-                appendMessage(userInput, 'user');
-
-                if (chatHistory.length === 0 || (chatHistory[0].role !== 'user' && chatHistory[0].parts[0].text !== systemPrompt)) {
-                    chatHistory.unshift({ role: 'user', parts: [{ text: systemPrompt }] });
-                }
-
-                chatHistory.push({ role: 'user', parts: [{ text: userInput }] });
-
-                inputElement.value = '';
-                sendButton.disabled = true;
-
-                const thinkingMessage = document.createElement('div');
-                thinkingMessage.className = 'chat-message bot-message';
-                thinkingMessage.innerText = '...يفكر';
-                chatWindow.appendChild(thinkingMessage);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-
-                const workerUrl = "https://white-frost-8014.karam200566.workers.dev/";
-
-                try {
-                    const response = await fetch(workerUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ history: chatHistory })
+            if (categoriesGrid) {
+                categories.forEach(category => {
+                    const card = document.createElement('div');
+                    card.className = 'category-card';
+                    card.innerHTML = `
+                        <div class="category-image" style="background-image: url('${category.image}')"></div>
+                        <div class="category-content">
+                            <h3 class="category-title">${category.title}</h3>
+                            <p class="category-description">${category.description}</p>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        modalTitle.textContent = category.title;
+                        modalDescription.textContent = category.description;
+                        modalImage.src = category.image;
+                        modal.style.display = 'flex';
                     });
-
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        throw new Error(`Network error: ${response.status}. ${errorText}`);
-                    }
-
-                    const data = await response.json();
-                    const botResponse = data.response;
-
-                    chatWindow.removeChild(thinkingMessage);
-                    appendMessage(botResponse, 'bot');
-
-                    chatHistory.push({ role: 'model', parts: [{ text: botResponse }] });
-
-                } catch (error) {
-                    console.error("Error details:", error);
-                    chatWindow.removeChild(thinkingMessage);
-                    appendMessage(`❌ فشل الاتصال بالخادم. ${error.message}`, 'bot');
-                } finally {
-                    sendButton.disabled = false;
-                    inputElement.focus();
-                }
+                    categoriesGrid.appendChild(card);
+                });
             }
 
+            if(modal) {
+                closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
+                window.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+
+            // --- Back to Top Button ---
+            const backToTopBtn = document.getElementById('back-to-top');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        backToTopBtn.style.display = 'flex';
+                    } else {
+                        backToTopBtn.style.display = 'none';
+                    }
+                });
+
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
         });
     </script>
 </body>
-
 </html>
