@@ -19,7 +19,7 @@
         html { scroll-behavior: smooth; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
         .section { padding: 5rem 0; position: relative; }
-        .section:nth-child(odd) { background: #111827; }
+        .section:nth-child(even) { background-color: #111827; }
         .section-title { text-align: center; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; background: linear-gradient(135deg, #8b5cf6, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .section-subtitle { text-align: center; font-size: 1.2rem; color: #9ca3af; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto; }
         .btn { padding: 1rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
@@ -37,33 +37,14 @@
         .lang-switcher button { background: none; border: 1px solid #4b5563; color: #d1d5db; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s ease; }
         .lang-switcher button.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
         
-        /* HERO SECTION WITH WORKING IMAGE LINK */
-        .hero {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            background-color: #111;
-            background-image: url('https://images.pexels.com/photos/1631665/pexels-photo-1631665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover;
-            background-position: center 70%;
-        }
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                        linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
-            z-index: 1;
-        }
+        /* Hero Section */
+        .hero { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background-color: #111; background-image: url('https://images.pexels.com/photos/1631665/pexels-photo-1631665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); background-size: cover; background-position: center 70%; }
+        .hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 2rem; animation: fadeInUp 1s ease-out; }
         .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; margin-bottom: 1rem; color: white; text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); }
         .hero p { font-size: clamp(1.1rem, 2vw, 1.3rem); margin-bottom: 2rem; color: #f3f4f6; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); }
         
-        /* Chatbot */
+        /* Chatbot & Containers */
         .chatbot-container, .ar-container, .map-container { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; padding: 2rem; backdrop-filter: blur(16px); border: 1px solid rgba(75, 85, 99, 0.3); }
         #chatWindow { background: rgba(15, 15, 16, 0.5); border-radius: 8px; height: 400px; padding: 1rem; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 1rem; border: 1px solid #4b5563; }
         .chat-message { padding: 0.75rem 1rem; border-radius: 12px; max-width: 80%; line-height: 1.5; white-space: pre-wrap; }
@@ -76,6 +57,13 @@
         #sendButton { padding: 1rem 1.5rem; }
         #sendButton:disabled { background-color: #583c9c; cursor: not-allowed; }
         
+        /* Insights Section */
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .insight-card { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; padding: 1.5rem; text-align: center; border: 1px solid rgba(75, 85, 99, 0.3); transition: all 0.3s ease; }
+        .insight-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1); }
+        .insight-value { font-size: 1.8rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem; }
+        .insight-label { color: #9ca3af; font-size: 0.9rem; }
+        
         /* Other Sections */
         #map { height: 500px; border-radius: 0.5rem; z-index: 1; }
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
@@ -85,14 +73,10 @@
         .category-content { padding: 1.5rem; }
         .category-title { font-size: 1.3rem; font-weight: 600; color: #ffffff; margin-bottom: 0.5rem; }
         .category-description { color: #9ca3af; font-size: 0.9rem; line-height: 1.5; }
-        
-        /* Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; }
         .modal-content { background: #1f2937; padding: 2rem; border-radius: 1rem; width: 90%; max-width: 600px; position: relative; animation: modalSlideIn 0.3s ease; }
         .modal-close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: #9ca3af; transition: color 0.3s ease; }
         html[lang="ar"] .modal-close { right: auto; left: 1rem; }
-        
-        /* Back to Top & Animations */
         .back-to-top { position: fixed; bottom: 2rem; right: 2rem; background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 1000; }
         html[lang="ar"] .back-to-top { right: auto; left: 2rem; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -100,10 +84,29 @@
         @media (max-width: 768px) { .nav-menu { display: none; } }
     </style>
 </head>
-
 <body>
-    <nav class="navbar"><div class="nav-container container"><a class="logo" href="#hero" data-translate="siteTitle"></a><ul class="nav-menu"><li><a class="nav-link active" href="#hero" data-translate="navHome"></a></li><li><a class="nav-link" href="#chatbot" data-translate="navAIGuide"></a></li><li><a class="nav-link" href="#ar-experience" data-translate="navAR"></a></li><li><a class="nav-link" href="#map-section" data-translate="navMap"></a></li><li><a class="nav-link" href="#categories" data-translate="navExplore"></a></li><li class="lang-switcher"><button id="lang-ar">العربية</button><button id="lang-en">English</button></li></ul></div></nav>
-    <main><section class="hero" id="hero"><div class="hero-content"><h1 data-translate="heroTitle"></h1><p data-translate="heroSubtitle"></p><div class="hero-buttons"><a class="btn btn-primary" href="#chatbot" data-translate="heroBtnStart"></a></div></div></section><section class="section" id="chatbot"><div class="container"><h2 class="section-title" data-translate="chatbotTitle"></h2><p class="section-subtitle" data-translate="chatbotSubtitle"></p><div class="chatbot-container"><div id="chatWindow"></div><div class="chat-input-area"><input id="chatInput" type="text" data-translate-placeholder="chatPlaceholder" /><button id="sendButton" class="btn btn-primary" onclick="sendMessage()" data-translate="chatSend"></button></div></div></div></section><section class="section" id="ar-experience"><div class="container ar-container" style="text-align:center;"><h2 class="section-title" data-translate="arTitle"></h2><p class="section-subtitle" data-translate="arSubtitle"></p><a href="ar.html" class="btn btn-primary" data-translate="arBtn"></a></div></section><section class="section" id="map-section"><div class="container"><h2 class="section-title" data-translate="mapTitle"></h2><p class="section-subtitle" data-translate="mapSubtitle"></p><div class="map-container"><div id="map"></div></div></div></section><section class="section" id="categories"><div class="container"><h2 class="section-title" data-translate="categoriesTitle"></h2><p class="section-subtitle" data-translate="categoriesSubtitle"></p><div class="categories-grid"></div></div></section></main>
+    <nav class="navbar"><div class="nav-container container"><a class="logo" href="#hero" data-translate="siteTitle"></a><ul class="nav-menu"><li><a class="nav-link active" href="#hero" data-translate="navHome"></a></li><li><a class="nav-link" href="#chatbot" data-translate="navAIGuide"></a></li><li><a class="nav-link" href="#insights" data-translate="navInsights"></a></li><li><a class="nav-link" href="#ar-experience" data-translate="navAR"></a></li><li><a class="nav-link" href="#map-section" data-translate="navMap"></a></li><li><a class="nav-link" href="#categories" data-translate="navExplore"></a></li><li class="lang-switcher"><button id="lang-ar">العربية</button><button id="lang-en">English</button></li></ul></div></nav>
+    <main>
+        <section class="hero" id="hero"><div class="hero-content"><h1 data-translate="heroTitle"></h1><p data-translate="heroSubtitle"></p><div class="hero-buttons"><a class="btn btn-primary" href="#chatbot" data-translate="heroBtnStart"></a></div></div></section>
+        <section class="section" id="chatbot"><div class="container"><h2 class="section-title" data-translate="chatbotTitle"></h2><p class="section-subtitle" data-translate="chatbotSubtitle"></p><div class="chatbot-container"><div id="chatWindow"></div><div class="chat-input-area"><input id="chatInput" type="text" data-translate-placeholder="chatPlaceholder" /><button id="sendButton" class="btn btn-primary" onclick="sendMessage()" data-translate="chatSend"></button></div></div></div></section>
+        
+        <section class="section" id="insights">
+            <div class="container">
+                <h2 class="section-title" data-translate="insightsTitle"></h2>
+                <p class="section-subtitle" data-translate="insightsSubtitle"></p>
+                <div class="insights-grid">
+                    <div class="insight-card"><div class="insight-value" id="temp">-- °C</div><div class="insight-label" data-translate="insightTemp"></div></div>
+                    <div class="insight-card"><div class="insight-value" id="crowd">--</div><div class="insight-label" data-translate="insightCrowd"></div></div>
+                    <div class="insight-card"><div class="insight-value" id="humidity">--%</div><div class="insight-label" data-translate="insightHumidity"></div></div>
+                    <div class="insight-card"><div class="insight-value" id="air-quality">--</div><div class="insight-label" data-translate="insightAir"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="ar-experience"><div class="container ar-container" style="text-align:center;"><h2 class="section-title" data-translate="arTitle"></h2><p class="section-subtitle" data-translate="arSubtitle"></p><a href="ar.html" class="btn btn-primary" data-translate="arBtn"></a></div></section>
+        <section class="section" id="map-section"><div class="container"><h2 class="section-title" data-translate="mapTitle"></h2><p class="section-subtitle" data-translate="mapSubtitle"></p><div class="map-container"><div id="map"></div></div></div></section>
+        <section class="section" id="categories"><div class="container"><h2 class="section-title" data-translate="categoriesTitle"></h2><p class="section-subtitle" data-translate="categoriesSubtitle"></p><div class="categories-grid"></div></div></section>
+    </main>
     <footer class="section" style="background: #0a0a0a; padding-top: 0; padding-bottom: 2rem;"><div class="container" style="text-align: center;"><p style="color: #6b7280; margin-top: 2rem; font-size: 0.9rem;" data-translate="footerRights"></p></div></footer>
     <div id="natureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 class="modal-title" data-translate="modalNatureTitle"></h2><p class="modal-text" data-translate="modalNatureText"></p></div></div><div id="cultureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 class="modal-title" data-translate="modalCultureTitle"></h2><p class="modal-text" data-translate="modalCultureText"></p></div></div><div id="religiousModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 class="modal-title" data-translate="modalReligiousTitle"></h2><p class="modal-text" data-translate="modalReligiousText"></p></div></div><div id="adventureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 class="modal-title" data-translate="modalAdventureTitle"></h2><p class="modal-text" data-translate="modalAdventureText"></p></div></div>
     <button class="back-to-top" id="backToTop">↑</button>
@@ -113,8 +116,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Data Objects
             const translations = {
-                en: { siteTitle: "SmartTour.JO", navHome: "Home", navAIGuide: "AI Guide", navAR: "AR View", navMap: "Map", navExplore: "Explore", arTitle: "Augmented Reality", arSubtitle: "Bring Jordan's history to life.", arBtn: "Launch AR Experience", heroTitle: "Explore Jordan Smarter", heroSubtitle: "Discover hidden treasures with AI recommendations.", heroBtnStart: "Start Your Journey", chatbotTitle: "Ask Our Smart AI Guide", chatbotSubtitle: "Get instant answers about Jordan.", chatPlaceholder: "Request a tour plan...", chatSend: "Send", mapTitle: "Interactive Jordan Map", mapSubtitle: "Explore Jordan's attractions.", categoriesTitle: "Discover Jordan Your Way", categoriesSubtitle: "Find experiences that match your interests.", footerRights: "© 2024 SmartTour.JO. All rights reserved.", modalNatureTitle: "Nature", modalNatureText: "From the deserts of Wadi Rum to the therapeutic waters of the Dead Sea.", modalCultureTitle: "Culture", modalCultureText: "Explore ancient Petra, Roman ruins of Jerash, and authentic Bedouin culture.", modalReligiousTitle: "Religious Sites", modalReligiousText: "Follow biblical paths to Mount Nebo, Bethany, and other sacred sites.", modalAdventureTitle: "Adventure", modalAdventureText: "Experience thrilling adventures like desert camping, Red Sea diving, and canyoning." },
-                ar: { siteTitle: "SmartTour.JO", navHome: "الرئيسية", navAIGuide: "المرشد الذكي", navAR: "الواقع المعزز", navMap: "الخريطة", navExplore: "اكتشف", arTitle: "تجربة الواقع المعزز", arSubtitle: "أعد تاريخ الأردن إلى الحياة.", arBtn: "شغّل التجربة", heroTitle: "اكتشف الأردن بذكاء", heroSubtitle: "اكتشف كنوز الأردن الخفية مع توصيات الذكاء الاصطناعي.", heroBtnStart: "ابدأ رحلتك", chatbotTitle: "اسأل مرشدنا الذكي", chatbotSubtitle: "احصل على إجابات فورية حول معالم الأردن.", chatPlaceholder: "اطلب خطة سياحية...", chatSend: "أرسل", mapTitle: "خريطة الأردن التفاعلية", mapSubtitle: "استكشف معالم الأردن وخطط مسارك.", categoriesTitle: "اكتشف الأردن على طريقتك", categoriesSubtitle: "اختر من فئاتنا المنسقة لتجد ما يناسبك.", footerRights: "© 2024 SmartTour.JO. جميع الحقوق محفوظة.", modalNatureTitle: "طبيعة", modalNatureText: "من صحراء وادي رم الشاسعة إلى مياه البحر الميت العلاجية.", modalCultureTitle: "ثقافة", modalCultureText: "استكشف البتراء القديمة، وآثار جرش الرومانية، والتقاليد البدوية الأصيلة.", modalReligiousTitle: "مواقع دينية", modalReligiousText: "اتبع المسارات المقدسة إلى جبل نيبو والمغطس وغيرها.", modalAdventureTitle: "مغامرة", modalAdventureText: "جرب مغامرات مثيرة مثل التخييم الصحراوي، والغوص، واستكشاف الأودية." }
+                en: { siteTitle: "SmartTour.JO", navHome: "Home", navAIGuide: "AI Guide", navInsights: "Insights", navAR: "AR View", navMap: "Map", navExplore: "Explore", arTitle: "Augmented Reality", arSubtitle: "Bring Jordan's history to life.", arBtn: "Launch AR Experience", heroTitle: "Explore Jordan Smarter", heroSubtitle: "Discover hidden treasures with AI recommendations.", heroBtnStart: "Start Your Journey", chatbotTitle: "Ask Our Smart AI Guide", chatbotSubtitle: "Get instant answers about Jordan.", chatPlaceholder: "Request a tour plan...", chatSend: "Send", insightsTitle: "Live Environment Insights", insightsSubtitle: "Real-time data from destinations across Jordan.", insightTemp: "Temperature", insightCrowd: "Crowd Level", insightHumidity: "Humidity", insightAir: "Air Quality", mapTitle: "Interactive Jordan Map", mapSubtitle: "Explore Jordan's attractions.", categoriesTitle: "Discover Jordan Your Way", categoriesSubtitle: "Find experiences that match your interests.", footerRights: "© 2024 SmartTour.JO. All rights reserved.", modalNatureTitle: "Nature", modalNatureText: "From the deserts of Wadi Rum to the therapeutic waters of the Dead Sea.", modalCultureTitle: "Culture", modalCultureText: "Explore ancient Petra, Roman ruins of Jerash, and authentic Bedouin culture.", modalReligiousTitle: "Religious Sites", modalReligiousText: "Follow biblical paths to Mount Nebo, Bethany, and other sacred sites.", modalAdventureTitle: "Adventure", modalAdventureText: "Experience thrilling adventures like desert camping, Red Sea diving, and canyoning." },
+                ar: { siteTitle: "SmartTour.JO", navHome: "الرئيسية", navAIGuide: "المرشد الذكي", navInsights: "مؤشرات حيوية", navAR: "الواقع المعزز", navMap: "الخريطة", navExplore: "اكتشف", arTitle: "تجربة الواقع المعزز", arSubtitle: "أعد تاريخ الأردن إلى الحياة.", arBtn: "شغّل التجربة", heroTitle: "اكتشف الأردن بذكاء", heroSubtitle: "اكتشف كنوز الأردن الخفية مع توصيات الذكاء الاصطناعي.", heroBtnStart: "ابدأ رحلتك", chatbotTitle: "اسأل مرشدنا الذكي", chatbotSubtitle: "احصل على إجابات فورية حول معالم الأردن.", chatPlaceholder: "اطلب خطة سياحية...", chatSend: "أرسل", insightsTitle: "مؤشرات بيئية حية", insightsSubtitle: "بيانات لحظية من أشهر الوجهات السياحية بالأردن.", insightTemp: "درجة الحرارة", insightCrowd: "مستوى الازدحام", insightHumidity: "الرطوبة", insightAir: "جودة الهواء", mapTitle: "خريطة الأردن التفاعلية", mapSubtitle: "استكشف معالم الأردن وخطط مسارك.", categoriesTitle: "اكتشف الأردن على طريقتك", categoriesSubtitle: "اختر من فئاتنا المنسقة لتجد ما يناسبك.", footerRights: "© 2024 SmartTour.JO. جميع الحقوق محفوظة.", modalNatureTitle: "طبيعة", modalNatureText: "من صحراء وادي رم الشاسعة إلى مياه البحر الميت العلاجية.", modalCultureTitle: "ثقافة", modalCultureText: "استكشف البتراء القديمة، وآثار جرش الرومانية، والتقاليد البدوية الأصيلة.", modalReligiousTitle: "مواقع دينية", modalReligiousText: "اتبع المسارات المقدسة إلى جبل نيبو والمغطس وغيرها.", modalAdventureTitle: "مغامرة", modalAdventureText: "جرب مغامرات مثيرة مثل التخييم الصحراوي، والغوص، واستكشاف الأودية." }
             };
             const categoriesData = {
                 en: [
@@ -141,6 +144,7 @@
                 document.getElementById('lang-ar').classList.toggle('active', lang === 'ar');
                 document.getElementById('lang-en').classList.toggle('active', lang === 'en');
                 populateCategories(lang);
+                updateInsights(); // Update insights on language change
             };
             const categoriesGrid = document.querySelector('.categories-grid');
             function populateCategories(lang) {
@@ -160,6 +164,18 @@
                     categoriesGrid.appendChild(card);
                 });
             }
+
+            // INSIGHTS SIMULATION FUNCTION
+            function updateInsights() {
+                const lang = document.documentElement.lang || 'ar';
+                const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] };
+                const airQualityLevels = { en: ["Good", "Moderate"], ar: ["جيدة", "متوسطة"] };
+                
+                document.getElementById("temp").innerText = `${Math.floor(Math.random() * 12) + 22}`;
+                document.getElementById("crowd").innerText = crowdLevels[lang][Math.floor(Math.random() * 3)];
+                document.getElementById("humidity").innerText = `${Math.floor(Math.random() * 21) + 35}`;
+                document.getElementById("air-quality").innerText = airQualityLevels[lang][Math.floor(Math.random() * 2)];
+            }
             
             // Initialization & Event Listeners
             const map = L.map('map').setView([31.0, 36.5], 7);
@@ -171,7 +187,10 @@
             document.getElementById('lang-ar').addEventListener('click', () => setLanguage('ar'));
             document.querySelectorAll('.modal-close').forEach(btn => { btn.addEventListener('click', e => { e.target.closest('.modal').style.display = 'none'; }); });
             window.addEventListener('click', e => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; });
+            
+            // Initial calls
             setLanguage(localStorage.getItem('language') || 'ar');
+            setInterval(updateInsights, 5000);
         });
 
         // --- AI CHATBOT LOGIC (Global Scope) ---
@@ -224,7 +243,5 @@
         }
         inputElement.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !sendButton.disabled) sendMessage(); });
     </script>
-
 </body>
-
 </html>
