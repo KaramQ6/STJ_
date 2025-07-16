@@ -61,11 +61,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
         parking: 'Available at visitor center',
         local_transport: 'Horse rides and donkey rides available inside'
       },
-      reviews: [
-        { user: 'Sarah M.', rating: 5, comment: 'Absolutely breathtaking! The Treasury is even more magnificent in person.', date: '2 days ago' },
-        { user: 'Ahmed K.', rating: 4, comment: 'Amazing historical site, but can get very crowded. Go early!', date: '1 week ago' },
-        { user: 'Lisa R.', rating: 5, comment: 'A must-visit wonder of the world. The hike to the Monastery is worth it!', date: '2 weeks ago' }
-      ],
       averageRating: 4.7,
       tips: [
         'Wear comfortable hiking shoes',
@@ -99,11 +94,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
         parking: 'Available at visitor center',
         local_transport: '4WD jeep tours, camel rides, hot air balloon rides'
       },
-      reviews: [
-        { user: 'Marco D.', rating: 5, comment: 'Stunning desert landscapes! The sunset tour was incredible.', date: '3 days ago' },
-        { user: 'Fatima A.', rating: 5, comment: 'Best stargazing experience ever. The night camp was magical.', date: '5 days ago' },
-        { user: 'John T.', rating: 4, comment: 'Beautiful but very hot during summer. Visit in winter!', date: '1 week ago' }
-      ],
       averageRating: 4.8,
       tips: [
         'Book overnight camping for the full experience',
@@ -137,11 +127,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
         parking: 'Available at resorts and public beaches',
         local_transport: 'Resort shuttles, private taxis'
       },
-      reviews: [
-        { user: 'Emma L.', rating: 5, comment: 'Incredible experience! The floating is so relaxing and the mud is great for skin.', date: '1 day ago' },
-        { user: 'Hassan M.', rating: 4, comment: 'Unique experience, but don\'t get the water in your eyes!', date: '4 days ago' },
-        { user: 'Anna S.', rating: 5, comment: 'The spa treatments here are world-class. Very therapeutic.', date: '1 week ago' }
-      ],
       averageRating: 4.6,
       tips: [
         'Don\'t shave before visiting',
@@ -175,11 +160,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
         parking: 'Available at site entrance',
         local_transport: 'Walking tour, horse-drawn carriages'
       },
-      reviews: [
-        { user: 'David R.', rating: 5, comment: 'Incredible preservation! Better than many Roman sites in Italy.', date: '2 days ago' },
-        { user: 'Mona K.', rating: 4, comment: 'Beautiful ruins with great historical significance. The theater is amazing.', date: '1 week ago' },
-        { user: 'Pierre L.', rating: 5, comment: 'Must-see for history lovers. The oval plaza is unique!', date: '10 days ago' }
-      ],
       averageRating: 4.7,
       tips: [
         'Hire a guide for detailed historical context',
@@ -213,11 +193,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
         parking: 'Available in city center and malls',
         local_transport: 'Taxis, buses, ride-sharing apps'
       },
-      reviews: [
-        { user: 'Omar T.', rating: 4, comment: 'Great blend of modern and ancient. The food scene is incredible!', date: '1 day ago' },
-        { user: 'Julia M.', rating: 5, comment: 'Vibrant city with friendly people. Rainbow Street is a must-visit.', date: '3 days ago' },
-        { user: 'Ahmed S.', rating: 4, comment: 'Good starting point for Jordan exploration. Lots to see and do.', date: '5 days ago' }
-      ],
       averageRating: 4.4,
       tips: [
         'Try traditional Jordanian cuisine',
@@ -251,11 +226,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
         parking: 'Available at hotels and diving centers',
         local_transport: 'Taxis, hotel shuttles, boat trips'
       },
-      reviews: [
-        { user: 'Sophie B.', rating: 5, comment: 'Amazing diving! The coral reefs are pristine and full of marine life.', date: '2 days ago' },
-        { user: 'Khalil R.', rating: 4, comment: 'Great for water sports. The beaches are clean and well-maintained.', date: '4 days ago' },
-        { user: 'Maria G.', rating: 5, comment: 'Perfect for relaxation after visiting Petra. Great seafood too!', date: '1 week ago' }
-      ],
       averageRating: 4.7,
       tips: [
         'Book diving trips in advance',
@@ -289,11 +259,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
         parking: 'Available at site entrance',
         local_transport: 'Walking paths, guided tours'
       },
-      reviews: [
-        { user: 'Father Michael', rating: 5, comment: 'Deeply spiritual experience with breathtaking views. The mosaics are beautiful.', date: '1 day ago' },
-        { user: 'Rachel K.', rating: 4, comment: 'Peaceful place with significant religious importance. Great views on clear days.', date: '3 days ago' },
-        { user: 'Ibrahim H.', rating: 5, comment: 'Must-visit for spiritual pilgrimage. The museum is very informative.', date: '1 week ago' }
-      ],
       averageRating: 4.6,
       tips: [
         'Visit during clear weather for best views',
@@ -327,11 +292,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
         parking: 'Available at visitor center',
         local_transport: 'Hiking trails, guided nature walks'
       },
-      reviews: [
-        { user: 'Nature_lover23', rating: 5, comment: 'Incredible biodiversity! Saw rare birds and plants. The hiking is challenging but rewarding.', date: '2 days ago' },
-        { user: 'Tom H.', rating: 4, comment: 'Beautiful natural setting. The eco-lodge is a great place to stay.', date: '5 days ago' },
-        { user: 'Layla M.', rating: 5, comment: 'Perfect for nature enthusiasts. The guides are very knowledgeable.', date: '1 week ago' }
-      ],
       averageRating: 4.8,
       tips: [
         'Book eco-lodge accommodation in advance',
@@ -736,27 +696,6 @@ const ExploreSection = ({ exploreRef, isVisible }) => {
                           <div key={idx} className="flex items-start text-sm text-gray-300">
                             <span className="text-purple-400 mr-2 flex-shrink-0">💡</span>
                             {tip}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Reviews */}
-                    <div className="mb-6">
-                      <h4 className="text-lg font-semibold text-white mb-3">Recent Reviews</h4>
-                      <div className="space-y-4">
-                        {destination.reviews.map((review, idx) => (
-                          <div key={idx} className="bg-gray-800/50 rounded-lg p-4">
-                            <div className="flex items-center justify-between mb-2">
-                              <div className="flex items-center">
-                                <span className="text-white font-medium">{review.user}</span>
-                                <div className="ml-2">
-                                  {renderStars(review.rating)}
-                                </div>
-                              </div>
-                              <span className="text-gray-400 text-sm">{review.date}</span>
-                            </div>
-                            <p className="text-gray-300 text-sm italic">"{review.comment}"</p>
                           </div>
                         ))}
                       </div>
