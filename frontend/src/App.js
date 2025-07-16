@@ -187,7 +187,6 @@ const App = () => {
         { id: 'explore', ref: exploreRef },
         { id: 'map', ref: mapRef },
         { id: 'itinerary', ref: itineraryRef },
-        { id: 'testimonials', ref: testimonialsRef },
         { id: 'insights', ref: insightsRef }
       ];
 
