@@ -94,8 +94,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Data Objects
             const translations = {
-                en: { siteTitle: "SmartTour.JO", navHome: "Home", navAIGuide: "AI Guide", navInsights: "Insights", navAR: "AR View", navMap: "Map", navExplore: "Explore", arTitle: "Augmented Reality", arSubtitle: "Bring Jordan's history to life.", arBtn: "Launch AR Experience", heroTitle: "Explore Jordan Smarter", heroSubtitle: "Discover hidden treasures with AI recommendations.", heroBtnStart: "Start Your Journey", chatbotTitle: "Ask Our Smart AI Guide", chatbotSubtitle: "Get instant answers about Jordan.", chatPlaceholder: "Request a tour plan...", chatSend: "Send", insightsTitle: "Live Environment Insights", insightsSubtitle: "Real-time data from destinations across Jordan.", insightTemp: "Temperature", insightCrowd: "Crowd Level", insightHumidity: "Humidity", insightAir: "Air Quality", mapTitle: "Interactive Jordan Map", mapSubtitle: "Explore Jordan's attractions.", categoriesTitle: "Discover Jordan Your Way", categoriesSubtitle: "Find experiences that match your interests.", footerRights: "© 2024 SmartTour.JO. All rights reserved.", modalNatureTitle: "Nature", modalNatureText: "From the deserts of Wadi Rum to the therapeutic waters of the Dead Sea.", modalCultureTitle: "Culture", modalCultureText: "Explore ancient Petra, Roman ruins of Jerash, and authentic Bedouin culture.", modalReligiousTitle: "Religious Sites", modalReligiousText: "Follow biblical paths to Mount Nebo, Bethany, and other sacred sites.", modalAdventureTitle: "Adventure", modalAdventureText: "Experience thrilling adventures like desert camping, Red Sea diving, and canyoning." },
-                ar: { siteTitle: "SmartTour.JO", navHome: "الرئيسية", navAIGuide: "المرشد الذكي", navInsights: "مؤشرات حيوية", navAR: "الواقع المعزز", navMap: "الخريطة", navExplore: "اكتشف", arTitle: "تجربة الواقع المعزز", arSubtitle: "أعد تاريخ الأردن إلى الحياة.", arBtn: "شغّل التجربة", heroTitle: "اكتشف الأردن بذكاء", heroSubtitle: "اكتشف كنوز الأردن الخفية مع توصيات الذكاء الاصطناعي.", heroBtnStart: "ابدأ رحلتك", chatbotTitle: "اسأل مرشدنا الذكي", chatbotSubtitle: "احصل على إجابات فورية حول معالم الأردن.", chatPlaceholder: "اطلب خطة سياحية...", chatSend: "أرسل", insightsTitle: "مؤشرات بيئية حية", insightsSubtitle: "بيانات لحظية من أشهر الوجهات السياحية بالأردن.", insightTemp: "درجة الحرارة", insightCrowd: "مستوى الازدحام", insightHumidity: "الرطوبة", insightAir: "جودة الهواء", mapTitle: "خريطة الأردن التفاعلية", mapSubtitle: "استكشف معالم الأردن وخطط مسارك.", categoriesTitle: "اكتشف الأردن على طريقتك", categoriesSubtitle: "اختر من فئاتنا المنسقة لتجد ما يناسبك.", footerRights: "© 2024 SmartTour.JO. جميع الحقوق محفوظة.", modalNatureTitle: "طبيعة", modalNatureText: "من صحراء وادي رم الشاسعة إلى مياه البحر الميت العلاجية.", modalCultureTitle: "ثقافة", modalCultureText: "استكشف البتراء القديمة، وآثار جرش الرومانية، والتقاليد البدوية الأصيلة.", modalReligiousTitle: "مواقع دينية", modalReligiousText: "اتبع المسارات المقدسة إلى جبل نيبو والمغطس وغيرها.", modalAdventureTitle: "مغامرة", modalAdventureText: "جرب مغامرات مثيرة مثل التخييم الصحراوي، والغوص، واستكشاف الأودية." }
+                en: { siteTitle: "SmartTour.JO", navHome: "Home", navAIGuide: "AI Guide", navInsights: "Insights", navAR: "AR View", navMap: "Map", navExplore: "Explore", arTitle: "Augmented Reality", arSubtitle: "Bring Jordan's history to life.", arBtn: "Launch AR Experience", heroTitle: "Explore Jordan Smarter", heroSubtitle: "Discover hidden treasures with AI recommendations.", heroBtnStart: "Start Your Journey", chatbotTitle: "Ask Our Smart AI Guide", chatbotSubtitle: "Get instant answers about Jordan.", chatPlaceholder: "Request a tour plan...", chatSend: "Send", insightsTitle: "Live Environment Insights", insightsSubtitle: "Real-time data from your location.", insightTemp: "Temperature", insightCrowd: "Crowd Level", insightHumidity: "Humidity", insightAir: "Air Quality", mapTitle: "Interactive Jordan Map", mapSubtitle: "Explore Jordan's attractions.", categoriesTitle: "Discover Jordan Your Way", categoriesSubtitle: "Find experiences that match your interests.", footerRights: "© 2024 SmartTour.JO. All rights reserved.", modalNatureTitle: "Nature", modalNatureText: "From the deserts of Wadi Rum to the therapeutic waters of the Dead Sea.", modalCultureTitle: "Culture", modalCultureText: "Explore ancient Petra, Roman ruins of Jerash, and authentic Bedouin culture.", modalReligiousTitle: "Religious Sites", modalReligiousText: "Follow biblical paths to Mount Nebo, Bethany, and other sacred sites.", modalAdventureTitle: "Adventure", modalAdventureText: "Experience thrilling adventures like desert camping, Red Sea diving, and canyoning." },
+                ar: { siteTitle: "SmartTour.JO", navHome: "الرئيسية", navAIGuide: "المرشد الذكي", navInsights: "مؤشرات حيوية", navAR: "الواقع المعزز", navMap: "الخريطة", navExplore: "اكتشف", arTitle: "تجربة الواقع المعزز", arSubtitle: "أعد تاريخ الأردن إلى الحياة.", arBtn: "شغّل التجربة", heroTitle: "اكتشف الأردن بذكاء", heroSubtitle: "اكتشف كنوز الأردن الخفية مع توصيات الذكاء الاصطناعي.", heroBtnStart: "ابدأ رحلتك", chatbotTitle: "اسأل مرشدنا الذكي", chatbotSubtitle: "احصل على إجابات فورية حول معالم الأردن.", chatPlaceholder: "اطلب خطة سياحية...", chatSend: "أرسل", insightsTitle: "مؤشرات بيئية حية", insightsSubtitle: "بيانات لحظية وحقيقية من موقعك الحالي.", insightTemp: "درجة الحرارة", insightCrowd: "مستوى الازدحام", insightHumidity: "الرطوبة", insightAir: "جودة الهواء", mapTitle: "خريطة الأردن التفاعلية", mapSubtitle: "استكشف معالم الأردن وخطط مسارك.", categoriesTitle: "اكتشف الأردن على طريقتك", categoriesSubtitle: "اختر من فئاتنا المنسقة لتجد ما يناسبك.", footerRights: "© 2024 SmartTour.JO. جميع الحقوق محفوظة.", modalNatureTitle: "طبيعة", modalNatureText: "من صحراء وادي رم الشاسعة إلى مياه البحر الميت العلاجية.", modalCultureTitle: "ثقافة", modalCultureText: "استكشف البتراء القديمة، وآثار جرش الرومانية، والتقاليد البدوية الأصيلة.", modalReligiousTitle: "مواقع دينية", modalReligiousText: "اتبع المسارات المقدسة إلى جبل نيبو والمغطس وغيرها.", modalAdventureTitle: "مغامرة", modalAdventureText: "جرب مغامرات مثيرة مثل التخييم الصحراوي، والغوص، واستكشاف الأودية." }
             };
             const categoriesData = {
                 en: [
@@ -143,13 +143,21 @@
                 });
             }
 
-            // INSIGHTS FUNCTION (API OR SIMULATION)
+            // CORRECTED INSIGHTS FUNCTION
             async function updateInsights() {
                 const apiKey = '91859b46e4ef01b5415a2f8b1ddbfac1'; //  <-- ضع مفتاحك هنا
-                const defaultCity = 'Amman';
+                
+                const fetchWeatherDataByCoords = async (lat, lon) => {
+                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+                    updateWeatherData(apiUrl);
+                };
 
-                const fetchWeatherData = async (city) => {
+                const fetchWeatherDataByCity = async (city) => {
                     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+                    updateWeatherData(apiUrl);
+                };
+
+                const updateWeatherData = async (apiUrl) => {
                     try {
                         const response = await fetch(apiUrl);
                         if (!response.ok) throw new Error('Weather API request failed');
@@ -164,15 +172,31 @@
                     }
                 };
 
-                // Fetch weather for default city first
-                await fetchWeatherData(defaultCity);
+                const updateSimulatedData = () => {
+                    const lang = document.documentElement.lang || 'ar';
+                    const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] };
+                    const airQualityLevels = { en: ["Good", "Moderate"], ar: ["جيدة", "متوسطة"] };
+                    document.getElementById("crowd").innerText = crowdLevels[lang][Math.floor(Math.random() * 3)];
+                    document.getElementById("air-quality").innerText = airQualityLevels[lang][Math.floor(Math.random() * 2)];
+                };
 
-                // Simulated data
-                const lang = document.documentElement.lang || 'ar';
-                const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] };
-                const airQualityLevels = { en: ["Good", "Moderate"], ar: ["جيدة", "متوسطة"] };
-                document.getElementById("crowd").innerText = crowdLevels[lang][Math.floor(Math.random() * 3)];
-                document.getElementById("air-quality").innerText = airQualityLevels[lang][Math.floor(Math.random() * 2)];
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            fetchWeatherDataByCoords(position.coords.latitude, position.coords.longitude);
+                            updateSimulatedData();
+                        },
+                        (error) => {
+                            console.error("Geolocation error:", error.message);
+                            fetchWeatherDataByCity('Amman'); // Fallback to Amman
+                            updateSimulatedData();
+                        }
+                    );
+                } else {
+                    console.error("Geolocation is not supported by this browser.");
+                    fetchWeatherDataByCity('Amman'); // Fallback if geolocation is not supported
+                    updateSimulatedData();
+                }
             }
             
             // Initialization & Event Listeners
@@ -186,7 +210,6 @@
             document.querySelectorAll('.modal-close').forEach(btn => { btn.addEventListener('click', e => { e.target.closest('.modal').style.display = 'none'; }); });
             window.addEventListener('click', e => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; });
             
-            // Initial calls
             setLanguage(localStorage.getItem('language') || 'ar');
             setInterval(updateInsights, 300000); // Update every 5 minutes
         });
