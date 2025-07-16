@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
-        /* Base and General Styles */
+        /* All CSS from the "beautiful" version is here... */
         html[lang="ar"] body { font-family: 'Cairo', sans-serif; }
         html[lang="en"] body { font-family: 'Poppins', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,8 +25,6 @@
         .btn { padding: 1rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
         .btn-primary { background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3); }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5); }
-        
-        /* Navbar */
         .navbar { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); z-index: 1000; padding: 1rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 700; color: #8b5cf6; text-decoration: none; }
@@ -36,15 +34,11 @@
         .lang-switcher { display: flex; gap: 10px; align-items: center; }
         .lang-switcher button { background: none; border: 1px solid #4b5563; color: #d1d5db; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s ease; }
         .lang-switcher button.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
-        
-        /* Hero Section */
         .hero { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background-color: #111; background-image: url('https://images.pexels.com/photos/1631665/pexels-photo-1631665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); background-size: cover; background-position: center 70%; }
         .hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); z-index: 1; }
         .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 2rem; animation: fadeInUp 1s ease-out; }
         .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; margin-bottom: 1rem; color: white; text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); }
         .hero p { font-size: clamp(1.1rem, 2vw, 1.3rem); margin-bottom: 2rem; color: #f3f4f6; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); }
-        
-        /* Chatbot & Containers */
         .chatbot-container, .ar-container, .map-container { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; padding: 2rem; backdrop-filter: blur(16px); border: 1px solid rgba(75, 85, 99, 0.3); }
         #chatWindow { background: rgba(15, 15, 16, 0.5); border-radius: 8px; height: 400px; padding: 1rem; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 1rem; border: 1px solid #4b5563; }
         .chat-message { padding: 0.75rem 1rem; border-radius: 12px; max-width: 80%; line-height: 1.5; white-space: pre-wrap; }
@@ -56,16 +50,12 @@
         #chatInput { flex-grow: 1; padding: 1rem; border-radius: 8px; border: 1px solid #4b5563; background-color: #1f2937; color: white; font-size: 1rem; }
         #sendButton { padding: 1rem 1.5rem; }
         #sendButton:disabled { background-color: #583c9c; cursor: not-allowed; }
-        
-        /* CORRECTED Insights Section */
         .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
         .insight-card { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; padding: 1.5rem; text-align: center; border: 1px solid rgba(75, 85, 99, 0.3); transition: all 0.3s ease; }
-        .insight-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1); border-color: rgba(139, 92, 246, 0.5); }
+        .insight-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1); }
         .insight-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
         .insight-value { font-size: 1.8rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem; }
         .insight-label { color: #9ca3af; font-size: 0.9rem; }
-        
-        /* Other Sections */
         #map { height: 500px; border-radius: 0.5rem; z-index: 1; }
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
         .category-card { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; overflow: hidden; border: 1px solid rgba(75, 85, 99, 0.3); transition: all 0.3s ease; cursor: pointer; }
@@ -74,14 +64,10 @@
         .category-content { padding: 1.5rem; }
         .category-title { font-size: 1.3rem; font-weight: 600; color: #ffffff; margin-bottom: 0.5rem; }
         .category-description { color: #9ca3af; font-size: 0.9rem; line-height: 1.5; }
-        
-        /* Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; }
         .modal-content { background: #1f2937; padding: 2rem; border-radius: 1rem; width: 90%; max-width: 600px; position: relative; animation: modalSlideIn 0.3s ease; }
         .modal-close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: #9ca3af; transition: color 0.3s ease; }
         html[lang="ar"] .modal-close { right: auto; left: 1rem; }
-        
-        /* Back to Top & Animations */
         .back-to-top { position: fixed; bottom: 2rem; right: 2rem; background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 1000; }
         html[lang="ar"] .back-to-top { right: auto; left: 2rem; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -94,25 +80,12 @@
     <main>
         <section class="hero" id="hero"><div class="hero-content"><h1 data-translate="heroTitle"></h1><p data-translate="heroSubtitle"></p><div class="hero-buttons"><a class="btn btn-primary" href="#chatbot" data-translate="heroBtnStart"></a></div></div></section>
         <section class="section" id="chatbot"><div class="container"><h2 class="section-title" data-translate="chatbotTitle"></h2><p class="section-subtitle" data-translate="chatbotSubtitle"></p><div class="chatbot-container"><div id="chatWindow"></div><div class="chat-input-area"><input id="chatInput" type="text" data-translate-placeholder="chatPlaceholder" /><button id="sendButton" class="btn btn-primary" onclick="sendMessage()" data-translate="chatSend"></button></div></div></div></section>
-        
-        <section class="section" id="insights">
-            <div class="container">
-                <h2 class="section-title" data-translate="insightsTitle"></h2>
-                <p class="section-subtitle" data-translate="insightsSubtitle"></p>
-                <div class="insights-grid">
-                    <div class="insight-card"><span class="insight-icon">🌡️</span><div class="insight-value" id="temp">-- °C</div><div class="insight-label" data-translate="insightTemp"></div></div>
-                    <div class="insight-card"><span class="insight-icon">👥</span><div class="insight-value" id="crowd">--</div><div class="insight-label" data-translate="insightCrowd"></div></div>
-                    <div class="insight-card"><span class="insight-icon">💧</span><div class="insight-value" id="humidity">--%</div><div class="insight-label" data-translate="insightHumidity"></div></div>
-                    <div class="insight-card"><span class="insight-icon">🌬️</span><div class="insight-value" id="air-quality">--</div><div class="insight-label" data-translate="insightAir"></div></div>
-                </div>
-            </div>
-        </section>
-
+        <section class="section" id="insights"><div class="container"><h2 class="section-title" data-translate="insightsTitle"></h2><p class="section-subtitle" data-translate="insightsSubtitle"></p><div class="insights-grid"><div class="insight-card"><span class="insight-icon">🌡️</span><div class="insight-value" id="temp">--°C</div><div class="insight-label" data-translate="insightTemp"></div></div><div class="insight-card"><span class="insight-icon">👥</span><div class="insight-value" id="crowd">--</div><div class="insight-label" data-translate="insightCrowd"></div></div><div class="insight-card"><span class="insight-icon">💧</span><div class="insight-value" id="humidity">--%</div><div class="insight-label" data-translate="insightHumidity"></div></div><div class="insight-card"><span class="insight-icon">🌬️</span><div class="insight-value" id="air-quality">--</div><div class="insight-label" data-translate="insightAir"></div></div></div></div></section>
         <section class="section" id="ar-experience"><div class="container ar-container" style="text-align:center;"><h2 class="section-title" data-translate="arTitle"></h2><p class="section-subtitle" data-translate="arSubtitle"></p><a href="ar.html" class="btn btn-primary" data-translate="arBtn"></a></div></section>
         <section class="section" id="map-section"><div class="container"><h2 class="section-title" data-translate="mapTitle"></h2><p class="section-subtitle" data-translate="mapSubtitle"></p><div class="map-container"><div id="map"></div></div></div></section>
         <section class="section" id="categories"><div class="container"><h2 class="section-title" data-translate="categoriesTitle"></h2><p class="section-subtitle" data-translate="categoriesSubtitle"></p><div class="categories-grid"></div></div></section>
     </main>
-    <footer class="section" style="background: #0a0a0a; padding-top: 0; padding-bottom: 2rem;"><div class="container" style="text-align: center;"><p style="color: #6b7280; margin-top: 2rem; font-size: 0.9rem;" data-translate="footerRights"></p></div></footer>
+    <footer class="section" style="background: #0a0a0a; padding: 2rem 0;"><div class="container" style="text-align: center;"><p style="color: #6b7280; font-size: 0.9rem;" data-translate="footerRights"></p></div></footer>
     <div id="natureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 class="modal-title" data-translate="modalNatureTitle"></h2><p class="modal-text" data-translate="modalNatureText"></p></div></div><div id="cultureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 class="modal-title" data-translate="modalCultureTitle"></h2><p class="modal-text" data-translate="modalCultureText"></p></div></div><div id="religiousModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 class="modal-title" data-translate="modalReligiousTitle"></h2><p class="modal-text" data-translate="modalReligiousText"></p></div></div><div id="adventureModal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 class="modal-title" data-translate="modalAdventureTitle"></h2><p class="modal-text" data-translate="modalAdventureText"></p></div></div>
     <button class="back-to-top" id="backToTop">↑</button>
 
@@ -170,15 +143,35 @@
                 });
             }
 
-            // INSIGHTS SIMULATION FUNCTION
-            function updateInsights() {
+            // INSIGHTS FUNCTION (API OR SIMULATION)
+            async function updateInsights() {
+                const apiKey = '91859b46e4ef01b5415a2f8b1ddbfac1'; //  <-- ضع مفتاحك هنا
+                const defaultCity = 'Amman';
+
+                const fetchWeatherData = async (city) => {
+                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+                    try {
+                        const response = await fetch(apiUrl);
+                        if (!response.ok) throw new Error('Weather API request failed');
+                        const data = await response.json();
+                        document.getElementById("temp").innerText = `${Math.round(data.main.temp)}°C`;
+                        document.getElementById("humidity").innerText = `${data.main.humidity}%`;
+                    } catch (error) {
+                        console.error('Fetch weather error:', error);
+                        // Fallback data
+                        document.getElementById("temp").innerText = `25°C`;
+                        document.getElementById("humidity").innerText = `40%`;
+                    }
+                };
+
+                // Fetch weather for default city first
+                await fetchWeatherData(defaultCity);
+
+                // Simulated data
                 const lang = document.documentElement.lang || 'ar';
                 const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] };
                 const airQualityLevels = { en: ["Good", "Moderate"], ar: ["جيدة", "متوسطة"] };
-                
-                document.getElementById("temp").innerText = `${Math.floor(Math.random() * 12) + 22}`;
                 document.getElementById("crowd").innerText = crowdLevels[lang][Math.floor(Math.random() * 3)];
-                document.getElementById("humidity").innerText = `${Math.floor(Math.random() * 21) + 35}`;
                 document.getElementById("air-quality").innerText = airQualityLevels[lang][Math.floor(Math.random() * 2)];
             }
             
@@ -195,7 +188,7 @@
             
             // Initial calls
             setLanguage(localStorage.getItem('language') || 'ar');
-            setInterval(updateInsights, 5000);
+            setInterval(updateInsights, 300000); // Update every 5 minutes
         });
 
         // --- AI CHATBOT LOGIC (Global Scope) ---
