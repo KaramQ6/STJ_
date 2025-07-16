@@ -1,86 +1,125 @@
-import React, { useState, useEffect, useRef } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
+import React, { useState, useEffect, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import "./App.css";
+import './App.css';
 import 'leaflet/dist/leaflet.css';
-import ExploreSection from './components/ExploreSection';
 
-// Helper component for the Gallery Modal
-const GalleryModal = ({ isOpen, onClose, images }) => {
-    if (!isOpen) return null;
-    return (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
-            <div className="bg-gray-900/80 border border-purple-500/30 rounded-2xl p-6 w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar">
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-white font-poppins">Jordan's Wonders Gallery</h2>
-                    <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors text-3xl">&times;</button>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {images.map((img, index) => (
-                        <div key={index} className="rounded-lg overflow-hidden group relative">
-                            <img src={img.src} alt={img.alt} className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-300" />
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2">
-                                <p className="text-white text-sm font-semibold">{img.alt}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-};
+// Fix for default Leaflet markers in React
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+});
 
+// Custom component to handle map view changes
+function ChangeView({ center, zoom }) {
+    const map = useMap();
+    map.setView(center, zoom);
+    return null;
+}
 
 const App = () => {
-    // ======== STATE MANAGEMENT ========
-    const [sensorData, setSensorData] = useState({ temperature: 28, humidity: 45, crowdLevel: 'Medium', airQuality: 'Good' });
+    // --- STATE MANAGEMENT ---
     const [activeSection, setActiveSection] = useState('home');
     const [showBackToTop, setShowBackToTop] = useState(false);
-    const [chatbotLoaded, setChatbotLoaded] = useState(false);
-    const [messages, setMessages] = useState([]);
+    const [insights, setInsights] = useState({ temp: '--', humidity: '--', crowd: '...', air: '...' });
+    const [messages, setMessages] = useState([{ sender: 'bot', text: 'أهلاً بك! أنا مرشدك السياحي الذكي في الأردن. كيف يمكنني مساعدتك اليوم؟' }]);
     const [isTyping, setIsTyping] = useState(false);
-    const [isGalleryOpen, setIsGalleryOpen] = useState(false);
-
-    // ======== REFS FOR SCROLLING ========
-    const heroRef = useRef(null);
-    const featuresRef = useRef(null);
-    const exploreRef = useRef(null);
-    const mapRef = useRef(null);
-    const itineraryRef = useRef(null);
-    const insightsRef = useRef(null);
     const chatEndRef = useRef(null);
 
-    // ======== LEAFLET MARKER FIX ========
+    // --- REFS FOR SCROLLING ---
+    const sectionRefs = {
+        home: useRef(null),
+        features: useRef(null),
+        insights: useRef(null),
+        map: useRef(null),
+        explore: useRef(null),
+    };
+
+    // --- DATA ---
+    const touristSites = [
+        { id: 1, name: "البتراء", coords: [30.3285, 35.4444], icon: '🏛️' },
+        { id: 2, name: "جرش", coords: [32.2730, 35.8911], icon: '🏛️' },
+        { id: 3, name: "وادي رم", coords: [29.5732, 35.4194], icon: '🏜️' },
+        { id: 4, name: "البحر الميت", coords: [31.5553, 35.4732], icon: '🌊' },
+        { id: 5, name: "العقبة", coords: [29.5328, 34.9439], icon: '🏖️' },
+    ];
+
+    // --- MAP ICONS ---
+    const redIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
+    const blueIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
+
+    // --- EFFECTS ---
     useEffect(() => {
-        delete L.Icon.Default.prototype._getIconUrl;
-        L.Icon.Default.mergeOptions({
-            iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
-            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-        });
+        const handleScroll = () => {
+            setShowBackToTop(window.scrollY > 300);
+            const currentSection = Object.keys(sectionRefs).find(key => {
+                const ref = sectionRefs[key];
+                if (ref.current) {
+                    const rect = ref.current.getBoundingClientRect();
+                    return rect.top <= 100 && rect.bottom >= 100;
+                }
+                return false;
+            });
+            if (currentSection) setActiveSection(currentSection);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [sectionRefs]);
+
+    useEffect(() => {
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
+
+    useEffect(() => {
+        const fetchInsights = async () => {
+            const apiKey = 'YOUR_API_KEY_HERE'; // <--- ضع مفتاحك هنا
+            const getWeatherData = async (lat, lon) => {
+                const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error("Weather data fetch failed");
+                    const data = await response.json();
+                    setInsights(prev => ({ ...prev, temp: Math.round(data.main.temp), humidity: data.main.humidity }));
+                } catch (error) {
+                    console.error("Weather API Error:", error);
+                    setInsights(prev => ({ ...prev, temp: 25, humidity: 40 })); // Fallback
+                }
+            };
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => getWeatherData(pos.coords.latitude, pos.coords.longitude),
+                    () => getWeatherData(31.95, 35.93) // Fallback to Amman
+                );
+            } else {
+                getWeatherData(31.95, 35.93); // Fallback if no geolocation
+            }
+        };
+
+        const updateSimulatedInsights = () => {
+            const crowdLevels = ["منخفض", "متوسط", "مرتفع"];
+            const airQualityLevels = ["جيدة", "متوسطة", "سيئة"];
+            setInsights(prev => ({
+                ...prev,
+                crowd: crowdLevels[Math.floor(Math.random() * 3)],
+                air: airQualityLevels[Math.floor(Math.random() * 3)]
+            }));
+        };
+
+        fetchInsights();
+        updateSimulatedInsights();
+        const interval = setInterval(updateSimulatedInsights, 10000); // Update simulated data every 10s
+        return () => clearInterval(interval);
     }, []);
-    
-    // ======== DATA ========
-    const jordanDestinations = [
-        { id: 'petra', name: 'Petra', position: [30.3285, 35.4444], description: 'The ancient rose-red city', icon: '🏛️', type: 'historical', details: 'UNESCO World Heritage Site' },
-        { id: 'wadi-rum', name: 'Wadi Rum', position: [29.5759, 35.4208], description: 'Valley of the Moon', icon: '🏜️', type: 'nature', details: 'Protected desert wilderness' },
-        { id: 'dead-sea', name: 'Dead Sea', position: [31.5553, 35.4732], description: 'Lowest point on Earth', icon: '🌊', type: 'nature', details: 'Effortless floating experience' },
-        { id: 'jerash', name: 'Jerash', position: [32.2814, 35.8936], description: 'Preserved Roman ruins', icon: '🏛️', type: 'historical', details: 'Best-preserved Roman town' },
-        { id: 'amman', name: 'Amman', position: [31.9454, 35.9284], description: 'The capital city', icon: '🏙️', type: 'city', details: 'Ancient citadel and amphitheater' },
-        { id: 'aqaba', name: 'Aqaba', position: [29.5328, 34.9439], description: 'Red Sea resort', icon: '🏖️', type: 'nature', details: 'Diving and coral reefs' },
-    ];
-    
-    const galleryImages = [
-        { src: 'https://images.pexels.com/photos/1587747/pexels-photo-1587747.jpeg', alt: 'Petra Treasury' },
-        { src: 'https://images.pexels.com/photos/2440339/pexels-photo-2440339.jpeg', alt: 'Wadi Rum Desert' },
-        { src: 'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg', alt: 'Dead Sea Salt Formations' },
-        { src: 'https://images.pexels.com/photos/73910/jordan-petra-travel-73910.jpeg', alt: 'Jerash Colonnaded Street' },
-        { src: 'https://images.pexels.com/photos/7989333/pexels-photo-7989333.jpeg', alt: 'Wadi Mujib Canyon' },
-        { src: 'https://images.pexels.com/photos/14986348/pexels-photo-14986348.jpeg', alt: 'Baptism Site' },
-    ];
-    
-    // ======== CHATBOT LOGIC (FIXED) ========
-    const sendMessage = async (e) => {
+
+    // --- HANDLERS ---
+    const scrollToSection = (id) => {
+        sectionRefs[id]?.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const handleSendMessage = async (e) => {
         e.preventDefault();
         const input = e.target.elements.message;
         const userInput = input.value.trim();
@@ -91,7 +130,6 @@ const App = () => {
         input.value = '';
         setIsTyping(true);
 
-        // This is the working public backend URL
         const workerUrl = "https://white-frost-8014.karam200566.workers.dev/"; 
 
         try {
@@ -109,91 +147,109 @@ const App = () => {
             if (!response.ok) throw new Error(`Network error: ${response.status}`);
             
             const data = await response.json();
-            const botResponse = data.response || "Sorry, I couldn't get a response.";
+            const botResponse = data.response || "عذراً، لم أستطع الحصول على إجابة.";
             
             setMessages(prev => [...prev, { sender: 'bot', text: botResponse }]);
         } catch (error) {
             console.error("Chat API Error:", error);
-            setMessages(prev => [...prev, { sender: 'bot', text: `❌ Sorry, connection failed. ${error.message}` }]);
+            setMessages(prev => [...prev, { sender: 'bot', text: `❌ عذراً، فشل الاتصال بالخادم. ${error.message}` }]);
         } finally {
             setIsTyping(false);
         }
     };
 
-    useEffect(() => {
-        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
-
-    // Other useEffects and functions remain the same...
-
     return (
-        <div className="min-h-screen bg-gray-900 text-white">
-            {/* The rest of the JSX is the same as your "beautiful" version */}
-            {/* ... Navbar ... */}
+        <div className="App">
+            <nav className="navbar">
+                <div className="nav-container container">
+                    <a className="logo" href="#home" onClick={() => scrollToSection('home')}>SmartTour.JO</a>
+                    <ul className="nav-menu">
+                        {Object.keys(sectionRefs).map(key => (
+                             <li key={key}>
+                                <a href={`#${key}`} onClick={() => scrollToSection(key)} className={`nav-link ${activeSection === key ? 'active' : ''}`}>{key.charAt(0).toUpperCase() + key.slice(1)}</a>
+                             </li>
+                        ))}
+                    </ul>
+                </div>
+            </nav>
+
             <main>
-                {/* ... Hero Section ... */}
+                <section ref={sectionRefs.home} id="home" className="hero">
+                    <div className="hero-content">
+                        <h1>اكتشف الأردن بذكاء</h1>
+                        <p>رفيقك الذكي لاستكشاف كنوز الأردن الخفية</p>
+                    </div>
+                </section>
                 
-                {/* Explore Section with Gallery & Virtual Tours */}
-                <section ref={exploreRef} id="explore" className="py-20">
+                <section ref={sectionRefs.features} id="features" className="section">
                     <div className="container">
-                        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Discover Jordan's Wonders</h2>
-                        <ExploreSection />
-                        
-                        <div className="mt-16 text-center">
-                            <h3 className="text-2xl font-semibold mb-6">Immersive Experiences</h3>
-                            <div className="flex justify-center flex-wrap gap-4">
-                                <button onClick={() => setIsGalleryOpen(true)} className="btn btn-primary">📸 View Gallery</button>
-                                <a href="360-view.html" target="_blank" rel="noopener noreferrer" className="btn btn-primary">🌍 360° View</a>
-                                <a href="virtual-tour.html" target="_blank" rel="noopener noreferrer" className="btn btn-primary">🎥 Virtual Tour</a>
-                            </div>
+                        <h2 className="section-title">الميزات الذكية</h2>
+                        <div className="features-grid">
+                            <div className="feature-card">🤖<h3>مرشد ذكي</h3><p>توصيات وخطط سياحية مخصصة.</p></div>
+                            <div className="feature-card">📊<h3>مؤشرات حيوية</h3><p>بيانات لحظية للطقس والازدحام.</p></div>
+                            <div className="feature-card">📸<h3>تجارب تفاعلية</h3><p>جولات افتراضية وعرض 360 درجة.</p></div>
                         </div>
                     </div>
                 </section>
 
-                {/* ... Map, Itinerary, Insights sections ... */}
+                <section ref={sectionRefs.insights} id="insights" className="section">
+                    <div className="container">
+                         <h2 className="section-title">المؤشرات الحيوية</h2>
+                         <div className="insights-grid">
+                            <div className="insight-card"><span className="insight-icon">🌡️</span><div className="insight-value">{insights.temp}°C</div><div className="insight-label">درجة الحرارة</div></div>
+                            <div className="insight-card"><span className="insight-icon">💧</span><div className="insight-value">{insights.humidity}%</div><div className="insight-label">الرطوبة</div></div>
+                            <div className="insight-card"><span className="insight-icon">👥</span><div className="insight-value">{insights.crowd}</div><div className="insight-label">الازدحام</div></div>
+                            <div className="insight-card"><span className="insight-icon">🌬️</span><div className="insight-value">{insights.air}</div><div className="insight-label">جودة الهواء</div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section ref={sectionRefs.map} id="map" className="section">
+                    <div className="container">
+                        <h2 className="section-title">الخريطة التفاعلية</h2>
+                        <div className="map-container">
+                             <MapContainer center={[31.95, 35.93]} zoom={7} style={{ height: '500px', width: '100%' }}>
+                                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                {touristSites.map(site => (
+                                    <Marker key={site.id} position={site.coords} icon={blueIcon}>
+                                        <Popup>{site.name}</Popup>
+                                    </Marker>
+                                ))}
+                             </MapContainer>
+                        </div>
+                    </div>
+                </section>
+
+                 <section ref={sectionRefs.explore} id="explore" className="section">
+                    <div className="container">
+                        <h2 className="section-title">تجارب تفاعلية</h2>
+                        <p className="section-subtitle">انغمس في جمال الأردن قبل أن تصل</p>
+                        <div className="gallery-buttons">
+                            <a href="/virtual-tour.html" target="_blank" className="btn btn-primary">🎥 جولة افتراضية</a>
+                            <a href="/360-view.html" target="_blank" className="btn btn-primary">🌍 عرض 360°</a>
+                        </div>
+                    </div>
+                </section>
 
             </main>
-            
-            {/* Floating Chatbot */}
-            <div className={`fixed bottom-6 right-6 z-50 group transition-all duration-500 ${chatbotLoaded ? 'w-96 h-[32rem]' : 'w-80 h-20'}`}>
-                {/* Chatbot Content */}
-                {chatbotLoaded ? (
-                    <div className="bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 h-full flex flex-col">
-                        <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-blue-600 p-4 flex items-center justify-between">
-                             <h3 className="text-white font-semibold text-lg">Smart Jordan AI</h3>
-                            <button onClick={() => setChatbotLoaded(false)} className="text-white">&times;</button>
+
+            <div className="chatbot-container">
+                <div className="chat-window">
+                    {messages.map((msg, index) => (
+                        <div key={index} className={`chat-message ${msg.sender}`}>
+                            {msg.text}
                         </div>
-                        <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-                            {messages.map((msg, index) => (
-                                <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-2xl ${msg.sender === 'user' ? 'bg-purple-600' : 'bg-gray-700'}`}>
-                                        {msg.text}
-                                    </div>
-                                </div>
-                            ))}
-                            {isTyping && <div className="text-gray-400">...typing</div>}
-                            <div ref={chatEndRef} />
-                        </div>
-                        <form onSubmit={sendMessage} className="p-4 bg-gray-800/80 border-t border-white/10">
-                            <div className="flex items-center">
-                                <input name="message" type="text" placeholder="Ask me anything..." className="w-full bg-white/10 border-white/20 rounded-full px-4 py-2 text-white focus:ring-purple-500"/>
-                                <button type="submit" className="ml-2 bg-purple-600 p-2 rounded-full">
-                                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                ) : (
-                    <div onClick={() => setChatbotLoaded(true)} className="bg-white/10 backdrop-blur-2xl rounded-full shadow-2xl border border-white/20 h-20 flex items-center justify-between p-4 cursor-pointer">
-                        <h3 className="text-white font-semibold text-lg">Ask our AI Guide!</h3>
-                        <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center">
-                             <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                        </div>
-                    </div>
-                )}
+                    ))}
+                    {isTyping && <div className="chat-message bot typing">...</div>}
+                    <div ref={chatEndRef} />
+                </div>
+                <form className="chat-input-area" onSubmit={handleSendMessage}>
+                    <input name="message" type="text" placeholder="اسأل أي شيء..."/>
+                    <button type="submit" className="btn btn-primary">أرسل</button>
+                </form>
             </div>
-            
-            <GalleryModal isOpen={isGalleryOpen} onClose={() => setIsGalleryOpen(false)} images={galleryImages} />
+
+            {showBackToTop && <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="back-to-top">↑</button>}
         </div>
     );
 };
