@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import './App.css';
+import './App.css'; // This will now use the code you provided
 import 'leaflet/dist/leaflet.css';
 
 // Fix for default Leaflet markers in React
@@ -12,7 +12,6 @@ L.Icon.Default.mergeOptions({
     shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
 });
 
-// Custom component to handle map view changes
 function ChangeView({ center, zoom }) {
     const map = useMap();
     map.setView(center, zoom);
@@ -26,6 +25,7 @@ const App = () => {
     const [insights, setInsights] = useState({ temp: '--', humidity: '--', crowd: '...', air: '...' });
     const [messages, setMessages] = useState([{ sender: 'bot', text: 'أهلاً بك! أنا مرشدك السياحي الذكي في الأردن. كيف يمكنني مساعدتك اليوم؟' }]);
     const [isTyping, setIsTyping] = useState(false);
+    const [isGalleryOpen, setIsGalleryOpen] = useState(false);
     const chatEndRef = useRef(null);
 
     // --- REFS FOR SCROLLING ---
@@ -45,6 +45,15 @@ const App = () => {
         { id: 4, name: "البحر الميت", coords: [31.5553, 35.4732], icon: '🌊' },
         { id: 5, name: "العقبة", coords: [29.5328, 34.9439], icon: '🏖️' },
     ];
+    
+    const galleryImages = [
+        { src: 'https://images.pexels.com/photos/1587747/pexels-photo-1587747.jpeg', alt: 'Petra' },
+        { src: 'https://images.pexels.com/photos/2440339/pexels-photo-2440339.jpeg', alt: 'Wadi Rum' },
+        { src: 'https://images.pexels.com/photos/1285625/pexels-photo-1285625.jpeg', alt: 'Dead Sea' },
+        { src: 'https://images.pexels.com/photos/73910/jordan-petra-travel-73910.jpeg', alt: 'Jerash' },
+        { src: 'https://images.pexels.com/photos/7989333/pexels-photo-7989333.jpeg', alt: 'Wadi Mujib' },
+        { src: 'https://images.pexels.com/photos/14986348/pexels-photo-14986348.jpeg', alt: 'Baptism Site' },
+    ];
 
     // --- MAP ICONS ---
     const redIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
@@ -58,15 +67,16 @@ const App = () => {
                 const ref = sectionRefs[key];
                 if (ref.current) {
                     const rect = ref.current.getBoundingClientRect();
-                    return rect.top <= 100 && rect.bottom >= 100;
+                    return rect.top <= window.innerHeight * 0.5 && rect.bottom >= window.innerHeight * 0.5;
                 }
                 return false;
             });
             if (currentSection) setActiveSection(currentSection);
         };
         window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [sectionRefs]);
+    }, []);
 
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -87,7 +97,6 @@ const App = () => {
                     setInsights(prev => ({ ...prev, temp: 25, humidity: 40 })); // Fallback
                 }
             };
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (pos) => getWeatherData(pos.coords.latitude, pos.coords.longitude),
@@ -101,13 +110,8 @@ const App = () => {
         const updateSimulatedInsights = () => {
             const crowdLevels = ["منخفض", "متوسط", "مرتفع"];
             const airQualityLevels = ["جيدة", "متوسطة", "سيئة"];
-            setInsights(prev => ({
-                ...prev,
-                crowd: crowdLevels[Math.floor(Math.random() * 3)],
-                air: airQualityLevels[Math.floor(Math.random() * 3)]
-            }));
+            setInsights(prev => ({ ...prev, crowd: crowdLevels[Math.floor(Math.random() * 3)], air: airQualityLevels[Math.floor(Math.random() * 3)] }));
         };
-
         fetchInsights();
         updateSimulatedInsights();
         const interval = setInterval(updateSimulatedInsights, 10000); // Update simulated data every 10s
@@ -124,14 +128,11 @@ const App = () => {
         const input = e.target.elements.message;
         const userInput = input.value.trim();
         if (!userInput) return;
-
         const newMessages = [...messages, { sender: 'user', text: userInput }];
         setMessages(newMessages);
         input.value = '';
         setIsTyping(true);
-
-        const workerUrl = "https://white-frost-8014.karam200566.workers.dev/"; 
-
+        const workerUrl = "https://white-frost-8014.karam200566.workers.dev/";
         try {
             const response = await fetch(workerUrl, {
                 method: 'POST',
@@ -143,12 +144,9 @@ const App = () => {
                     }))
                 })
             });
-
             if (!response.ok) throw new Error(`Network error: ${response.status}`);
-            
             const data = await response.json();
             const botResponse = data.response || "عذراً، لم أستطع الحصول على إجابة.";
-            
             setMessages(prev => [...prev, { sender: 'bot', text: botResponse }]);
         } catch (error) {
             console.error("Chat API Error:", error);
@@ -161,12 +159,12 @@ const App = () => {
     return (
         <div className="App">
             <nav className="navbar">
-                <div className="nav-container container">
-                    <a className="logo" href="#home" onClick={() => scrollToSection('home')}>SmartTour.JO</a>
+                <div className="nav-container">
+                    <a className="logo" href="#home" onClick={(e) => {e.preventDefault(); scrollToSection('home');}}>SmartTour.JO</a>
                     <ul className="nav-menu">
                         {Object.keys(sectionRefs).map(key => (
                              <li key={key}>
-                                <a href={`#${key}`} onClick={() => scrollToSection(key)} className={`nav-link ${activeSection === key ? 'active' : ''}`}>{key.charAt(0).toUpperCase() + key.slice(1)}</a>
+                                <a href={`#${key}`} onClick={(e) => {e.preventDefault(); scrollToSection(key);}} className={`nav-link ${activeSection === key ? 'active' : ''}`}>{key.charAt(0).toUpperCase() + key.slice(1)}</a>
                              </li>
                         ))}
                     </ul>
@@ -185,9 +183,9 @@ const App = () => {
                     <div className="container">
                         <h2 className="section-title">الميزات الذكية</h2>
                         <div className="features-grid">
-                            <div className="feature-card">🤖<h3>مرشد ذكي</h3><p>توصيات وخطط سياحية مخصصة.</p></div>
-                            <div className="feature-card">📊<h3>مؤشرات حيوية</h3><p>بيانات لحظية للطقس والازدحام.</p></div>
-                            <div className="feature-card">📸<h3>تجارب تفاعلية</h3><p>جولات افتراضية وعرض 360 درجة.</p></div>
+                            <div className="feature-card"><h3>🤖 مرشد ذكي</h3><p>توصيات وخطط سياحية مخصصة.</p></div>
+                            <div className="feature-card"><h3>📊 مؤشرات حيوية</h3><p>بيانات لحظية للطقس والازدحام.</p></div>
+                            <div className="feature-card"><h3>📸 تجارب تفاعلية</h3><p>جولات افتراضية وعرض 360 درجة.</p></div>
                         </div>
                     </div>
                 </section>
@@ -209,6 +207,7 @@ const App = () => {
                         <h2 className="section-title">الخريطة التفاعلية</h2>
                         <div className="map-container">
                              <MapContainer center={[31.95, 35.93]} zoom={7} style={{ height: '500px', width: '100%' }}>
+                                <ChangeView center={[31.95, 35.93]} zoom={7} />
                                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                                 {touristSites.map(site => (
                                     <Marker key={site.id} position={site.coords} icon={blueIcon}>
@@ -225,12 +224,12 @@ const App = () => {
                         <h2 className="section-title">تجارب تفاعلية</h2>
                         <p className="section-subtitle">انغمس في جمال الأردن قبل أن تصل</p>
                         <div className="gallery-buttons">
+                            <button onClick={() => setIsGalleryOpen(true)} className="btn btn-primary">📸 معرض الصور</button>
                             <a href="/virtual-tour.html" target="_blank" className="btn btn-primary">🎥 جولة افتراضية</a>
                             <a href="/360-view.html" target="_blank" className="btn btn-primary">🌍 عرض 360°</a>
                         </div>
                     </div>
                 </section>
-
             </main>
 
             <div className="chatbot-container">
@@ -248,7 +247,8 @@ const App = () => {
                     <button type="submit" className="btn btn-primary">أرسل</button>
                 </form>
             </div>
-
+            
+            <GalleryModal isOpen={isGalleryOpen} onClose={() => setIsGalleryOpen(false)} images={galleryImages} />
             {showBackToTop && <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="back-to-top">↑</button>}
         </div>
     );
