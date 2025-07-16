@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 import sys
 
-# Backend URL - using localhost since external URL is not accessible
+# Backend URL - using the public endpoint from frontend .env
 BACKEND_URL = "http://localhost:8001/api"
 
 class BackendTester:
