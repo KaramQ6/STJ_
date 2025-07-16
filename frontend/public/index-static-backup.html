@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
-        /* All CSS from the "beautiful" version is here... */
+        /* Base and General Styles */
         html[lang="ar"] body { font-family: 'Cairo', sans-serif; }
         html[lang="en"] body { font-family: 'Poppins', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,6 +25,8 @@
         .btn { padding: 1rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; font-size: 1rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
         .btn-primary { background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3); }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5); }
+        
+        /* Navbar */
         .navbar { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); z-index: 1000; padding: 1rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 700; color: #8b5cf6; text-decoration: none; }
@@ -34,11 +36,34 @@
         .lang-switcher { display: flex; gap: 10px; align-items: center; }
         .lang-switcher button { background: none; border: 1px solid #4b5563; color: #d1d5db; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.2s ease; }
         .lang-switcher button.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
-        .hero { height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background-color: #111; background-image: url('https://images.pexels.com/photos/1631665/pexels-photo-1631665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); background-size: cover; background-position: center 70%; }
-        .hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1)); z-index: 1; }
+        
+        /* HERO SECTION WITH WORKING IMAGE LINK */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background-color: #111;
+            background-image: url('https://images.pexels.com/photos/1631665/pexels-photo-1631665.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            background-size: cover;
+            background-position: center 70%;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+            z-index: 1;
+        }
         .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 0 2rem; animation: fadeInUp 1s ease-out; }
         .hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; margin-bottom: 1rem; color: white; text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); }
         .hero p { font-size: clamp(1.1rem, 2vw, 1.3rem); margin-bottom: 2rem; color: #f3f4f6; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); }
+        
+        /* Chatbot & Containers */
         .chatbot-container, .ar-container, .map-container { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; padding: 2rem; backdrop-filter: blur(16px); border: 1px solid rgba(75, 85, 99, 0.3); }
         #chatWindow { background: rgba(15, 15, 16, 0.5); border-radius: 8px; height: 400px; padding: 1rem; overflow-y: auto; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 1rem; border: 1px solid #4b5563; }
         .chat-message { padding: 0.75rem 1rem; border-radius: 12px; max-width: 80%; line-height: 1.5; white-space: pre-wrap; }
@@ -50,13 +75,20 @@
         #chatInput { flex-grow: 1; padding: 1rem; border-radius: 8px; border: 1px solid #4b5563; background-color: #1f2937; color: white; font-size: 1rem; }
         #sendButton { padding: 1rem 1.5rem; }
         #sendButton:disabled { background-color: #583c9c; cursor: not-allowed; }
+        
+        /* Insights Section */
         .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
         .insight-card { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; padding: 1.5rem; text-align: center; border: 1px solid rgba(75, 85, 99, 0.3); transition: all 0.3s ease; }
         .insight-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1); }
         .insight-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
         .insight-value { font-size: 1.8rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem; }
         .insight-label { color: #9ca3af; font-size: 0.9rem; }
+        
+        /* Map Section */
         #map { height: 500px; border-radius: 0.5rem; z-index: 1; }
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #1f2937; color: #fff; }
+
+        /* Other Sections */
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
         .category-card { background: rgba(31, 41, 55, 0.5); border-radius: 1rem; overflow: hidden; border: 1px solid rgba(75, 85, 99, 0.3); transition: all 0.3s ease; cursor: pointer; }
         .category-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2); border-color: rgba(139, 92, 246, 0.5); }
@@ -64,10 +96,14 @@
         .category-content { padding: 1.5rem; }
         .category-title { font-size: 1.3rem; font-weight: 600; color: #ffffff; margin-bottom: 0.5rem; }
         .category-description { color: #9ca3af; font-size: 0.9rem; line-height: 1.5; }
+        
+        /* Modal */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; }
         .modal-content { background: #1f2937; padding: 2rem; border-radius: 1rem; width: 90%; max-width: 600px; position: relative; animation: modalSlideIn 0.3s ease; }
         .modal-close { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; cursor: pointer; color: #9ca3af; transition: color 0.3s ease; }
         html[lang="ar"] .modal-close { right: auto; left: 1rem; }
+        
+        /* Back to Top & Animations */
         .back-to-top { position: fixed; bottom: 2rem; right: 2rem; background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 1000; }
         html[lang="ar"] .back-to-top { right: auto; left: 2rem; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -100,6 +136,9 @@
                 ar: [ { id: 'nature', title: '🌿 طبيعة خلابة', description: 'صحراء وادي رم الشاسعة ومياه البحر الميت العلاجية.', image: 'https://images.pexels.com/photos/2440339/pexels-photo-2440339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }, { id: 'culture', title: '🏛️ ثقافة وتاريخ', description: 'مدينة البتراء الأثرية وأعمدة جرش الرومانية.', image: 'https://images.pexels.com/photos/1587747/pexels-photo-1587747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }, { id: 'religious', title: '⛪ مواقع دينية', description: 'موقع المغطس "بيت عنيا عبر الأردن".', image: 'https://images.pexels.com/photos/14986348/pexels-photo-14986348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }, { id: 'adventure', title: '🧗 مغامرات وتحدي', description: 'استكشاف الأودية في وادي الموجب والغوص في العقبة.', image: 'https://images.pexels.com/photos/7989333/pexels-photo-7989333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' } ]
             };
             
+            // --- Initialization of Global Variables ---
+            let map; // Define map variable globally
+
             // Main Functions
             const setLanguage = (lang) => {
                 document.documentElement.lang = lang;
@@ -133,73 +172,38 @@
 
             // INSIGHTS FUNCTION
             async function updateInsights() {
-                const apiKey = '91859b46e4ef01b5415a2f8b1ddbfac1'; //  <-- ضع مفتاحك هنا
-                const fetchWeatherDataByCoords = async (lat, lon) => {
-                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-                    updateWeatherData(apiUrl);
-                };
-                const fetchWeatherDataByCity = async (city) => {
-                    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-                    updateWeatherData(apiUrl);
-                };
+                const apiKey = 'YOUR_API_KEY_HERE'; // <-- ضع مفتاحك هنا
+                const fetchWeatherDataByCoords = async (lat, lon) => { const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`; updateWeatherData(apiUrl); };
+                const fetchWeatherDataByCity = async (city) => { const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`; updateWeatherData(apiUrl); };
                 const updateWeatherData = async (apiUrl) => {
-                    try {
-                        const response = await fetch(apiUrl);
-                        if (!response.ok) throw new Error('Weather API request failed');
-                        const data = await response.json();
-                        document.getElementById("temp").innerText = `${Math.round(data.main.temp)}°C`;
-                        document.getElementById("humidity").innerText = `${data.main.humidity}%`;
-                    } catch (error) {
-                        console.error('Fetch weather error:', error);
-                        document.getElementById("temp").innerText = `25°C`;
-                        document.getElementById("humidity").innerText = `40%`;
-                    }
+                    try { const response = await fetch(apiUrl); if (!response.ok) throw new Error('Weather API request failed'); const data = await response.json(); document.getElementById("temp").innerText = `${Math.round(data.main.temp)}°C`; document.getElementById("humidity").innerText = `${data.main.humidity}%`; } catch (error) { console.error('Fetch weather error:', error); document.getElementById("temp").innerText = `25°C`; document.getElementById("humidity").innerText = `40%`; }
                 };
-                const updateSimulatedData = () => {
-                    const lang = document.documentElement.lang || 'ar';
-                    const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] };
-                    const airQualityLevels = { en: ["Good", "Moderate"], ar: ["جيدة", "متوسطة"] };
-                    document.getElementById("crowd").innerText = crowdLevels[lang][Math.floor(Math.random() * 3)];
-                    document.getElementById("air-quality").innerText = airQualityLevels[lang][Math.floor(Math.random() * 2)];
-                };
+                const updateSimulatedData = () => { const lang = document.documentElement.lang || 'ar'; const crowdLevels = { en: ["Low", "Medium", "High"], ar: ["منخفض", "متوسط", "مرتفع"] }; const airQualityLevels = { en: ["Good", "Moderate"], ar: ["جيدة", "متوسطة"] }; document.getElementById("crowd").innerText = crowdLevels[lang][Math.floor(Math.random() * 3)]; document.getElementById("air-quality").innerText = airQualityLevels[lang][Math.floor(Math.random() * 2)]; };
 
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => { fetchWeatherDataByCoords(position.coords.latitude, position.coords.longitude); },
-                        (error) => { console.error("Geolocation error:", error.message); fetchWeatherDataByCity('Amman'); }
-                    );
-                } else { fetchWeatherDataByCity('Amman'); }
+                if (navigator.geolocation) { navigator.geolocation.getCurrentPosition( (position) => { fetchWeatherDataByCoords(position.coords.latitude, position.coords.longitude); }, (error) => { console.error("Geolocation error:", error.message); fetchWeatherDataByCity('Amman'); } ); } else { fetchWeatherDataByCity('Amman'); }
                 updateSimulatedData();
             }
             
-            // MAP INITIALIZATION (WITH ALL FIXES)
-            const map = L.map('map').setView([31.95, 35.93], 7); // Default to Amman center
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
-            
-            // Custom Icons for markers
-            const redIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
-            const blueIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
-
-            // Tourist Sites
-            const touristSites = {
-                petra: { coords: [30.3285, 35.4444], name: "petraPopup" },
-                jerash: { coords: [32.2730, 35.8911], name: "jerashPopup" },
-                wadiRum: { coords: [29.5732, 35.4194], name: "wadiRumPopup" },
-            };
-
-            for (const site in touristSites) {
-                L.marker(touristSites[site].coords, { icon: blueIcon }).addTo(map).bindPopup(translations.ar[touristSites[site].name]);
+            // MAP INITIALIZATION
+            function initMap() {
+                map = L.map('map').setView([31.95, 35.93], 7); 
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+                
+                const redIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
+                const blueIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
+                
+                const touristSites = { petra: { coords: [30.3285, 35.4444], name: "petraPopup" }, jerash: { coords: [32.2730, 35.8911], name: "jerashPopup" }, wadiRum: { coords: [29.5732, 35.4194], name: "wadiRumPopup" }, };
+                for (const site in touristSites) { L.marker(touristSites[site].coords, { icon: blueIcon }).addTo(map).bindPopup(translations[document.documentElement.lang || 'ar'][touristSites[site].name]); }
+                
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(pos => {
+                        const userLoc = [pos.coords.latitude, pos.coords.longitude];
+                        map.setView(userLoc, 13);
+                        L.marker(userLoc, { icon: redIcon }).addTo(map).bindPopup(translations[document.documentElement.lang || 'ar'].yourLocationPopup).openPopup();
+                    });
+                }
+                setTimeout(() => { map.invalidateSize(); }, 400);
             }
-            
-            // Get and show user location
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    const userLoc = [pos.coords.latitude, pos.coords.longitude];
-                    map.setView(userLoc, 13);
-                    L.marker(userLoc, { icon: redIcon }).addTo(map).bindPopup(translations[document.documentElement.lang || 'ar'].yourLocationPopup).openPopup();
-                });
-            }
-            setTimeout(() => { map.invalidateSize() }, 400);
 
             // Event Listeners
             const backToTopBtn = document.getElementById('backToTop');
@@ -210,7 +214,9 @@
             document.querySelectorAll('.modal-close').forEach(btn => { btn.addEventListener('click', e => { e.target.closest('.modal').style.display = 'none'; }); });
             window.addEventListener('click', e => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; });
             
+            // Initial calls
             setLanguage(localStorage.getItem('language') || 'ar');
+            initMap(); // Call the map initialization function
             setInterval(updateInsights, 300000); 
         });
 
