@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import "./App.css";
 import 'leaflet/dist/leaflet.css';
+import ExploreSection from './components/ExploreSection';
 
 const App = () => {
   // Fix for default Leaflet markers
