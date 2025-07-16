@@ -315,7 +315,7 @@ const App = () => {
                   { id: 'explore', label: 'Explore', icon: '🗺️' },
                   { id: 'map', label: 'Map', icon: '📍' },
                   { id: 'itinerary', label: 'Itinerary', icon: '📋' },
-                  { id: 'testimonials', label: 'Reviews', icon: '⭐' },
+
                   { id: 'insights', label: 'Insights', icon: '📊' }
                 ].map((item) => (
                   <button
