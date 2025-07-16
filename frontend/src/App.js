@@ -840,7 +840,8 @@ const App = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section - Removed per user request */}
+      {/* 
       <section ref={testimonialsRef} id="testimonials" className="py-20 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -881,6 +882,7 @@ const App = () => {
           </div>
         </div>
       </section>
+      */
 
       {/* Live Smart Insights */}
       <section ref={insightsRef} id="insights" className="py-20 bg-gray-800">
