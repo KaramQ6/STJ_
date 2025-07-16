@@ -267,30 +267,6 @@ const App = () => {
     }
   ];
 
-  const testimonials = [
-    {
-      name: 'Sarah Johnson',
-      country: 'United States',
-      rating: 5,
-      text: 'The Smart Jordan experience was incredible! The AI recommendations led us to hidden gems we would never have found on our own. The real-time crowd data helped us avoid busy times at Petra.',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b494?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      name: 'Marco Rodriguez',
-      country: 'Spain',
-      rating: 5,
-      text: 'The AR experiences at historical sites were mind-blowing. Seeing how Petra looked 2000 years ago through the AR glasses was like traveling back in time. Highly recommend!',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
-    },
-    {
-      name: 'Emma Chen',
-      country: 'Australia',
-      rating: 5,
-      text: 'The smart guide chatbot was like having a personal tour guide 24/7. It answered all our questions instantly and gave us perfect restaurant recommendations based on our preferences.',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Enhanced Fixed Navigation with Scroll Progress */}
