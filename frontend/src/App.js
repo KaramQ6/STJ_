@@ -222,7 +222,6 @@ const App = () => {
       explore: exploreRef,
       map: mapRef,
       itinerary: itineraryRef,
-      testimonials: testimonialsRef,
       insights: insightsRef
     };
 
