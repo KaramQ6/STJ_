@@ -148,7 +148,6 @@ const App = () => {
   const exploreRef = useRef(null);
   const mapRef = useRef(null);
   const itineraryRef = useRef(null);
-  const testimonialsRef = useRef(null);
   const insightsRef = useRef(null);
 
   // Simulate live sensor data updates with smooth animations
