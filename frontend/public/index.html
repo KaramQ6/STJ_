@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
-        /* CSS is the same as the previous "beautiful" version */
+        /* All CSS from the "beautiful" version is here... */
         html[lang="ar"] body { font-family: 'Cairo', sans-serif; }
         html[lang="en"] body { font-family: 'Poppins', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -131,10 +131,9 @@
                 });
             }
 
-            // CORRECTED INSIGHTS FUNCTION
+            // INSIGHTS FUNCTION
             async function updateInsights() {
                 const apiKey = '91859b46e4ef01b5415a2f8b1ddbfac1'; //  <-- ضع مفتاحك هنا
-                
                 const fetchWeatherDataByCoords = async (lat, lon) => {
                     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
                     updateWeatherData(apiUrl);
@@ -173,20 +172,34 @@
                 updateSimulatedData();
             }
             
-            // MAP INITIALIZATION (WITH FIX)
-            const map = L.map('map').setView([31.0, 36.5], 7);
+            // MAP INITIALIZATION (WITH ALL FIXES)
+            const map = L.map('map').setView([31.95, 35.93], 7); // Default to Amman center
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
-            L.marker([30.3285, 35.4444]).addTo(map).bindPopup(translations.ar.petraPopup);
-            L.marker([32.2730, 35.8911]).addTo(map).bindPopup(translations.ar.jerashPopup);
-            L.marker([29.5732, 35.4194]).addTo(map).bindPopup(translations.ar.wadiRumPopup);
+            
+            // Custom Icons for markers
+            const redIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
+            const blueIcon = new L.Icon({ iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png', shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41] });
+
+            // Tourist Sites
+            const touristSites = {
+                petra: { coords: [30.3285, 35.4444], name: "petraPopup" },
+                jerash: { coords: [32.2730, 35.8911], name: "jerashPopup" },
+                wadiRum: { coords: [29.5732, 35.4194], name: "wadiRumPopup" },
+            };
+
+            for (const site in touristSites) {
+                L.marker(touristSites[site].coords, { icon: blueIcon }).addTo(map).bindPopup(translations.ar[touristSites[site].name]);
+            }
+            
+            // Get and show user location
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(pos => {
                     const userLoc = [pos.coords.latitude, pos.coords.longitude];
                     map.setView(userLoc, 13);
-                    L.marker(userLoc).addTo(map).bindPopup(translations[document.documentElement.lang || 'ar'].yourLocationPopup).openPopup();
+                    L.marker(userLoc, { icon: redIcon }).addTo(map).bindPopup(translations[document.documentElement.lang || 'ar'].yourLocationPopup).openPopup();
                 });
             }
-            setTimeout(() => { map.invalidateSize() }, 400); // The fix for the map
+            setTimeout(() => { map.invalidateSize() }, 400);
 
             // Event Listeners
             const backToTopBtn = document.getElementById('backToTop');
@@ -201,7 +214,7 @@
             setInterval(updateInsights, 300000); 
         });
 
-        // --- AI CHATBOT LOGIC
+        // AI CHATBOT LOGIC
         const chatWindow = document.getElementById('chatWindow');
         const inputElement = document.getElementById('chatInput');
         const sendButton = document.getElementById('sendButton');
