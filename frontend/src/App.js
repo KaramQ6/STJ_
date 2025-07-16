@@ -240,65 +240,6 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const categories = [
-    {
-      id: 'nature',
-      title: 'Nature',
-      description: 'Explore Jordan\'s breathtaking natural wonders from the stunning desert landscapes of Wadi Rum to the healing waters of the Dead Sea.',
-      image: 'https://images.pexels.com/photos/17645580/pexels-photo-17645580.jpeg',
-      features: ['Wadi Rum Desert', 'Dead Sea', 'Dana Biosphere Reserve', 'Azraq Wetland Reserve'],
-      fullDescription: 'Jordan\'s natural landscapes offer some of the world\'s most breathtaking experiences. From the otherworldly red sands of Wadi Rum, where Lawrence of Arabia once roamed, to the therapeutic waters of the Dead Sea, the lowest point on Earth. The Dana Biosphere Reserve showcases Jordan\'s incredible biodiversity, while the Azraq Wetland Reserve provides a crucial stopover for migratory birds.',
-      highlights: [
-        'Stargazing in Wadi Rum\'s pristine desert skies',
-        'Floating in the mineral-rich Dead Sea waters',
-        'Hiking through diverse ecosystems in Dana Reserve',
-        'Bird watching at Azraq Wetland Reserve'
-      ]
-    },
-    {
-      id: 'culture',
-      title: 'Culture',
-      description: 'Discover Jordan\'s rich cultural heritage through ancient Petra, Roman ruins of Jerash, and traditional Bedouin experiences.',
-      image: 'https://images.pexels.com/photos/3214958/pexels-photo-3214958.jpeg',
-      features: ['Petra Archaeological Park', 'Jerash Roman Ruins', 'Amman Citadel', 'Bedouin Culture'],
-      fullDescription: 'Jordan\'s cultural treasures span millennia, from the rose-red city of Petra carved by the Nabataeans to the remarkably preserved Roman ruins of Jerash. Experience authentic Bedouin hospitality in traditional goat-hair tents, witness ancient crafts being practiced, and explore the layers of history that make Jordan a living museum.',
-      highlights: [
-        'Walk through Petra\'s Treasury and Monastery',
-        'Explore the colonnaded streets of Jerash',
-        'Experience traditional Bedouin hospitality',
-        'Visit ancient Amman Citadel overlooking the capital'
-      ]
-    },
-    {
-      id: 'religious',
-      title: 'Religious',
-      description: 'Follow in the footsteps of prophets with visits to Mount Nebo, Bethany Beyond Jordan, and other sacred biblical sites.',
-      image: 'https://images.unsplash.com/photo-1750357445390-264bfe3b6db2',
-      features: ['Mount Nebo', 'Bethany Beyond Jordan', 'Madaba Map', 'Mukawir (Machaerus)'],
-      fullDescription: 'Jordan holds deep spiritual significance for three major world religions. Stand where Moses viewed the Promised Land from Mount Nebo, visit the site where Jesus was baptized at Bethany Beyond Jordan, and marvel at the ancient Madaba Map mosaic. These sacred sites offer profound spiritual experiences in breathtaking natural settings.',
-      highlights: [
-        'Stand at Mount Nebo where Moses viewed the Promised Land',
-        'Visit the baptism site of Jesus Christ',
-        'See the ancient Madaba Map mosaic',
-        'Explore the fortress of Machaerus'
-      ]
-    },
-    {
-      id: 'adventure',
-      title: 'Adventure',
-      description: 'Experience thrilling adventures from hot air balloon rides over Wadi Rum to diving in the Red Sea at Aqaba.',
-      image: 'https://images.unsplash.com/photo-1750357437870-5b4ef7f03df8',
-      features: ['Hot Air Balloon', 'Desert Camping', 'Red Sea Diving', 'Canyoning Adventures'],
-      fullDescription: 'Jordan offers world-class adventure experiences for thrill-seekers. Soar over the Martian landscapes of Wadi Rum in a hot air balloon, spend nights under star-filled desert skies, dive into the coral-rich waters of the Red Sea, and explore hidden canyons and wadis throughout the kingdom.',
-      highlights: [
-        'Hot air balloon flights over Wadi Rum at sunrise',
-        'Overnight desert camping with Bedouin guides',
-        'World-class diving and snorkeling in Aqaba',
-        'Canyoning adventures in remote wadis'
-      ]
-    }
-  ];
-
   const itinerarySteps = [
     {
       time: '09:00 AM',
